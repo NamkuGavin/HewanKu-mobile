@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../common/theme/app_theme_data.dart';
 import '../../../../common/utils/app_navigator.dart';
 import '../../../../widgets/build_background_auth.dart';
+import '../../../navbar/view/navbar_view.dart';
 import '../../forgot_pass/view/forgot_pass_view.dart';
 import '../../register/view/register_view.dart';
 import '../widgets/form_login.dart';
@@ -77,7 +78,7 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => AppNavigator.pushAndRemoveAll(context, NavbarView()),
                   child: Text(
                     "Masuk",
                     style: textTheme.labelLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
