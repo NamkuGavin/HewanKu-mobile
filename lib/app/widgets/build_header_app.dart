@@ -6,8 +6,13 @@ import '../common/contant/assets.dart';
 
 class BuildAppHeader extends StatelessWidget {
   final VoidCallback onFavoriteTap;
+  final VoidCallback? onNotifTap; // ← tambahan, optional supaya tidak breaking
 
-  const BuildAppHeader({super.key, required this.onFavoriteTap});
+  const BuildAppHeader({
+    super.key,
+    required this.onFavoriteTap,
+    this.onNotifTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +23,20 @@ class BuildAppHeader extends StatelessWidget {
       child: Row(
         children: [
           SvgPicture.asset(IconAsset.hewankuLogoSecondary),
-          Spacer(),
-          _HeaderIconButton(icon: Icons.favorite_border_rounded, color: primaryColor, onTap: onFavoriteTap),
+          const Spacer(),
+          // Icon notifikasi (baru)
+          _HeaderIconButton(
+            icon: Icons.notifications_none_rounded,
+            color: primaryColor,
+            onTap: onNotifTap,
+          ),
+          SizedBox(width: 8.w),
+          // Icon favorit (lama)
+          _HeaderIconButton(
+            icon: Icons.favorite_border_rounded,
+            color: primaryColor,
+            onTap: onFavoriteTap,
+          ),
         ],
       ),
     );
@@ -41,7 +58,11 @@ class _HeaderIconButton extends StatelessWidget {
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onTap,
-        child: SizedBox(width: 36.w, height: 36.h, child: Icon(icon, size: 20.w, color: color)),
+        child: SizedBox(
+          width: 36.w,
+          height: 36.h,
+          child: Icon(icon, size: 20.w, color: color),
+        ),
       ),
     );
   }

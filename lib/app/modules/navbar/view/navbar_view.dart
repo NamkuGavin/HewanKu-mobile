@@ -17,20 +17,28 @@ class NavbarView extends StatefulWidget {
 class _NavbarViewState extends State<NavbarView> {
   int selectedIndex = 0;
 
-  final List<Widget> pages = const [HomeView(), AdopsiView(), PesananView(), ProfilView()];
-
   void onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+    setState(() => selectedIndex = index);
   }
 
   void onFavoriteTap() {
     // TODO: arahkan ke halaman favorit
   }
 
+  // Dipanggil dari HomeView saat user tekan "Adopsi Sekarang"
+  void goToAdopsi() {
+    setState(() => selectedIndex = 1);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      HomeView(onGoToAdopsi: goToAdopsi),
+      const AdopsiView(),
+      const PesananView(),
+      const ProfilView(),
+    ];
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -43,7 +51,10 @@ class _NavbarViewState extends State<NavbarView> {
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavbar(currentIndex: selectedIndex, onTap: onItemTapped),
+      bottomNavigationBar: AppBottomNavbar(
+        currentIndex: selectedIndex,
+        onTap: onItemTapped,
+      ),
     );
   }
 }
