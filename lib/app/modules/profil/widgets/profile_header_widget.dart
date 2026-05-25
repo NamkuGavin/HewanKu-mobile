@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProfileHeaderWidget extends StatelessWidget {
-  final VoidCallback? onNotifTap;
-  final VoidCallback? onFavoriteTap;
+import '../../favorit/view/favorit_view.dart';
+import '../../notifikasi/view/notifikasi_view.dart';
 
-  const ProfileHeaderWidget({
-    super.key,
-    this.onNotifTap,
-    this.onFavoriteTap,
-  });
+class ProfileHeaderWidget extends StatelessWidget {
+  const ProfileHeaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +17,6 @@ class ProfileHeaderWidget extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Judul di tengah MUTLAK — tidak terpengaruh ikon di kanan
           Text(
             'Akun Saya',
             style: textTheme.bodyLarge?.copyWith(
@@ -29,8 +24,6 @@ class ProfileHeaderWidget extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-
-          // Ikon notif + favorit di pojok kanan
           Align(
             alignment: Alignment.centerRight,
             child: Row(
@@ -39,13 +32,19 @@ class ProfileHeaderWidget extends StatelessWidget {
                 _IconBtn(
                   icon: Icons.notifications_none_rounded,
                   color: primaryColor,
-                  onTap: onNotifTap,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const NotifikasiView()),
+                  ),
                 ),
                 SizedBox(width: 8.w),
                 _IconBtn(
                   icon: Icons.favorite_border_rounded,
                   color: primaryColor,
-                  onTap: onFavoriteTap,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const FavoritView()),
+                  ),
                 ),
               ],
             ),

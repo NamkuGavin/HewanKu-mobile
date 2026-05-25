@@ -3,15 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../common/contant/assets.dart';
+import '../modules/favorit/view/favorit_view.dart';
+import '../modules/notifikasi/view/notifikasi_view.dart';
 
 class BuildAppHeader extends StatelessWidget {
-  final VoidCallback onFavoriteTap;
-  final VoidCallback? onNotifTap; // ← tambahan, optional supaya tidak breaking
-
   const BuildAppHeader({
     super.key,
-    required this.onFavoriteTap,
-    this.onNotifTap,
+    // onFavoriteTap deprecated — navigasi langsung dari widget
+    @Deprecated('tidak dipakai') VoidCallback? onFavoriteTap,
   });
 
   @override
@@ -24,18 +23,22 @@ class BuildAppHeader extends StatelessWidget {
         children: [
           SvgPicture.asset(IconAsset.hewankuLogoSecondary),
           const Spacer(),
-          // Icon notifikasi (baru)
           _HeaderIconButton(
             icon: Icons.notifications_none_rounded,
             color: primaryColor,
-            onTap: onNotifTap,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const NotifikasiView()),
+            ),
           ),
           SizedBox(width: 8.w),
-          // Icon favorit (lama)
           _HeaderIconButton(
             icon: Icons.favorite_border_rounded,
             color: primaryColor,
-            onTap: onFavoriteTap,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const FavoritView()),
+            ),
           ),
         ],
       ),
@@ -48,7 +51,11 @@ class _HeaderIconButton extends StatelessWidget {
   final Color color;
   final VoidCallback? onTap;
 
-  const _HeaderIconButton({required this.icon, required this.color, this.onTap});
+  const _HeaderIconButton({
+    required this.icon,
+    required this.color,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
