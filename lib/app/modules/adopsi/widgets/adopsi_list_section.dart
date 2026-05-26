@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../view/app_net_image.dart';
+import '../../../common/utils/app_navigator.dart';
+import '../widgets/app_net_image.dart';
+import '../view/adopsi_lihat_semua.dart';
 
 /// Model data untuk card hewan di list horizontal
 class AdopsiHewanItem {
@@ -23,8 +25,7 @@ class AdopsiHewanItem {
   });
 }
 
-/// Section dengan header (judul + subtitle + tombol "Lihat Semua")
-/// dan horizontal scroll card — dipakai untuk Rekomendasi & Rating Tertinggi
+/// Section dengan header + tombol Lihat Semua + horizontal scroll card
 class AdopsiListSection extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -72,9 +73,14 @@ class AdopsiListSection extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 8.w),
-              // Tombol Lihat Semua
+              // Tombol Lihat Semua → navigasi ke LihatSemuaView
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  AppNavigator.push(
+                    context,
+                    LihatSemuaView(title: title),
+                  );
+                },
                 style: OutlinedButton.styleFrom(
                   foregroundColor: const Color(0xFFF87537),
                   side: const BorderSide(color: Color(0xFFF87537), width: 1.2),
@@ -107,8 +113,7 @@ class AdopsiListSection extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             itemCount: items.length,
             separatorBuilder: (_, __) => SizedBox(width: 12.w),
-            itemBuilder: (context, index) =>
-                _HewanCard(item: items[index]),
+            itemBuilder: (context, index) => _HewanCard(item: items[index]),
           ),
         ),
       ],
@@ -138,7 +143,6 @@ class _HewanCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Gambar hewan
           ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16.r),
@@ -175,7 +179,6 @@ class _HewanCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          // Rating bintang
           Padding(
             padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 10.h),
             child: Row(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../view/app_net_image.dart';
+import 'app_net_image.dart';
 
 class AdopsiFeaturedSection extends StatelessWidget {
   const AdopsiFeaturedSection({super.key});
@@ -32,7 +32,7 @@ class AdopsiFeaturedSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hewan Unggulan',
+            'Rekomendasi',
             style: GoogleFonts.poppins(
               fontSize: 16.sp,
               fontWeight: FontWeight.w700,

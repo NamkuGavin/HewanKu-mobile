@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../view/adopsi_featured_section.dart';
-import '../view/adopsi_filter_chips.dart';
-import '../view/adopsi_list_section.dart';
-import '../view/adopsi_search_bar.dart';
+import '../widgets/adopsi_featured_section.dart';
+import '../widgets/adopsi_filter_chips.dart';
+import '../widgets/adopsi_list_section.dart';
+import '../widgets/adopsi_search_bar.dart';
 
 class AdopsiView extends StatelessWidget {
   const AdopsiView({super.key});
 
-  // ── Data Rekomendasi Untukmu ──────────────────────────────────────
   static const List<AdopsiHewanItem> _rekomendasiItems = [
     AdopsiHewanItem(
       name: 'Anjing Chuahua',
@@ -36,7 +35,6 @@ class AdopsiView extends StatelessWidget {
     ),
   ];
 
-  // ── Data Rating Tertinggi ─────────────────────────────────────────
   static const List<AdopsiHewanItem> _topRatedItems = [
     AdopsiHewanItem(
       name: 'Anjing Sphynx',
@@ -84,7 +82,7 @@ class AdopsiView extends StatelessWidget {
 
           // Rekomendasi Untukmu — horizontal scroll
           AdopsiListSection(
-            title: 'Rekomendasi Untukmu',
+            title: 'Top Sales',
             subtitle: 'Kami pilihin hewan kesukaanmu',
             items: _rekomendasiItems,
           ),
