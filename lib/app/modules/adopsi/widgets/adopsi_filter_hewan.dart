@@ -9,13 +9,11 @@ class AdopsiFilterHewan extends StatefulWidget {
 }
 
 class _AdopsiFilterHewanState extends State<AdopsiFilterHewan> {
-  RangeValues _harga = const RangeValues(300000, 9000000);
+  RangeValues _harga = const RangeValues(0, 9000000);
   String? _jenis = 'Kucing';
 
   static const _jenisHewan = [
-    'Kucing', 'Anjing', 'Ikan', 'Burung', 'Kelinci',
-    'Hamster', 'Ular', 'Iguana', 'Kura - kura',
-  ];
+    'Kucing', 'Anjing', 'Ikan', 'Burung', 'Kelinci', 'Hamster', 'Ular', 'Iguana', 'Kura - kura'];
 
   String _rupiah(double v) {
     final s = v.round().toString();
@@ -87,7 +85,7 @@ class _AdopsiFilterHewanState extends State<AdopsiFilterHewan> {
                     child: RangeSlider(
                       values: _harga,
                       min: 0,
-                      max: 10000000,
+                      max: 100000000,
                       divisions: 100,
                       onChanged: (v) => setState(() => _harga = v),
                     ),
@@ -100,24 +98,6 @@ class _AdopsiFilterHewanState extends State<AdopsiFilterHewan> {
                     ),
                   ),
                   SizedBox(height: 12.h),
-
-                  // Apply button
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 10.h),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF1A1A1A),
-                          borderRadius: BorderRadius.circular(50.r),
-                        ),
-                        child: Text('Apply',
-                            style: txt.labelLarge?.copyWith(
-                                color: Colors.white, fontWeight: FontWeight.w600)),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 24.h),
 
                   // ── Jenis Hewan ──
                   Text('Jenis Hewan', style: txt.bodySmall?.copyWith(fontWeight: FontWeight.w700)),
@@ -162,7 +142,7 @@ class _AdopsiFilterHewanState extends State<AdopsiFilterHewan> {
               padding: EdgeInsets.fromLTRB(24.w, 14.h, 24.w, 20.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 10, offset: const Offset(0, -4))],
+                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 10, offset: const Offset(0, -4))],
               ),
               child: Row(
                 children: [
@@ -181,7 +161,7 @@ class _AdopsiFilterHewanState extends State<AdopsiFilterHewan> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
                         minimumSize: Size(0, 45.h),
                       ),
-                      child: Text('Filter', style: txt.labelLarge?.copyWith(color: const Color(0xFF333333), fontWeight: FontWeight.w600)),
+                      child: Text('Apply', style: txt.labelLarge?.copyWith(color: const Color(0xFF333333), fontWeight: FontWeight.w600)),
                     ),
                   ),
                 ],
