@@ -1,9 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../common/contant/assets.dart';
 import '../../../../common/utils/app_navigator.dart';
 import '../../../../common/utils/form_validator.dart';
 import '../../../../widgets/build_background_auth.dart';
