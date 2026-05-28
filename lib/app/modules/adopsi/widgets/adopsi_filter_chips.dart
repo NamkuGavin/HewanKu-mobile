@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'adopsi_filter_hewan.dart';
 
 class AdopsiFilterChips extends StatefulWidget {
   const AdopsiFilterChips({super.key});
@@ -30,7 +31,14 @@ class _AdopsiFilterChipsState extends State<AdopsiFilterChips> {
         physics: const BouncingScrollPhysics(),
         children: [
           // Tombol filter icon
-          _FilterIconButton(),
+          _FilterIconButton(onTap: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (_) => const AdopsiFilterHewan(),
+            );
+          }),
           SizedBox(width: 10.w),
           // Chip kategori
           ...List.generate(_categories.length, (i) {
@@ -75,20 +83,26 @@ class _AdopsiFilterChipsState extends State<AdopsiFilterChips> {
 }
 
 class _FilterIconButton extends StatelessWidget {
+  final VoidCallback? onTap;
+  const _FilterIconButton({this.onTap});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 38.w,
-      height: 38.h,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: const Color(0xFFDDDDDD), width: 1.2),
-      ),
-      child: Icon(
-        Icons.tune_rounded,
-        size: 18.w,
-        color: const Color(0xFF555555),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 38.w,
+        height: 38.h,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.r),
+          border: Border.all(color: const Color(0xFFDDDDDD), width: 1.2),
+        ),
+        child: Icon(
+          Icons.tune_rounded,
+          size: 18.w,
+          color: const Color(0xFF555555),
+        ),
       ),
     );
   }
