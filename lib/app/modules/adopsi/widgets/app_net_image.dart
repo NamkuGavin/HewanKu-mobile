@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Widget gambar dari URL network dengan loading indicator dan fallback warna.
-/// Dipakai bersama oleh semua modul (home, adopsi, dsb).
 class AppNetImage extends StatelessWidget {
   final String url;
   final Color fallbackColor;
@@ -14,13 +12,25 @@ class AppNetImage extends StatelessWidget {
     this.fit = BoxFit.cover,
   });
 
+  // Kalau tidak diawali 'http' → dianggap asset lokal
+  bool get _isAsset => !url.startsWith('http');
+
   @override
   Widget build(BuildContext context) {
+    if (_isAsset) {
+      return Image.asset(
+        url,
+        fit: fit,
+        errorBuilder: (_, __, ___) =>
+            Container(color: fallbackColor),
+      );
+    }
+
     return Image.network(
       url,
       fit: fit,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) return child;
+      loadingBuilder: (context, child, progress) {
+        if (progress == null) return child;
         return Container(
           color: fallbackColor.withOpacity(0.35),
           child: const Center(
@@ -31,7 +41,8 @@ class AppNetImage extends StatelessWidget {
           ),
         );
       },
-      errorBuilder: (_, __, ___) => Container(color: fallbackColor),
+      errorBuilder: (_, __, ___) =>
+          Container(color: fallbackColor),
     );
   }
 }

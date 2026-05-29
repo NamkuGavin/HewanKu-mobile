@@ -4,6 +4,7 @@ import '../widgets/adopsi_featured_section.dart';
 import '../widgets/adopsi_filter_chips.dart';
 import '../widgets/adopsi_list_section.dart';
 import '../widgets/adopsi_search_bar.dart';
+import '../../../common/contant/assets.dart';
 
 class AdopsiView extends StatelessWidget {
   const AdopsiView({super.key});
@@ -14,7 +15,7 @@ class AdopsiView extends StatelessWidget {
       shelter: 'Shelter Hewan Abadi',
       rating: 5.0,
       reviewCount: 5,
-      url: 'https://images.unsplash.com/photo-1548366086-7f1b76106622?w=300&q=80',
+      url: ImageAsset.anjingChuahua,
       fallback: Color(0xFFD4C5A9),
     ),
     AdopsiHewanItem(
@@ -22,7 +23,7 @@ class AdopsiView extends StatelessWidget {
       shelter: 'Shelter Hewan Abadi',
       rating: 5.0,
       reviewCount: 5,
-      url: 'https://images.unsplash.com/photo-1597600159211-d6c104f408d1?w=300&q=80',
+      url: ImageAsset.iguana,
       fallback: Color(0xFF8B9E5A),
     ),
     AdopsiHewanItem(
@@ -30,18 +31,18 @@ class AdopsiView extends StatelessWidget {
       shelter: 'Shelter Hewan Abadi',
       rating: 5.0,
       reviewCount: 5,
-      url: 'https://images.unsplash.com/photo-1562515952-f6e7ab2e0174?w=300&q=80',
+      url: ImageAsset.kuraKura,
       fallback: Color(0xFF7B8B6A),
     ),
   ];
 
   static const List<AdopsiHewanItem> _topRatedItems = [
     AdopsiHewanItem(
-      name: 'Anjing Sphynx',
+      name: 'Kucing Sphynx',
       shelter: 'Shelter Hewan Abadi',
       rating: 5.0,
       reviewCount: 5,
-      url: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=300&q=80',
+      url: ImageAsset.kucingSphynx,
       fallback: Color(0xFFD8C4B0),
     ),
     AdopsiHewanItem(
@@ -49,7 +50,7 @@ class AdopsiView extends StatelessWidget {
       shelter: 'Shelter Hewan Abadi',
       rating: 5.0,
       reviewCount: 5,
-      url: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300&q=80',
+      url: ImageAsset.britishShorthair,
       fallback: Color(0xFF8A9BAB),
     ),
     AdopsiHewanItem(
@@ -57,7 +58,7 @@ class AdopsiView extends StatelessWidget {
       shelter: 'Shelter Hewan Abadi',
       rating: 5.0,
       reviewCount: 5,
-      url: 'https://images.unsplash.com/photo-1562515952-f6e7ab2e0174?w=300&q=80',
+      url: ImageAsset.kuraKura,
       fallback: Color(0xFF7B8B6A),
     ),
   ];

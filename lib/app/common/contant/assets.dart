@@ -2,6 +2,14 @@ class ImageAsset {
   static const String bgOnboarding = "assets/images/bg_onboarding.png";
   static const String adopterCover = "assets/images/adopter_cover.png";
   static const String shelterCover = "assets/images/shelter_cover.png";
+  static const String kucingAnggora = "assets/images/kucing_anggora.png";
+  static const String angsa = "assets/images/angsa.png";
+  static const String anjingChuahua = "assets/images/anjing_chuahua.png";
+  static const String kuraKura = "assets/images/kura-kura.png";
+  static const String iguana = "assets/images/iguana.png";
+  static const String kucingSphynx = "assets/images/kucing_sphynx.png";
+  static const String britishShorthair = "assets/images/british_shorthair2.png";
+  static const String kelinci = "assets/images/kelinci.png";
 }
 
 class IconAsset {

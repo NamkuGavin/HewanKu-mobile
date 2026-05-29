@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../../../common/contant/assets.dart';
 import 'app_net_image.dart';
 
 class AdopsiFeaturedSection extends StatelessWidget {
@@ -12,14 +12,14 @@ class AdopsiFeaturedSection extends StatelessWidget {
       name: 'Kucing Anggora',
       price: 'Rp 2.000.000',
       url:
-          'https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400&q=80',
+          ImageAsset.kucingAnggora,
       fallback: Color(0xFFE8DDD0),
     ),
     _HewanData(
       name: 'British Short Hair',
       price: 'Rp 2.000.000',
       url:
-          'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&q=80',
+          ImageAsset.britishShorthair,
       fallback: Color(0xFF8A9BAB),
     ),
   ];

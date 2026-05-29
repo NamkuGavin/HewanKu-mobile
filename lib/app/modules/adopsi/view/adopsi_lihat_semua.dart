@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../common/utils/app_navigator.dart';
 import '../widgets/hewan_model.dart';
 import '../widgets/hewan_list_card.dart';
+import '../../../common/contant/assets.dart';
+
 
 class LihatSemuaView extends StatelessWidget {
   final String title;
@@ -24,7 +26,7 @@ class LihatSemuaView extends StatelessWidget {
       reviewCount: 99,
       tags: ['Vaksin', 'Anjing', 'Kucing'],
       imageUrl:
-          'https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400&q=80',
+          ImageAsset.kucingAnggora,
       fallbackColorValue: 0xFFE8DDD0,
     ),
     HewanModel(
@@ -35,7 +37,7 @@ class LihatSemuaView extends StatelessWidget {
       reviewCount: 99,
       tags: ['Vaksin', 'Angsa', 'Bebek'],
       imageUrl:
-          'https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400&q=80',
+          ImageAsset.angsa,
       fallbackColorValue: 0xFFD4E4D0,
     ),
     HewanModel(
@@ -46,7 +48,7 @@ class LihatSemuaView extends StatelessWidget {
       reviewCount: 99,
       tags: ['Vaksin', 'Anjing', 'Kucing'],
       imageUrl:
-          'https://images.unsplash.com/photo-1548366086-7f1b76106622?w=400&q=80',
+          ImageAsset.anjingChuahua,
       fallbackColorValue: 0xFFD4C5A9,
     ),
     HewanModel(
@@ -57,7 +59,7 @@ class LihatSemuaView extends StatelessWidget {
       reviewCount: 99,
       tags: ['Vaksin', 'Kura-kura', 'Kucing'],
       imageUrl:
-          'https://images.unsplash.com/photo-1562515952-f6e7ab2e0174?w=400&q=80',
+          ImageAsset.kuraKura,
       fallbackColorValue: 0xFF7B8B6A,
     ),
     HewanModel(
@@ -68,7 +70,7 @@ class LihatSemuaView extends StatelessWidget {
       reviewCount: 99,
       tags: ['Vaksin', 'Iguana', 'Kucing'],
       imageUrl:
-          'https://images.unsplash.com/photo-1597600159211-d6c104f408d1?w=400&q=80',
+          ImageAsset.iguana,
       fallbackColorValue: 0xFF8B9E5A,
     ),
     HewanModel(
@@ -79,7 +81,7 @@ class LihatSemuaView extends StatelessWidget {
       reviewCount: 99,
       tags: ['Vaksin', 'Kucing'],
       imageUrl:
-          'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&q=80',
+          ImageAsset.britishShorthair,
       fallbackColorValue: 0xFF8A9BAB,
     ),
     HewanModel(
@@ -90,7 +92,7 @@ class LihatSemuaView extends StatelessWidget {
       reviewCount: 99,
       tags: ['Vaksin', 'Kelinci'],
       imageUrl:
-          'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400&q=80',
+          ImageAsset.kelinci,
       fallbackColorValue: 0xFFE8E0D5,
     ),
   ];
