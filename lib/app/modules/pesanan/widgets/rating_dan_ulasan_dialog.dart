@@ -12,7 +12,7 @@ class RatingUlasanDialog extends StatefulWidget {
   static void show(BuildContext context, {required String namaShelter}) {
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       builder: (_) => RatingUlasanDialog(namaShelter: namaShelter),
     );
   }

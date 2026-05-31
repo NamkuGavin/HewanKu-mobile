@@ -149,7 +149,7 @@ class _AdopsiFilterHewanState extends State<AdopsiFilterHewan> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () => setState(() { _harga = const RangeValues(300000, 9000000); _jenis = null; }),
-                      child: Text('Hapus', style: txt.labelLarge?.copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
+                      child: Text('Hapus', style: txt.labelLarge?.copyWith(color: Colors.white, fontWeight: FontWeight.w700)),
                     ),
                   ),
                   SizedBox(width: 14.w),
@@ -161,7 +161,7 @@ class _AdopsiFilterHewanState extends State<AdopsiFilterHewan> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
                         minimumSize: Size(0, 45.h),
                       ),
-                      child: Text('Apply', style: txt.labelLarge?.copyWith(color: const Color(0xFF333333), fontWeight: FontWeight.w600)),
+                      child: Text('Apply', style: txt.labelLarge?.copyWith(color: const Color(0xFF333333), fontWeight: FontWeight.w700)),
                     ),
                   ),
                 ],

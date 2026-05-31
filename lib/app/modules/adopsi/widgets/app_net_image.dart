@@ -32,7 +32,7 @@ class AppNetImage extends StatelessWidget {
       loadingBuilder: (context, child, progress) {
         if (progress == null) return child;
         return Container(
-          color: fallbackColor.withOpacity(0.35),
+          color: fallbackColor.withValues(alpha: 0.35),
           child: const Center(
             child: CircularProgressIndicator(
               strokeWidth: 2,

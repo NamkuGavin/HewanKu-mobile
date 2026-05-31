@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../adopsi/widgets/app_net_image.dart';
+
 class HomeAnimalCard extends StatelessWidget {
   final String imageUrl;
   final String namaHewan;
@@ -27,7 +29,7 @@ class HomeAnimalCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(14.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.07),
+              color: Colors.black.withValues(alpha: 0.07),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -36,18 +38,15 @@ class HomeAnimalCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Foto hewan
+            // Foto hewan — pakai AppNetImage agar support asset lokal & network
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(14.r)),
-              child: Image.network(
-                imageUrl,
+              child: SizedBox(
                 height: 130.h,
                 width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
-                  height: 130.h,
-                  color: const Color(0xFFFFD8C0),
-                  child: const Icon(Icons.pets, color: Colors.white70),
+                child: AppNetImage(
+                  url: imageUrl,
+                  fallbackColor: const Color(0xFFFFD8C0),
                 ),
               ),
             ),

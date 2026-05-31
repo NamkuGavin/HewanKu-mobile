@@ -69,8 +69,8 @@ class _PeachBlob extends StatelessWidget {
           center: Alignment.center,
           radius: 0.8,
           colors: [
-            const Color(0xFFF87537).withOpacity(0.25),
-            const Color(0xFFFBA81F).withOpacity(0.10),
+            const Color(0xFFF87537).withValues(alpha: 0.25),
+            const Color(0xFFFBA81F).withValues(alpha: 0.10),
           ],
         ),
         borderRadius: BorderRadius.only(

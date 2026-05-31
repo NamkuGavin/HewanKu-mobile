@@ -1,25 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../common/contant/assets.dart';
+import '../../../common/utils/app_navigator.dart';
+import '../../adopsi/widgets/hewan_model.dart';
+import '../../adopsi/view/adopsi_detail_hewan.dart';
 import 'home_animal_card.dart';
 
 class HomeFeaturedSection extends StatelessWidget {
   const HomeFeaturedSection({super.key});
 
-  // Data dummy — ganti dengan data dari API nanti
-  static const List<Map<String, dynamic>> _animals = [
-    {
-      'nama': 'Kucing Anggora',
-      'harga': 'Rp 3.500.000',
-      'imageUrl':
-          'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400',
-    },
-    {
-      'nama': 'British Short Hair',
-      'harga': 'Rp 3.800.000',
-      'imageUrl':
-          'https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=400',
-    },
+  // Data dummy menggunakan HewanModel — konsisten dengan adopsi & lihat semua
+  static const List<HewanModel> _items = [
+    HewanModel(
+      name: 'Kucing Anggora',
+      shelter: 'Shelter Hewan Abadi',
+      priceRange: 'Rp 2.000.000',
+      rating: 5.0,
+      reviewCount: 0,
+      tags: ['Kucing'],
+      imageUrl: ImageAsset.kucingAnggora,
+      fallbackColorValue: 0xFFE8DDD0,
+    ),
+    HewanModel(
+      name: 'British Short Hair',
+      shelter: 'Shelter Hewan Abadi',
+      priceRange: 'Rp 2.000.000',
+      rating: 5.0,
+      reviewCount: 0,
+      tags: ['Kucing'],
+      imageUrl: ImageAsset.britishShorthair,
+      fallbackColorValue: 0xFF8A9BAB,
+    ),
   ];
 
   @override
@@ -43,8 +55,8 @@ class HomeFeaturedSection extends StatelessWidget {
 
           // Grid 2 kolom
           Row(
-            children: List.generate(_animals.length, (index) {
-              final item = _animals[index];
+            children: List.generate(_items.length, (index) {
+              final hewan = _items[index];
               return Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -52,12 +64,13 @@ class HomeFeaturedSection extends StatelessWidget {
                     left: index == 1 ? 8.w : 0,
                   ),
                   child: HomeAnimalCard(
-                    imageUrl: item['imageUrl'],
-                    namaHewan: item['nama'],
-                    harga: item['harga'],
-                    onTap: () {
-                      // TODO: navigasi ke detail hewan
-                    },
+                    imageUrl: hewan.imageUrl,
+                    namaHewan: hewan.name,
+                    harga: hewan.priceRange,
+                    onTap: () => AppNavigator.push(
+                      context,
+                      AdopsiDetailHewanView(hewan: hewan),
+                    ),
                   ),
                 ),
               );

@@ -11,6 +11,10 @@ class ImageAsset {
   static const String britishShorthair = "assets/images/british_shorthair2.png";
   static const String kelinci = "assets/images/kelinci.png";
   static const String imageHewanku = "assets/images/image_hewanku.png";
+  static const String gopay = "assets/images/gopay_logo.png";
+  static const String qris = "assets/images/qris.png";
+  static const String mandiriLogo = "assets/images/bankmandiri_logo.png";
+  static const String danaLogo = "assets/images/dana_logo.png";
 }
 
 class IconAsset {

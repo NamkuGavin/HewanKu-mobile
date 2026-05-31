@@ -20,7 +20,7 @@ class PesananTerakhirCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.07),
+            color: Colors.black.withValues(alpha: 0.07),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -54,7 +54,7 @@ class PesananTerakhirCard extends StatelessWidget {
                   child: Center(
                     child: Icon(
                       Icons.pets,
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       size: 36.sp,
                     ),
                   ),

@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../common/contant/assets.dart';
+import '../../../common/utils/app_navigator.dart';
 import 'app_net_image.dart';
+import 'hewan_model.dart';
+import '../view/adopsi_detail_hewan.dart';
 
 class AdopsiFeaturedSection extends StatelessWidget {
   const AdopsiFeaturedSection({super.key});
 
-  static const List<_HewanData> _items = [
-    _HewanData(
+  static const List<HewanModel> _items = [
+    HewanModel(
       name: 'Kucing Anggora',
-      price: 'Rp 2.000.000',
-      url:
-          ImageAsset.kucingAnggora,
-      fallback: Color(0xFFE8DDD0),
+      shelter: 'Shelter Hewan Abadi',
+      priceRange: 'Rp 2.000.000',
+      rating: 5.0,
+      reviewCount: 0,
+      tags: ['Kucing'],
+      imageUrl: ImageAsset.kucingAnggora,
+      fallbackColorValue: 0xFFE8DDD0,
     ),
-    _HewanData(
+    HewanModel(
       name: 'British Short Hair',
-      price: 'Rp 2.000.000',
-      url:
-          ImageAsset.britishShorthair,
-      fallback: Color(0xFF8A9BAB),
+      shelter: 'Shelter Hewan Abadi',
+      priceRange: 'Rp 2.000.000',
+      rating: 5.0,
+      reviewCount: 0,
+      tags: ['Kucing'],
+      imageUrl: ImageAsset.britishShorthair,
+      fallbackColorValue: 0xFF8A9BAB,
     ),
   ];
 
@@ -48,7 +58,7 @@ class AdopsiFeaturedSection extends StatelessWidget {
                           right: item == _items.first ? 8.w : 0,
                           left: item == _items.last ? 8.w : 0,
                         ),
-                        child: _FeaturedCard(data: item),
+                        child: _FeaturedCard(hewan: item),
                       ),
                     ))
                 .toList(),
@@ -59,78 +69,73 @@ class AdopsiFeaturedSection extends StatelessWidget {
   }
 }
 
-class _HewanData {
-  final String name;
-  final String price;
-  final String url;
-  final Color fallback;
-
-  const _HewanData({
-    required this.name,
-    required this.price,
-    required this.url,
-    required this.fallback,
-  });
-}
-
 class _FeaturedCard extends StatelessWidget {
-  final _HewanData data;
-  const _FeaturedCard({super.key, required this.data});
+  final HewanModel hewan;
+  const _FeaturedCard({required this.hewan});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.07),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () => AppNavigator.push(
+        context,
+        AdopsiDetailHewanView(hewan: hewan),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Gambar
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.r),
-              topRight: Radius.circular(16.r),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.07),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
             ),
-            child: SizedBox(
-              height: 145.h,
-              width: double.infinity,
-              child: AppNetImage(url: data.url, fallbackColor: data.fallback),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 3.h),
-            child: Text(
-              data.name,
-              style: GoogleFonts.poppins(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFF1A1A1A),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Gambar
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r),
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 12.h),
-            child: Text(
-              data.price,
-              style: GoogleFonts.poppins(
-                fontSize: 11.sp,
-                color: const Color(0xFFAAAAAA),
-                fontWeight: FontWeight.w400,
+              child: SizedBox(
+                height: 145.h,
+                width: double.infinity,
+                child: AppNetImage(
+                  url: hewan.imageUrl,
+                  fallbackColor: Color(hewan.fallbackColorValue),
+                ),
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 3.h),
+              child: Text(
+                hewan.name,
+                style: GoogleFonts.poppins(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF1A1A1A),
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 12.h),
+              child: Text(
+                hewan.priceRange,
+                style: GoogleFonts.poppins(
+                  fontSize: 11.sp,
+                  color: const Color(0xFFAAAAAA),
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

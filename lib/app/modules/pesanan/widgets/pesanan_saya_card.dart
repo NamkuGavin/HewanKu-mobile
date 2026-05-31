@@ -27,7 +27,7 @@ class _PesananSayaCardState extends State<PesananSayaCard> {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.07),
+            color: Colors.black.withValues(alpha: 0.07),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -81,7 +81,7 @@ class _PesananSayaCardState extends State<PesananSayaCard> {
                     vertical: 5.h,
                   ),
                   decoration: BoxDecoration(
-                    color: item.statusColor.withOpacity(0.12),
+                    color: item.statusColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Text(
@@ -116,7 +116,7 @@ class _PesananSayaCardState extends State<PesananSayaCard> {
                     color: const Color(0xFFFFF3EC),
                     borderRadius: BorderRadius.circular(10.r),
                     border: Border.all(
-                      color: const Color(0xFFF87537).withOpacity(0.3),
+                      color: const Color(0xFFF87537).withValues(alpha: 0.3),
                     ),
                   ),
                   child: Column(
