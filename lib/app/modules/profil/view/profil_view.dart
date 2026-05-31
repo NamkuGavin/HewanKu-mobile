@@ -6,6 +6,7 @@ import '../widgets/profile_bio_card.dart';
 import '../widgets/profile_info_section.dart';
 import '../widgets/profile_action_button.dart';
 import '../widgets/profile_header_widget.dart';
+import '../widgets/logout_sheet.dart';
 
 class ProfilView extends StatelessWidget {
   const ProfilView({super.key});
@@ -69,9 +70,7 @@ class ProfilView extends StatelessWidget {
                 ProfileActionButton(
                   icon: Icons.logout_rounded,
                   label: 'Log Out',
-                  onTap: () {
-                    // TODO: logic logout
-                  },
+                  onTap: () => LogoutSheet.show(context),
                 ),
                 SizedBox(height: 24.h),
               ],

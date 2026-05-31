@@ -10,6 +10,7 @@ class ImageAsset {
   static const String kucingSphynx = "assets/images/kucing_sphynx.png";
   static const String britishShorthair = "assets/images/british_shorthair2.png";
   static const String kelinci = "assets/images/kelinci.png";
+  static const String imageHewanku = "assets/images/image_hewanku.png";
 }
 
 class IconAsset {

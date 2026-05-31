@@ -7,6 +7,7 @@ import '../widgets/pesanan_tab_switcher.dart';
 import '../widgets/pesanan_saya_card.dart';
 import '../widgets/pesanan_terakhir_card.dart';
 import '../widgets/pesanan_empty_state.dart';
+import '../widgets/rating_dan_ulasan_dialog.dart';
 
 class PesananView extends StatefulWidget {
   const PesananView({super.key});
@@ -190,7 +191,7 @@ class _PesananViewState extends State<PesananView> {
                       itemBuilder: (context, index) => PesananTerakhirCard(
                         item: _pesananTerakhir[index],
                         onRatingTap: () {
-                          // TODO: navigasi ke halaman rating & ulasan
+                          RatingUlasanDialog.show(context, namaShelter: _pesananTerakhir[index].namaShelter);
                         },
                       ),
                     ),
