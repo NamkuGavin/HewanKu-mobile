@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../adopsi/widgets/app_net_image.dart';
+import '../../../../common/widgets/app_net_image.dart';
 
 class HomeAnimalCard extends StatelessWidget {
   final String imageUrl;

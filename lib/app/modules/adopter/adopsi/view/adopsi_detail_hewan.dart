@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../widgets/build_header_app.dart';
+import '../../../../common/utils/app_navigator.dart';
+import '../../favorit/view/favorit_view.dart';
 import '../../navbar/widgets/bottom_navbar.dart';
+import '../../notifikasi/view/notifikasi_view.dart';
 import '../widgets/hewan_model.dart';
 import '../widgets/detail_hewan_widgets.dart';
 
 class AdopsiDetailHewanView extends StatelessWidget {
   final HewanModel hewan;
+  final ValueChanged<int>? onTabTap; // ← callback ke NavbarView
   final String jenisKelamin;
   final String umur;
   final String statusAdopsi;
@@ -19,6 +22,7 @@ class AdopsiDetailHewanView extends StatelessWidget {
   const AdopsiDetailHewanView({
     super.key,
     required this.hewan,
+    this.onTabTap,
     this.jenisKelamin = 'Jantan',
     this.umur = '2 Tahun',
     this.statusAdopsi = 'Belum di adopsi',
@@ -39,7 +43,7 @@ class AdopsiDetailHewanView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const BuildAppHeader(),
+              _DetailHewanHeader(),
               SizedBox(height: 8.h),
 
               DetailHewanHeroImage(hewan: hewan),
@@ -49,7 +53,6 @@ class AdopsiDetailHewanView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ── Nama hewan + shelter ──
                     Text(
                       '${hewan.name} - ${hewan.shelter}',
                       style: GoogleFonts.poppins(
@@ -84,14 +87,11 @@ class AdopsiDetailHewanView extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
 
-                    const Divider(
-                      color: Color(0xFFEEEEEE),
-                      thickness: 1,
-                      height: 1,
-                    ),
+                    const Divider(color: Color(0xFFEEEEEE), thickness: 1, height: 1),
                     SizedBox(height: 14.h),
 
                     DetailHewanFavoritRow(
+                      hewan: hewan,
                       onLihatReviewTap: () {
                         // TODO: navigasi ke halaman review hewan
                       },
@@ -117,7 +117,65 @@ class AdopsiDetailHewanView extends StatelessWidget {
       ),
       bottomNavigationBar: AppBottomNavbar(
         currentIndex: 1,
-        onTap: (_) {},
+        onTap: (index) {
+          AppNavigator.popUntilFirst(context);
+          onTabTap?.call(index);
+        },
+      ),
+    );
+  }
+}
+
+// ── Header ───────────────────────────────────────────────────────────────────
+class _DetailHewanHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(8.w, 12.h, 20.w, 10.h),
+      child: Row(
+        children: [
+          IconButton(
+            onPressed: () => AppNavigator.pop(context),
+            icon: Icon(Icons.arrow_back_rounded, color: primaryColor, size: 24.sp),
+          ),
+          const Spacer(),
+          _IconBtn(
+            icon: Icons.notifications_none_rounded,
+            color: primaryColor,
+            onTap: () => AppNavigator.push(context, const NotifikasiView()),
+          ),
+          SizedBox(width: 8.w),
+          _IconBtn(
+            icon: Icons.favorite_border_rounded,
+            color: primaryColor,
+            onTap: () => AppNavigator.push(context, const FavoritView()),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _IconBtn extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final VoidCallback onTap;
+  const _IconBtn({required this.icon, required this.color, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: const Color(0xFFF8F8F8),
+      shape: const CircleBorder(),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: onTap,
+        child: SizedBox(
+          width: 36.w,
+          height: 36.h,
+          child: Icon(icon, size: 20.w, color: color),
+        ),
       ),
     );
   }

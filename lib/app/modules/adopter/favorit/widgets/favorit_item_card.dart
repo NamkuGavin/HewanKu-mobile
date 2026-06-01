@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../common/widgets/app_net_image.dart';
 import '../model/favorit_item.dart';
 
 class FavoritItemCard extends StatelessWidget {
@@ -27,30 +28,21 @@ class FavoritItemCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Stack dengan clipBehavior.none supaya icon bisa overlap keluar foto
             Stack(
               clipBehavior: Clip.none,
               children: [
-                // Foto hewan
+                // Foto hewan — pakai AppNetImage agar support asset lokal & network
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10.r),
-                  child: Image.network(
-                    item.imageUrl,
+                  child: SizedBox(
                     width: 70.w,
                     height: 70.h,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      width: 70.w,
-                      height: 70.h,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE0E0E0),
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: const Icon(Icons.pets, color: Colors.white54),
+                    child: AppNetImage(
+                      url: item.imageUrl,
+                      fallbackColor: const Color(0xFFE0E0E0),
                     ),
                   ),
                 ),
-
                 // Icon hati — overlap keluar di pojok kanan bawah
                 Positioned(
                   bottom: -8,
@@ -62,19 +54,12 @@ class FavoritItemCard extends StatelessWidget {
                       color: Color(0xFFF87537),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.white,
-                      size: 13.sp,
-                    ),
+                    child: Icon(Icons.favorite, color: Colors.white, size: 13.sp),
                   ),
                 ),
               ],
             ),
-
             SizedBox(width: 16.w),
-
-            // Teks nama + waktu
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

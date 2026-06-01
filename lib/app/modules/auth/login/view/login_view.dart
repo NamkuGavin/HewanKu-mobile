@@ -9,8 +9,8 @@ import '../../role/view/role_view.dart';
 import '../../forgot_pass/view/forgot_pass_view.dart';
 import '../../register/view/register_view.dart';
 import '../widgets/form_login.dart';
-import 'package:hewanku_mobile/app/modules/pembeli/navbar/view/navbar_view.dart';
-import 'package:hewanku_mobile/app/modules/penjual/navbar/view/navbar_view.dart';
+import 'package:hewanku_mobile/app/modules/adopter/navbar/view/navbar_view.dart';
+import 'package:hewanku_mobile/app/modules/shelter/navbar/view/navbar_view.dart';
 
 class LoginView extends StatefulWidget {
   final UserRole role;
@@ -91,7 +91,7 @@ class _LoginViewState extends State<LoginView> {
                     if (widget.role == UserRole.shelter) {
                       AppNavigator.pushAndRemoveAll(
                         context,
-                        const NavbarPenjualView(),
+                        const NavbarShelterView(),
                       );
                     } else {
                       AppNavigator.pushAndRemoveAll(

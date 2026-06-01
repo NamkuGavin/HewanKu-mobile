@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-// Import halaman-halaman milik penjual
+// Import halaman-halaman milik shelter
 import '../../home/view/home_view.dart';
 // Catatan: Pastikan view di bawah ini sudah kamu buat file kosongnya agar tidak error
 // import '../../hewan/view/hewan_view.dart';
 // import '../../permohonan/view/permohonan_view.dart';
 // import '../../profil/view/profil_view.dart';
 
-class NavbarPenjualView extends StatefulWidget {
-  const NavbarPenjualView({super.key});
+class NavbarShelterView extends StatefulWidget {
+  const NavbarShelterView({super.key});
 
   @override
-  State<NavbarPenjualView> createState() => _NavbarPenjualViewState();
+  State<NavbarShelterView> createState() => _NavbarShelterViewState();
 }
 
-class _NavbarPenjualViewState extends State<NavbarPenjualView> {
+class _NavbarShelterViewState extends State<NavbarShelterView> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -27,7 +27,7 @@ class _NavbarPenjualViewState extends State<NavbarPenjualView> {
   Widget build(BuildContext context) {
     // Daftar halaman yang akan ditampilkan sesuai tab yang dipilih
     final List<Widget> pages = [
-      const HomePenjualView(),
+      const HomeShelterView(),
       const Scaffold(
         body: Center(child: Text('Halaman Manajemen Hewan')),
       ), // Ganti dengan HewanView() jika sudah ada
@@ -35,7 +35,7 @@ class _NavbarPenjualViewState extends State<NavbarPenjualView> {
         body: Center(child: Text('Halaman Permohonan Adopsi')),
       ), // Ganti dengan PermohonanView()
       const Scaffold(
-        body: Center(child: Text('Halaman Profil Penjual')),
+        body: Center(child: Text('Halaman Profil Shelter')),
       ), // Ganti dengan ProfilView()
     ];
 

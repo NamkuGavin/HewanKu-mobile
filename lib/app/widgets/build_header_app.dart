@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../common/contant/assets.dart';
-import '../modules/pembeli/favorit/view/favorit_view.dart';
-import '../modules/pembeli/notifikasi/view/notifikasi_view.dart';
+import '../modules/adopter/favorit/view/favorit_view.dart';
+import '../modules/adopter/notifikasi/view/notifikasi_view.dart';
 
 class BuildAppHeader extends StatelessWidget {
   const BuildAppHeader({

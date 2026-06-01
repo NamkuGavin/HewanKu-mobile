@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../common/contant/assets.dart';
-import 'app_net_image.dart';
+import '../../favorit/model/favorit_item.dart';
+import '../../favorit/model/favorit_provider.dart';
+import '../../../../common/widgets/app_net_image.dart';
 import 'hewan_model.dart';
-import 'hewan_list_card.dart'; // HewanTagChip dipakai di sini
+import 'hewan_list_card.dart';
 
 // ── Konstanta warna lokal ────────────────────────────────────────────────────
 const _orange = Color(0xFFF87537);
@@ -104,7 +106,7 @@ class DetailHewanRating extends StatelessWidget {
   }
 }
 
-// ── 3. Tags (pakai HewanTagChip dari hewan_list_card.dart) ──────────────────
+// ── 3. Tags ──────────────────────────────────────────────────────────────────
 class DetailHewanTags extends StatelessWidget {
   final List<String> tags;
   const DetailHewanTags({super.key, required this.tags});
@@ -119,7 +121,7 @@ class DetailHewanTags extends StatelessWidget {
   }
 }
 
-// ── 4. Info Grid (Jenis Kelamin, Tersedia, Umur, Category) ───────────────────
+// ── 4. Info Grid ─────────────────────────────────────────────────────────────
 class DetailHewanInfoGrid extends StatelessWidget {
   final String jenisKelamin;
   final String umur;
@@ -140,12 +142,8 @@ class DetailHewanInfoGrid extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(
-              child: _InfoLabel('Jenis Kelamin', jenisKelamin, bold: true),
-            ),
-            Expanded(
-              child: _InfoLabel('Tersedia', statusAdopsi, valueColor: _orange),
-            ),
+            Expanded(child: _InfoLabel('Jenis Kelamin', jenisKelamin, bold: true)),
+            Expanded(child: _InfoLabel('Tersedia', statusAdopsi, valueColor: _orange)),
           ],
         ),
         SizedBox(height: 8.h),
@@ -166,21 +164,13 @@ class _InfoLabel extends StatelessWidget {
   final bool bold;
   final Color? valueColor;
 
-  const _InfoLabel(
-    this.label,
-    this.value, {
-    this.bold = false,
-    this.valueColor,
-  });
+  const _InfoLabel(this.label, this.value, {this.bold = false, this.valueColor});
 
   @override
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: GoogleFonts.poppins(
-          fontSize: 13.sp,
-          color: const Color(0xFF555555),
-        ),
+        style: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFF555555)),
         children: [
           TextSpan(text: '$label: '),
           TextSpan(
@@ -218,7 +208,6 @@ class DetailHewanPriceRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Baris 1: harga + badge
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -258,10 +247,9 @@ class DetailHewanPriceRow extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 10.h), // ← jarak antar baris
-        // Baris 2: tombol adopsi full width
+        SizedBox(height: 10.h),
         SizedBox(
-          width: double.infinity, // ← full width
+          width: double.infinity,
           child: OutlinedButton(
             onPressed: onAdopsiTap,
             style: OutlinedButton.styleFrom(
@@ -288,54 +276,82 @@ class DetailHewanPriceRow extends StatelessWidget {
 }
 
 // ── 6. Favorit + Lihat Review ────────────────────────────────────────────────
-class DetailHewanFavoritRow extends StatefulWidget {
+// Menerima HewanModel agar bisa tambah/hapus favorit via FavoritProvider
+class DetailHewanFavoritRow extends StatelessWidget {
+  final HewanModel hewan;
   final VoidCallback? onLihatReviewTap;
-  const DetailHewanFavoritRow({super.key, this.onLihatReviewTap});
 
-  @override
-  State<DetailHewanFavoritRow> createState() => _DetailHewanFavoritRowState();
-}
-
-class _DetailHewanFavoritRowState extends State<DetailHewanFavoritRow> {
-  bool _isFavorit = false;
+  const DetailHewanFavoritRow({
+    super.key,
+    required this.hewan,
+    this.onLihatReviewTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () => setState(() => _isFavorit = !_isFavorit),
-          child: Row(
-            children: [
-              Icon(
-                _isFavorit ? Icons.favorite : Icons.favorite_border,
-                color: _isFavorit ? _orange : const Color(0xFF666666),
-                size: 20.sp,
+    return ValueListenableBuilder<List<FavoritItem>>(
+      valueListenable: FavoritProvider.of(context),
+      builder: (context, list, _) {
+        final isFavorit = list.any((f) => f.namaHewan == hewan.name);
+        return Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                if (isFavorit) {
+                  FavoritProvider.hapus(
+                    context,
+                    FavoritItem(
+                      imageUrl: hewan.imageUrl,
+                      namaHewan: hewan.name,
+                      namaShelter: hewan.shelter,
+                      waktu: 'Baru saja',
+                    ),
+                  );
+                } else {
+                  FavoritProvider.tambah(
+                    context,
+                    FavoritItem(
+                      imageUrl: hewan.imageUrl,
+                      namaHewan: hewan.name,
+                      namaShelter: hewan.shelter,
+                      waktu: 'Baru saja',
+                    ),
+                  );
+                }
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    isFavorit ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorit ? _orange : const Color(0xFF666666),
+                    size: 20.sp,
+                  ),
+                  SizedBox(width: 6.w),
+                  Text(
+                    'Tambahkan ke Favorit',
+                    style: GoogleFonts.poppins(
+                      fontSize: 13.sp,
+                      color: const Color(0xFF444444),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(width: 6.w),
-              Text(
-                'Tambahkan ke Favorit',
+            ),
+            const Spacer(),
+            GestureDetector(
+              onTap: onLihatReviewTap,
+              child: Text(
+                'Lihat Review Hewan',
                 style: GoogleFonts.poppins(
                   fontSize: 13.sp,
-                  color: const Color(0xFF444444),
+                  fontWeight: FontWeight.w600,
+                  color: _orange,
                 ),
               ),
-            ],
-          ),
-        ),
-        const Spacer(),
-        GestureDetector(
-          onTap: widget.onLihatReviewTap,
-          child: Text(
-            'Lihat Review Hewan',
-            style: GoogleFonts.poppins(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w600,
-              color: _orange,
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
@@ -357,10 +373,7 @@ class DetailHewanKontakRow extends StatelessWidget {
       children: [
         Text(
           'Kontak Penjual',
-          style: GoogleFonts.poppins(
-            fontSize: 13.sp,
-            color: const Color(0xFF444444),
-          ),
+          style: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFF444444)),
         ),
         SizedBox(width: 14.w),
         GestureDetector(
@@ -382,14 +395,14 @@ class DetailHewanKontakRow extends StatelessWidget {
 // ── 8. Payment Card ──────────────────────────────────────────────────────────
 class DetailHewanPaymentCard extends StatelessWidget {
   const DetailHewanPaymentCard({super.key});
- 
+
   static const _logos = [
     ImageAsset.gopay,
     ImageAsset.qris,
     ImageAsset.mandiriLogo,
     ImageAsset.danaLogo,
   ];
- 
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -416,28 +429,18 @@ class DetailHewanPaymentCard extends StatelessWidget {
                 .map((logo) => Expanded(
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4.w),
-                        child: _PaymentLogo(assetPath: logo),
+                        child: Image.asset(
+                          logo,
+                          height: 28.h,
+                          width: double.infinity,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ))
                 .toList(),
           ),
         ],
       ),
-    );
-  }
-}
- 
-class _PaymentLogo extends StatelessWidget {
-  final String assetPath;
-  const _PaymentLogo({required this.assetPath});
- 
-  @override
-  Widget build(BuildContext context) {
-    return Image.asset(
-      assetPath,
-      height: 28.h,
-      width: double.infinity,
-      fit: BoxFit.contain,
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'app_net_image.dart';
+import '../../../../common/widgets/app_net_image.dart';
 import 'hewan_model.dart';
 import '../../../../common/utils/app_navigator.dart';
 import '../view/adopsi_detail_hewan.dart';

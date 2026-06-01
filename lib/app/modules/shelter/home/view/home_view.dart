@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// TAMBAHKAN KEDUA BARIS IMPORT INI:
 import '../../navbar/widgets/hewan_card.dart';
 import '../../navbar/widgets/permohonan_card.dart';
 
-class HomePenjualView extends StatelessWidget {
-  const HomePenjualView({super.key});
+class HomeShelterView extends StatelessWidget {
+  const HomeShelterView({super.key});
 
   @override
   Widget build(BuildContext context) {
