@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../common/contant/assets.dart';
-import '../../../common/utils/app_navigator.dart';
+import '../../../../common/contant/assets.dart';
+import '../../../../common/utils/app_navigator.dart';
 import '../../adopsi/widgets/hewan_model.dart';
 import '../../adopsi/view/adopsi_detail_hewan.dart';
 import 'home_animal_card.dart';

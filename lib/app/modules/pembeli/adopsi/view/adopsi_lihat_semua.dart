@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../common/utils/app_navigator.dart';
+import '../../../../common/utils/app_navigator.dart';
 import '../widgets/hewan_model.dart';
 import '../widgets/hewan_list_card.dart';
-import '../../../common/contant/assets.dart';
+import '../../../../common/contant/assets.dart';
 
 
 class LihatSemuaView extends StatelessWidget {

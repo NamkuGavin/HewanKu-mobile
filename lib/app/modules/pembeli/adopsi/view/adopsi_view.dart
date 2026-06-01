@@ -5,7 +5,7 @@ import '../widgets/adopsi_filter_chips.dart';
 import '../widgets/adopsi_list_section.dart';
 import '../widgets/adopsi_search_bar.dart';
 import '../widgets/hewan_model.dart';
-import '../../../common/contant/assets.dart';
+import '../../../../common/contant/assets.dart';
 
 class AdopsiView extends StatelessWidget {
   const AdopsiView({super.key});

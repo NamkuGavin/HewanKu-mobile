@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'app_net_image.dart';
 import 'hewan_model.dart';
-import '../../../common/utils/app_navigator.dart';
+import '../../../../common/utils/app_navigator.dart';
 import '../view/adopsi_detail_hewan.dart';
 
 class HewanListCard extends StatelessWidget {

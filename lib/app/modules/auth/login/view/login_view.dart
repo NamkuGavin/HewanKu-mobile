@@ -5,13 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../common/theme/app_theme_data.dart';
 import '../../../../common/utils/app_navigator.dart';
 import '../../../../widgets/build_background_auth.dart';
-import '../../../navbar/view/navbar_view.dart';
+import '../../role/view/role_view.dart';
 import '../../forgot_pass/view/forgot_pass_view.dart';
 import '../../register/view/register_view.dart';
 import '../widgets/form_login.dart';
+import 'package:hewanku_mobile/app/modules/pembeli/navbar/view/navbar_view.dart';
+import 'package:hewanku_mobile/app/modules/penjual/navbar/view/navbar_view.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+  final UserRole role;
+  const LoginView({super.key, this.role = UserRole.adopter});
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -23,7 +26,6 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     final textTheme = TextTheme.of(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BuildBackgroundAuth(
@@ -46,29 +48,36 @@ class _LoginViewState extends State<LoginView> {
               Text(
                 "Selamat Datang Kembali",
                 textAlign: TextAlign.center,
-                style: textTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold),
+                style: textTheme.titleSmall!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBox(height: 30.h),
-              FormLogin(),
+              const FormLogin(),
               SizedBox(height: 15.h),
               GestureDetector(
                 onTap: () => AppNavigator.push(context, ForgotPassView()),
                 child: Text(
                   "Forget Password?",
-                  style: textTheme.labelLarge!.copyWith(color: Color(0xFF4285F4), fontWeight: FontWeight.bold),
+                  style: textTheme.labelLarge!.copyWith(
+                    color: const Color(0xFF4285F4),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(height: 15.h),
               Theme(
-                data: Theme.of(context).copyWith(splashFactory: NoSplash.splashFactory, highlightColor: Colors.transparent),
+                data: Theme.of(context).copyWith(
+                  splashFactory: NoSplash.splashFactory,
+                  highlightColor: Colors.transparent,
+                ),
                 child: CheckboxListTile(
-                  title: Text("Lorem ipsum dolor sit amet,  adipiscing", style: textTheme.labelLarge),
+                  title: Text(
+                    "Lorem ipsum dolor sit amet, adipiscing",
+                    style: textTheme.labelLarge,
+                  ),
                   value: rememberMe,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      rememberMe = !rememberMe;
-                    });
-                  },
+                  onChanged: (v) => setState(() => rememberMe = !rememberMe),
                   controlAffinity: ListTileControlAffinity.leading,
                   contentPadding: EdgeInsets.zero,
                   activeColor: AppThemeData.getTheme().primaryColor,
@@ -78,10 +87,25 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => AppNavigator.pushAndRemoveAll(context, NavbarView()),
+                  onPressed: () {
+                    if (widget.role == UserRole.shelter) {
+                      AppNavigator.pushAndRemoveAll(
+                        context,
+                        const NavbarPenjualView(),
+                      );
+                    } else {
+                      AppNavigator.pushAndRemoveAll(
+                        context,
+                        const NavbarView(),
+                      );
+                    }
+                  },
                   child: Text(
                     "Masuk",
-                    style: textTheme.labelLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: textTheme.labelLarge!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -94,11 +118,15 @@ class _LoginViewState extends State<LoginView> {
                   children: [
                     TextSpan(
                       text: 'Daftar',
-                      style: textTheme.bodySmall?.copyWith(color: Colors.blue, fontWeight: FontWeight.w500),
+                      style: textTheme.bodySmall?.copyWith(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w500,
+                      ),
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          AppNavigator.replace(context, const RegisterView());
-                        },
+                        ..onTap = () => AppNavigator.replace(
+                          context,
+                          RegisterView(role: widget.role),
+                        ),
                     ),
                   ],
                 ),

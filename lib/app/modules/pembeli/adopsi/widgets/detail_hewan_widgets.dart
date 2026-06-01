@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../common/contant/assets.dart';
+import '../../../../common/contant/assets.dart';
 import 'app_net_image.dart';
 import 'hewan_model.dart';
 import 'hewan_list_card.dart'; // HewanTagChip dipakai di sini

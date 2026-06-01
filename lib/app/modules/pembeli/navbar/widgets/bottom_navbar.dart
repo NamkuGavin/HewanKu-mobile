@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/contant/assets.dart';
+import '../../../../common/contant/assets.dart';
 
 class AppBottomNavbar extends StatelessWidget {
   final int currentIndex;

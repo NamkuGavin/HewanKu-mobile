@@ -6,10 +6,12 @@ import '../../../../common/theme/app_theme_data.dart';
 import '../../../../common/utils/app_navigator.dart';
 import '../../../../widgets/build_background_auth.dart';
 import '../../login/view/login_view.dart';
+import '../../role/view/role_view.dart';
 import '../widgets/form_register.dart';
 
 class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+  final UserRole role;
+  const RegisterView({super.key, this.role = UserRole.adopter});
 
   @override
   State<RegisterView> createState() => _RegisterViewState();
@@ -21,7 +23,6 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     final textTheme = TextTheme.of(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BuildBackgroundAuth(
@@ -42,22 +43,28 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               SizedBox(height: 50.h),
               Text(
-                "Buat Akun Anda",
+                widget.role == UserRole.shelter
+                    ? "Daftar Sebagai Shelter"
+                    : "Buat Akun Anda",
                 textAlign: TextAlign.center,
-                style: textTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold),
+                style: textTheme.titleSmall!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBox(height: 30.h),
               FormRegister(),
               Theme(
-                data: Theme.of(context).copyWith(splashFactory: NoSplash.splashFactory, highlightColor: Colors.transparent),
+                data: Theme.of(context).copyWith(
+                  splashFactory: NoSplash.splashFactory,
+                  highlightColor: Colors.transparent,
+                ),
                 child: CheckboxListTile(
-                  title: Text("Lorem ipsum dolor sit amet,  adipiscing", style: textTheme.labelLarge),
+                  title: Text(
+                    "Lorem ipsum dolor sit amet, adipiscing",
+                    style: textTheme.labelLarge,
+                  ),
                   value: rememberMe,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      rememberMe = !rememberMe;
-                    });
-                  },
+                  onChanged: (v) => setState(() => rememberMe = !rememberMe),
                   controlAffinity: ListTileControlAffinity.leading,
                   contentPadding: EdgeInsets.zero,
                   activeColor: AppThemeData.getTheme().primaryColor,
@@ -71,7 +78,10 @@ class _RegisterViewState extends State<RegisterView> {
                   onPressed: () {},
                   child: Text(
                     "Daftar",
-                    style: textTheme.labelLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: textTheme.labelLarge!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -84,11 +94,15 @@ class _RegisterViewState extends State<RegisterView> {
                   children: [
                     TextSpan(
                       text: 'Masuk',
-                      style: textTheme.bodySmall?.copyWith(color: Colors.blue, fontWeight: FontWeight.w500),
+                      style: textTheme.bodySmall?.copyWith(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w500,
+                      ),
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          AppNavigator.replace(context, const LoginView());
-                        },
+                        ..onTap = () => AppNavigator.replace(
+                          context,
+                          LoginView(role: widget.role),
+                        ),
                     ),
                   ],
                 ),
