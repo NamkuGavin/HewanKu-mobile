@@ -11,7 +11,7 @@ import '../widgets/detail_hewan_widgets.dart';
 
 class AdopsiDetailHewanView extends StatelessWidget {
   final HewanModel hewan;
-  final ValueChanged<int>? onTabTap; // ← callback ke NavbarView
+  final ValueChanged<int>? onTabTap; // ← callback dari NavbarView
   final String jenisKelamin;
   final String umur;
   final String statusAdopsi;
@@ -45,9 +45,7 @@ class AdopsiDetailHewanView extends StatelessWidget {
             children: [
               _DetailHewanHeader(),
               SizedBox(height: 8.h),
-
               DetailHewanHeroImage(hewan: hewan),
-
               Padding(
                 padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 0),
                 child: Column(
@@ -63,13 +61,11 @@ class AdopsiDetailHewanView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 6.h),
-
                     DetailHewanRating(
                       rating: hewan.rating,
                       reviewCount: hewan.reviewCount,
                     ),
                     SizedBox(height: 14.h),
-
                     DetailHewanInfoGrid(
                       jenisKelamin: jenisKelamin,
                       umur: umur,
@@ -77,35 +73,24 @@ class AdopsiDetailHewanView extends StatelessWidget {
                       category: category,
                     ),
                     SizedBox(height: 16.h),
-
                     DetailHewanPriceRow(
                       hargaAsli: hargaAsli,
                       hargaDiskon: hargaDiskon,
-                      onAdopsiTap: () {
-                        // TODO: navigasi ke halaman checkout/adopsi
-                      },
+                      onAdopsiTap: () {},
                     ),
                     SizedBox(height: 16.h),
-
                     const Divider(color: Color(0xFFEEEEEE), thickness: 1, height: 1),
                     SizedBox(height: 14.h),
-
                     DetailHewanFavoritRow(
                       hewan: hewan,
-                      onLihatReviewTap: () {
-                        // TODO: navigasi ke halaman review hewan
-                      },
+                      onLihatReviewTap: () {},
                     ),
                     SizedBox(height: 10.h),
-
                     DetailHewanKontakRow(
                       kontakPenjual: kontakPenjual,
-                      onKontakTap: () {
-                        // TODO: launchUrl(Uri.parse('tel:$kontakPenjual'));
-                      },
+                      onKontakTap: () {},
                     ),
                     SizedBox(height: 16.h),
-
                     const DetailHewanPaymentCard(),
                     SizedBox(height: 24.h),
                   ],
@@ -118,6 +103,7 @@ class AdopsiDetailHewanView extends StatelessWidget {
       bottomNavigationBar: AppBottomNavbar(
         currentIndex: 1,
         onTap: (index) {
+          // Pop semua halaman sampai NavbarView (root), lalu pindah tab
           AppNavigator.popUntilFirst(context);
           onTabTap?.call(index);
         },

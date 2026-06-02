@@ -21,11 +21,6 @@ class _NavbarViewState extends State<NavbarView> {
     setState(() => selectedIndex = index);
   }
 
-  void onFavoriteTap() {
-    // TODO: arahkan ke halaman favorit
-  }
-
-  // Dipanggil dari HomeView saat user tekan "Adopsi Sekarang"
   void goToAdopsi() {
     setState(() => selectedIndex = 1);
   }
@@ -33,8 +28,11 @@ class _NavbarViewState extends State<NavbarView> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      HomeView(onGoToAdopsi: goToAdopsi),
-      const AdopsiView(),
+      HomeView(
+        onGoToAdopsi: goToAdopsi,
+        onTabTap: onItemTapped, // ← diteruskan ke Home
+      ),
+      AdopsiView(onTabTap: onItemTapped), // ← diteruskan ke Adopsi
       const PesananView(),
       const ProfilView(),
     ];
@@ -44,7 +42,7 @@ class _NavbarViewState extends State<NavbarView> {
         child: Column(
           children: [
             if (selectedIndex != 3)
-              BuildAppHeader(onFavoriteTap: onFavoriteTap),
+              BuildAppHeader(onFavoriteTap: () {}),
             Expanded(
               child: IndexedStack(index: selectedIndex, children: pages),
             ),

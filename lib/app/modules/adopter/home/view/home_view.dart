@@ -8,11 +8,10 @@ import '../widgets/home_featured_section.dart';
 import '../widgets/home_news_section.dart';
 
 class HomeView extends StatelessWidget {
-  // Callback ini dipanggil saat user tekan "Adopsi Sekarang"
-  // navbar_view.dart yang akan handle pindah tab ke index 1 (Adopsi)
   final VoidCallback? onGoToAdopsi;
+  final ValueChanged<int>? onTabTap; // ← callback untuk pindah tab
 
-  const HomeView({super.key, this.onGoToAdopsi});
+  const HomeView({super.key, this.onGoToAdopsi, this.onTabTap});
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +22,12 @@ class HomeView extends StatelessWidget {
         children: [
           HomeSearchBar(),
           SizedBox(height: 12.h),
-
-          HomeHeroBanner(
-            onAdopsiTap: onGoToAdopsi, // ← diteruskan dari navbar
-          ),
+          HomeHeroBanner(onAdopsiTap: onGoToAdopsi),
           SizedBox(height: 28.h),
-
           HomeCategorySection(),
           SizedBox(height: 28.h),
-
-          HomeFeaturedSection(),
+          HomeFeaturedSection(onTabTap: onTabTap), // ← diteruskan
           SizedBox(height: 28.h),
-
           HomeNewsSection(),
           SizedBox(height: 32.h),
         ],

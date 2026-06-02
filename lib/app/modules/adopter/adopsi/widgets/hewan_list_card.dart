@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../common/utils/app_navigator.dart';
 import '../../../../common/widgets/app_net_image.dart';
 import 'hewan_model.dart';
-import '../../../../common/utils/app_navigator.dart';
 import '../view/adopsi_detail_hewan.dart';
 
 class HewanListCard extends StatelessWidget {
   final HewanModel hewan;
+  final ValueChanged<int>? onTabTap; // ← diterima dari LihatSemuaView
 
-  const HewanListCard({super.key, required this.hewan});
+  const HewanListCard({super.key, required this.hewan, this.onTabTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => AppNavigator.push(
         context,
-        AdopsiDetailHewanView(hewan: hewan),
+        AdopsiDetailHewanView(hewan: hewan, onTabTap: onTabTap),
       ),
       child: Column(
         children: [
@@ -26,15 +27,12 @@ class HewanListCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ── Gambar dengan rating overlay ──────────────────────
                 _ImageWithRating(hewan: hewan),
                 SizedBox(width: 14.w),
-                // ── Info kanan ────────────────────────────────────────
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Nama + Shelter
                       Text(
                         '${hewan.name}, ${hewan.shelter}.',
                         style: GoogleFonts.poppins(
@@ -45,7 +43,6 @@ class HewanListCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 4.h),
-                      // Harga
                       Text(
                         hewan.priceRange,
                         style: GoogleFonts.poppins(
@@ -55,7 +52,6 @@ class HewanListCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 10.h),
-                      // Tag chips
                       Wrap(
                         spacing: 6.w,
                         runSpacing: 6.h,
@@ -69,7 +65,6 @@ class HewanListCard extends StatelessWidget {
               ],
             ),
           ),
-          // Divider
           Divider(
             height: 1,
             thickness: 1,
@@ -83,7 +78,6 @@ class HewanListCard extends StatelessWidget {
   }
 }
 
-// ── Gambar dengan badge rating + jumlah ulasan ──────────────────────────────
 class _ImageWithRating extends StatelessWidget {
   final HewanModel hewan;
   const _ImageWithRating({required this.hewan});
@@ -147,7 +141,6 @@ class _ImageWithRating extends StatelessWidget {
   }
 }
 
-// ── Tag chip — ────────────────────────
 class HewanTagChip extends StatelessWidget {
   final String label;
   const HewanTagChip({super.key, required this.label});

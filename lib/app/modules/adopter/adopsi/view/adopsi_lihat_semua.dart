@@ -7,16 +7,16 @@ import '../widgets/hewan_model.dart';
 import '../widgets/hewan_list_card.dart';
 import '../../../../common/contant/assets.dart';
 
-
 class LihatSemuaView extends StatelessWidget {
   final String title;
+  final ValueChanged<int>? onTabTap; // ← diterima dari AdopsiListSection
 
   const LihatSemuaView({
     super.key,
     this.title = 'Lihat Semua',
+    this.onTabTap,
   });
 
-  // ── Data dummy daftar hewan ───────────────────────────────────────
   static const List<HewanModel> _hewanList = [
     HewanModel(
       name: 'Kucing Anggora',
@@ -25,8 +25,7 @@ class LihatSemuaView extends StatelessWidget {
       rating: 5.0,
       reviewCount: 99,
       tags: ['Vaksin', 'Anjing', 'Kucing'],
-      imageUrl:
-          ImageAsset.kucingAnggora,
+      imageUrl: ImageAsset.kucingAnggora,
       fallbackColorValue: 0xFFE8DDD0,
     ),
     HewanModel(
@@ -36,8 +35,7 @@ class LihatSemuaView extends StatelessWidget {
       rating: 4.0,
       reviewCount: 99,
       tags: ['Vaksin', 'Angsa', 'Bebek'],
-      imageUrl:
-          ImageAsset.angsa,
+      imageUrl: ImageAsset.angsa,
       fallbackColorValue: 0xFFD4E4D0,
     ),
     HewanModel(
@@ -47,8 +45,7 @@ class LihatSemuaView extends StatelessWidget {
       rating: 5.0,
       reviewCount: 99,
       tags: ['Vaksin', 'Anjing', 'Kucing'],
-      imageUrl:
-          ImageAsset.anjingChuahua,
+      imageUrl: ImageAsset.anjingChuahua,
       fallbackColorValue: 0xFFD4C5A9,
     ),
     HewanModel(
@@ -58,8 +55,7 @@ class LihatSemuaView extends StatelessWidget {
       rating: 4.0,
       reviewCount: 99,
       tags: ['Vaksin', 'Kura-kura', 'Kucing'],
-      imageUrl:
-          ImageAsset.kuraKura,
+      imageUrl: ImageAsset.kuraKura,
       fallbackColorValue: 0xFF7B8B6A,
     ),
     HewanModel(
@@ -69,8 +65,7 @@ class LihatSemuaView extends StatelessWidget {
       rating: 4.0,
       reviewCount: 99,
       tags: ['Vaksin', 'Iguana', 'Kucing'],
-      imageUrl:
-          ImageAsset.iguana,
+      imageUrl: ImageAsset.iguana,
       fallbackColorValue: 0xFF8B9E5A,
     ),
     HewanModel(
@@ -80,8 +75,7 @@ class LihatSemuaView extends StatelessWidget {
       rating: 5.0,
       reviewCount: 99,
       tags: ['Vaksin', 'Kucing'],
-      imageUrl:
-          ImageAsset.britishShorthair,
+      imageUrl: ImageAsset.britishShorthair,
       fallbackColorValue: 0xFF8A9BAB,
     ),
     HewanModel(
@@ -91,8 +85,7 @@ class LihatSemuaView extends StatelessWidget {
       rating: 4.0,
       reviewCount: 99,
       tags: ['Vaksin', 'Kelinci'],
-      imageUrl:
-          ImageAsset.kelinci,
+      imageUrl: ImageAsset.kelinci,
       fallbackColorValue: 0xFFE8E0D5,
     ),
   ];
@@ -104,17 +97,16 @@ class LihatSemuaView extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // ── AppBar custom ───────────────────────────────────────
             _LihatSemuaAppBar(title: title),
-
-            // ── Daftar hewan ────────────────────────────────────────
             Expanded(
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 padding: EdgeInsets.only(top: 8.h, bottom: 24.h),
                 itemCount: _hewanList.length,
-                itemBuilder: (context, index) =>
-                    HewanListCard(hewan: _hewanList[index]),
+                itemBuilder: (context, index) => HewanListCard(
+                  hewan: _hewanList[index],
+                  onTabTap: onTabTap, // ← diteruskan ke card
+                ),
               ),
             ),
           ],
@@ -124,7 +116,6 @@ class LihatSemuaView extends StatelessWidget {
   }
 }
 
-// ── AppBar dengan tombol back + judul tengah ─────────────────────────────────
 class _LihatSemuaAppBar extends StatelessWidget {
   final String title;
   const _LihatSemuaAppBar({required this.title});
@@ -135,18 +126,12 @@ class _LihatSemuaAppBar extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(12.w, 10.h, 20.w, 10.h),
       child: Row(
         children: [
-          // Tombol back
           IconButton(
             onPressed: () => AppNavigator.pop(context),
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              size: 24.w,
-              color: const Color(0xFFF87537),
-            ),
+            icon: Icon(Icons.arrow_back_rounded, size: 24.w, color: const Color(0xFFF87537)),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
-          // Judul tengah
           Expanded(
             child: Center(
               child: Text(
@@ -159,7 +144,6 @@ class _LihatSemuaAppBar extends StatelessWidget {
               ),
             ),
           ),
-          // Placeholder agar judul benar-benar di tengah
           SizedBox(width: 24.w),
         ],
       ),

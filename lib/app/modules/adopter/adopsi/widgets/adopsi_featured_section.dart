@@ -4,12 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../common/contant/assets.dart';
 import '../../../../common/utils/app_navigator.dart';
-import '../../../../../app/common/widgets/app_net_image.dart';
+import '../../../../common/widgets/app_net_image.dart';
 import 'hewan_model.dart';
 import '../view/adopsi_detail_hewan.dart';
 
 class AdopsiFeaturedSection extends StatelessWidget {
-  const AdopsiFeaturedSection({super.key});
+  final ValueChanged<int>? onTabTap; // ← diterima dari AdopsiView
+
+  const AdopsiFeaturedSection({super.key, this.onTabTap});
 
   static const List<HewanModel> _items = [
     HewanModel(
@@ -58,7 +60,7 @@ class AdopsiFeaturedSection extends StatelessWidget {
                           right: item == _items.first ? 8.w : 0,
                           left: item == _items.last ? 8.w : 0,
                         ),
-                        child: _FeaturedCard(hewan: item),
+                        child: _FeaturedCard(hewan: item, onTabTap: onTabTap),
                       ),
                     ))
                 .toList(),
@@ -71,14 +73,15 @@ class AdopsiFeaturedSection extends StatelessWidget {
 
 class _FeaturedCard extends StatelessWidget {
   final HewanModel hewan;
-  const _FeaturedCard({required this.hewan});
+  final ValueChanged<int>? onTabTap;
+  const _FeaturedCard({required this.hewan, this.onTabTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => AppNavigator.push(
         context,
-        AdopsiDetailHewanView(hewan: hewan),
+        AdopsiDetailHewanView(hewan: hewan, onTabTap: onTabTap),
       ),
       child: Container(
         decoration: BoxDecoration(
@@ -95,7 +98,6 @@ class _FeaturedCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Gambar
             ClipRRect(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(16.r),

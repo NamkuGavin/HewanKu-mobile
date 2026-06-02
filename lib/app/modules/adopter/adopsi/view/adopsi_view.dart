@@ -8,7 +8,9 @@ import '../widgets/hewan_model.dart';
 import '../../../../common/contant/assets.dart';
 
 class AdopsiView extends StatelessWidget {
-  const AdopsiView({super.key});
+  final ValueChanged<int>? onTabTap; // ← diterima dari NavbarView
+
+  const AdopsiView({super.key, this.onTabTap});
 
   static const List<HewanModel> _rekomendasiItems = [
     HewanModel(
@@ -86,18 +88,20 @@ class AdopsiView extends StatelessWidget {
           const AdopsiSearchBar(),
           const AdopsiFilterChips(),
           const SizedBox(height: 20),
-          const AdopsiFeaturedSection(),
+          AdopsiFeaturedSection(onTabTap: onTabTap), // ← diteruskan
           const SizedBox(height: 24),
           AdopsiListSection(
             title: 'Top Sales',
             subtitle: 'Kami pilihin hewan kesukaanmu',
             items: _rekomendasiItems,
+            onTabTap: onTabTap, // ← diteruskan
           ),
           const SizedBox(height: 24),
           AdopsiListSection(
             title: 'Rating Tertinggi',
             subtitle: 'Kami pilihin shelter dengan rating tertinggi',
             items: _topRatedItems,
+            onTabTap: onTabTap, // ← diteruskan
           ),
           const SizedBox(height: 24),
         ],

@@ -8,17 +8,18 @@ import '../widgets/hewan_model.dart';
 import '../view/adopsi_lihat_semua.dart';
 import '../view/adopsi_detail_hewan.dart';
 
-/// Section dengan header + tombol Lihat Semua + horizontal scroll card
 class AdopsiListSection extends StatelessWidget {
   final String title;
   final String subtitle;
   final List<HewanModel> items;
+  final ValueChanged<int>? onTabTap; // ← diterima dari AdopsiView
 
   const AdopsiListSection({
     super.key,
     required this.title,
     required this.subtitle,
     required this.items,
+    this.onTabTap,
   });
 
   @override
@@ -26,7 +27,6 @@ class AdopsiListSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header row
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Row(
@@ -59,7 +59,7 @@ class AdopsiListSection extends StatelessWidget {
               OutlinedButton(
                 onPressed: () => AppNavigator.push(
                   context,
-                  LihatSemuaView(title: title),
+                  LihatSemuaView(title: title, onTabTap: onTabTap),
                 ),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: const Color(0xFFF87537),
@@ -90,8 +90,11 @@ class AdopsiListSection extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             physics: const BouncingScrollPhysics(),
             itemCount: items.length,
-            separatorBuilder: (_, _) => SizedBox(width: 12.w),
-            itemBuilder: (context, index) => _HewanCard(hewan: items[index]),
+            separatorBuilder: (_, __) => SizedBox(width: 12.w),
+            itemBuilder: (context, index) => _HewanCard(
+              hewan: items[index],
+              onTabTap: onTabTap, // ← diteruskan
+            ),
           ),
         ),
       ],
@@ -101,14 +104,15 @@ class AdopsiListSection extends StatelessWidget {
 
 class _HewanCard extends StatelessWidget {
   final HewanModel hewan;
-  const _HewanCard({required this.hewan});
+  final ValueChanged<int>? onTabTap;
+  const _HewanCard({required this.hewan, this.onTabTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => AppNavigator.push(
         context,
-        AdopsiDetailHewanView(hewan: hewan),
+        AdopsiDetailHewanView(hewan: hewan, onTabTap: onTabTap),
       ),
       child: Container(
         width: 148.w,
@@ -169,8 +173,7 @@ class _HewanCard extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 10.h),
               child: Row(
                 children: [
-                  Icon(Icons.star_rounded,
-                      size: 13.w, color: const Color(0xFFF87537)),
+                  Icon(Icons.star_rounded, size: 13.w, color: const Color(0xFFF87537)),
                   SizedBox(width: 3.w),
                   Text(
                     '(${hewan.rating.toStringAsFixed(1)})',

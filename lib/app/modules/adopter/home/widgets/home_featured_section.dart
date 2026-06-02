@@ -8,9 +8,10 @@ import '../../adopsi/view/adopsi_detail_hewan.dart';
 import 'home_animal_card.dart';
 
 class HomeFeaturedSection extends StatelessWidget {
-  const HomeFeaturedSection({super.key});
+  final ValueChanged<int>? onTabTap; // ← diterima dari HomeView
 
-  // Data dummy menggunakan HewanModel — konsisten dengan adopsi & lihat semua
+  const HomeFeaturedSection({super.key, this.onTabTap});
+
   static const List<HewanModel> _items = [
     HewanModel(
       name: 'Kucing Anggora',
@@ -43,7 +44,6 @@ class HomeFeaturedSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Judul section
           Text(
             'Hewan Unggulan',
             style: textTheme.bodyMedium?.copyWith(
@@ -52,8 +52,6 @@ class HomeFeaturedSection extends StatelessWidget {
             ),
           ),
           SizedBox(height: 12.h),
-
-          // Grid 2 kolom
           Row(
             children: List.generate(_items.length, (index) {
               final hewan = _items[index];
@@ -69,7 +67,10 @@ class HomeFeaturedSection extends StatelessWidget {
                     harga: hewan.priceRange,
                     onTap: () => AppNavigator.push(
                       context,
-                      AdopsiDetailHewanView(hewan: hewan),
+                      AdopsiDetailHewanView(
+                        hewan: hewan,
+                        onTabTap: onTabTap, // ← diteruskan ke Detail
+                      ),
                     ),
                   ),
                 ),
