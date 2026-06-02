@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
-// Import halaman-halaman milik shelter
 import '../../home/view/home_view.dart';
-// Catatan: Pastikan view di bawah ini sudah kamu buat file kosongnya agar tidak error
-// import '../../hewan/view/hewan_view.dart';
-// import '../../permohonan/view/permohonan_view.dart';
-// import '../../profil/view/profil_view.dart';
+import '../../profil/view/profil_shelter_view.dart';
+// TODO: import HewanView dan PermohonanView setelah dibuat
 
 class NavbarShelterView extends StatefulWidget {
   const NavbarShelterView({super.key});
@@ -17,37 +14,38 @@ class NavbarShelterView extends StatefulWidget {
 class _NavbarShelterViewState extends State<NavbarShelterView> {
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Daftar halaman yang akan ditampilkan sesuai tab yang dipilih
     final List<Widget> pages = [
       const HomeShelterView(),
+      // TODO: ganti dengan HewanView() setelah dibuat
       const Scaffold(
-        body: Center(child: Text('Halaman Manajemen Hewan')),
-      ), // Ganti dengan HewanView() jika sudah ada
+        body: Center(
+          child: Text(
+            'Halaman Hewan\n(belum dibuat)',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+      // TODO: ganti dengan PermohonanView() setelah dibuat
       const Scaffold(
-        body: Center(child: Text('Halaman Permohonan Adopsi')),
-      ), // Ganti dengan PermohonanView()
-      const Scaffold(
-        body: Center(child: Text('Halaman Profil Shelter')),
-      ), // Ganti dengan ProfilView()
+        body: Center(
+          child: Text(
+            'Halaman Permohonan\n(belum dibuat)',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+      const ProfilShelterView(),
     ];
 
     return Scaffold(
       body: IndexedStack(index: _selectedIndex, children: pages),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        onTap: (i) => setState(() => _selectedIndex = i),
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(
-          0xFFF87537,
-        ), // Warna oranye utama dari AppThemeData
+        selectedItemColor: const Color(0xFFF87537),
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(
