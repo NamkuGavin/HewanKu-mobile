@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../navbar/widgets/hewan_card.dart';
-import '../../navbar/widgets/permohonan_card.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hewanku_mobile/app/common/contant/assets.dart';
+import 'package:hewanku_mobile/app/modules/shelter/navbar/widgets/hewan_card.dart';
+import 'package:hewanku_mobile/app/modules/shelter/navbar/widgets/permohonan_card.dart';
+import 'package:hewanku_mobile/app/modules/shelter/profil/view/profil_shelter_view.dart';
 
 class HomeShelterView extends StatelessWidget {
   const HomeShelterView({super.key});
@@ -10,67 +12,74 @@ class HomeShelterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final primaryColor = Theme.of(context).primaryColor;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
 
-              // 1. HEADER
+              // ── Header: logo + notif ──
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.pets, color: Colors.black, size: 24),
-                      const SizedBox(width: 8),
-                      Text(
-                        'HewanKu',
-                        style: textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
+                  SvgPicture.asset(IconAsset.hewankuLogoSecondary),
+                  Material(
+                    color: const Color(0xFFF8F8F8),
+                    shape: const CircleBorder(),
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: () {},
+                      child: SizedBox(
+                        width: 36.w,
+                        height: 36.h,
+                        child: Icon(
+                          Icons.notifications_none_rounded,
+                          size: 20.sp,
+                          color: primaryColor,
                         ),
                       ),
-                    ],
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.notifications_none,
-                      color: Color(0xFFF87537),
                     ),
-                    onPressed: () {},
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
-              // 2. SEARCH BAR
+              // ── Search bar ──
               TextFormField(
                 decoration: InputDecoration(
                   hintText: 'Cari Hewan...',
-                  prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                  hintStyle: textTheme.labelLarge?.copyWith(
+                    color: const Color(0xFF9E9E9E),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                    size: 20.sp,
+                  ),
                   filled: true,
                   fillColor: const Color(0xFFE9E9E9),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                  contentPadding: EdgeInsets.symmetric(vertical: 12.h),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
+                    borderRadius: BorderRadius.circular(50.r),
                     borderSide: BorderSide.none,
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
-              // 3. BANNER PROMOSI
+              // ── Banner ──
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFFF0E6),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,59 +87,100 @@ class HomeShelterView extends StatelessWidget {
                     Text(
                       'Shelter Hewan',
                       style: textTheme.labelLarge?.copyWith(
-                        color: const Color(0xFFF87537),
-                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       'Ayo Buat Shelter\nKamu',
-                      style: textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
+                      style: textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w800,
                         height: 1.2,
+                        fontSize: 22.sp,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       'Kelola hewan peliharaan dan temukan pemilik baru untuk mereka.',
-                      style: textTheme.bodySmall?.copyWith(
+                      style: textTheme.labelLarge?.copyWith(
                         color: Colors.black54,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: const Color(0xFFF87537),
-                        minimumSize: Size(double.infinity, 45.h),
-                        side: const BorderSide(color: Color(0xFFE9E9E9)),
+                    SizedBox(height: 16.h),
+
+                    // Tombol Daftar Shelter → ke ProfilShelterView
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: primaryColor,
+                          minimumSize: Size(double.infinity, 45.h),
+                          elevation: 0,
+                          side: const BorderSide(color: Color(0xFFE9E9E9)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                        ),
+                        onPressed: () {
+                          // Direct ke halaman profil shelter
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const ProfilShelterView(),
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.storefront_outlined, size: 18.sp),
+                        label: Text(
+                          'Daftar Shelter',
+                          style: textTheme.labelLarge?.copyWith(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
-                      onPressed: () {},
-                      icon: const Icon(Icons.storefront),
-                      label: const Text('Daftar Shelter'),
                     ),
-                    const SizedBox(height: 10),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF87537),
-                        foregroundColor: Colors.white,
-                        minimumSize: Size(double.infinity, 45.h),
+                    SizedBox(height: 10.h),
+
+                    // Tombol Daftar Hewan
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          foregroundColor: Colors.white,
+                          minimumSize: Size(double.infinity, 45.h),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                        ),
+                        onPressed: () {
+                          // TODO: navigasi ke halaman daftar hewan
+                        },
+                        icon: Icon(Icons.add_circle_outline, size: 18.sp),
+                        label: Text(
+                          'Daftar Hewan',
+                          style: textTheme.labelLarge?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
-                      onPressed: () {},
-                      icon: const Icon(Icons.add_circle_outline),
-                      label: const Text('Daftar Hewan'),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
-              // 4. STATISTIK
+              // ── Statistik ──
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(14.r),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.05),
@@ -149,97 +199,129 @@ class HomeShelterView extends StatelessWidget {
                           'SIAP ADOPSI',
                           style: textTheme.labelMedium?.copyWith(
                             color: Colors.grey,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.5,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
                               '24',
                               style: textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 28.sp,
                               ),
                             ),
-                            const SizedBox(width: 4),
-                            Text('Ekor', style: textTheme.bodySmall),
+                            SizedBox(width: 4.w),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 2.h),
+                              child: Text(
+                                'Ekor',
+                                style: textTheme.bodySmall?.copyWith(
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ],
                     ),
-                    const Icon(
-                      Icons.bar_chart,
-                      color: Color(0xFFF87537),
-                      size: 30,
+                    Icon(
+                      Icons.bar_chart_rounded,
+                      color: primaryColor,
+                      size: 32.sp,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
 
-              // 5. BAGIAN: HEWAN DI SHELTER KAMU
+              // ── Hewan di Shelter ──
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Hewan di Shelter kamu',
-                    style: textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: const Text(
+                    child: Text(
                       'Lihat Semua',
-                      style: TextStyle(color: Color(0xFFF87537)),
+                      style: TextStyle(color: primaryColor, fontSize: 12.sp),
                     ),
                   ),
                 ],
               ),
-              // MEMANGGIL WIDGET YANG SUDAH DIPISAHKAN
-              const HewanCard(
+              SizedBox(height: 8.h),
+
+              HewanCard(
                 name: 'Mochi',
                 price: 'Rp 0 (Adopsi)',
                 status: 'AKTIF',
                 statusColor: Colors.green,
+                imageUrl:
+                    'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200',
+                waktu: '2 jam lalu',
               ),
-              const HewanCard(
+              HewanCard(
                 name: 'Buddy',
                 price: 'Rp 0 (Adopsi)',
                 status: 'PENDING',
                 statusColor: Colors.orange,
+                imageUrl:
+                    'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200',
+                waktu: '5 jam lalu',
               ),
-              const SizedBox(height: 20),
+              HewanCard(
+                name: 'Luna',
+                price: 'Teradopsi',
+                status: 'SELESAI',
+                statusColor: Colors.grey,
+                imageUrl:
+                    'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?w=200',
+                waktu: '1 hari lalu',
+              ),
+              SizedBox(height: 8.h),
 
-              // 6. BAGIAN: PERMOHONAN ADOPSI
+              // ── Permohonan Adopsi ──
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Permohonan Adopsi',
-                    style: textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: const Text(
+                    child: Text(
                       'Lihat Semua',
-                      style: TextStyle(color: Color(0xFFF87537)),
+                      style: TextStyle(color: primaryColor, fontSize: 12.sp),
                     ),
                   ),
                 ],
               ),
-              // MEMANGGIL WIDGET YANG SUDAH DIPISAHKAN
+              SizedBox(height: 8.h),
+
               const PermohonanCard(
                 petName: 'Milo',
                 requester: 'Requested by Sarah Jenkins',
+                imageUrl:
+                    'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=100',
               ),
               const PermohonanCard(
                 petName: 'Bella',
                 requester: 'Requested by David Chen',
+                imageUrl:
+                    'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=100',
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
             ],
           ),
         ),
