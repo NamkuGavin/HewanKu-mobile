@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../home/view/home_view.dart';
 import '../../profil/view/profil_shelter_view.dart';
-// TODO: import HewanView dan PermohonanView setelah dibuat
+import '../../permohonan/view/permohonan_view.dart';
 
 class NavbarShelterView extends StatefulWidget {
   const NavbarShelterView({super.key});
@@ -14,11 +14,12 @@ class NavbarShelterView extends StatefulWidget {
 class _NavbarShelterViewState extends State<NavbarShelterView> {
   int _selectedIndex = 0;
 
+  void _goToProfil() => setState(() => _selectedIndex = 3);
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      const HomeShelterView(),
-      // TODO: ganti dengan HewanView() setelah dibuat
+      HomeShelterView(onGoToProfil: _goToProfil),
       const Scaffold(
         body: Center(
           child: Text(
@@ -27,15 +28,7 @@ class _NavbarShelterViewState extends State<NavbarShelterView> {
           ),
         ),
       ),
-      // TODO: ganti dengan PermohonanView() setelah dibuat
-      const Scaffold(
-        body: Center(
-          child: Text(
-            'Halaman Permohonan\n(belum dibuat)',
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
+      const PermohonanView(),
       const ProfilShelterView(),
     ];
 
@@ -47,6 +40,8 @@ class _NavbarShelterViewState extends State<NavbarShelterView> {
         type: BottomNavigationBarType.fixed,
         selectedItemColor: const Color(0xFFF87537),
         unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.white,
+        elevation: 8,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
