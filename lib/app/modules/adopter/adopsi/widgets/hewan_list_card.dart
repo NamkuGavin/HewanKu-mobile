@@ -9,16 +9,15 @@ import '../view/adopsi_detail_hewan.dart';
 
 class HewanListCard extends StatelessWidget {
   final HewanModel hewan;
-  final ValueChanged<int>? onTabTap; // ← diterima dari LihatSemuaView
 
-  const HewanListCard({super.key, required this.hewan, this.onTabTap});
+  const HewanListCard({super.key, required this.hewan});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => AppNavigator.push(
         context,
-        AdopsiDetailHewanView(hewan: hewan, onTabTap: onTabTap),
+        AdopsiDetailHewanView(hewan: hewan),
       ),
       child: Column(
         children: [

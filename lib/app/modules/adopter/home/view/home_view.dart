@@ -9,9 +9,8 @@ import '../widgets/home_news_section.dart';
 
 class HomeView extends StatelessWidget {
   final VoidCallback? onGoToAdopsi;
-  final ValueChanged<int>? onTabTap; // ← callback untuk pindah tab
 
-  const HomeView({super.key, this.onGoToAdopsi, this.onTabTap});
+  const HomeView({super.key, this.onGoToAdopsi});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class HomeView extends StatelessWidget {
           SizedBox(height: 28.h),
           HomeCategorySection(),
           SizedBox(height: 28.h),
-          HomeFeaturedSection(onTabTap: onTabTap), // ← diteruskan
+          const HomeFeaturedSection(),
           SizedBox(height: 28.h),
           HomeNewsSection(),
           SizedBox(height: 32.h),

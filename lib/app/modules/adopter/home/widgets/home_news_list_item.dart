@@ -29,7 +29,7 @@ class HomeNewsListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.06),
+              color: Colors.black.withValues(alpha: 0.06),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -47,7 +47,7 @@ class HomeNewsListItem extends StatelessWidget {
                 width: 80.w,
                 height: 80.h,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
+                errorBuilder: (_, _, _) => Container(
                   width: 80.w,
                   height: 80.h,
                   color: const Color(0xFFE0E0E0),

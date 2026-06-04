@@ -88,7 +88,7 @@ class HomeNewsSection extends StatelessWidget {
                     width: double.infinity,
                     height: 190.h,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
+                    errorBuilder: (_, _, _) => Container(
                       height: 190.h,
                       color: const Color(0xFFE0E0E0),
                       child: const Icon(Icons.image, color: Colors.white54),
@@ -153,7 +153,7 @@ class HomeNewsSection extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: _beritaList.length,
-            separatorBuilder: (_, __) => SizedBox(height: 12.h),
+            separatorBuilder: (_, _) => SizedBox(height: 12.h),
             itemBuilder: (context, index) {
               final item = _beritaList[index];
               return HomeNewsListItem(

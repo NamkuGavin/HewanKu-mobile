@@ -9,12 +9,10 @@ import '../../../../common/contant/assets.dart';
 
 class LihatSemuaView extends StatelessWidget {
   final String title;
-  final ValueChanged<int>? onTabTap; // ← diterima dari AdopsiListSection
 
   const LihatSemuaView({
     super.key,
     this.title = 'Lihat Semua',
-    this.onTabTap,
   });
 
   static const List<HewanModel> _hewanList = [
@@ -105,7 +103,6 @@ class LihatSemuaView extends StatelessWidget {
                 itemCount: _hewanList.length,
                 itemBuilder: (context, index) => HewanListCard(
                   hewan: _hewanList[index],
-                  onTabTap: onTabTap, // ← diteruskan ke card
                 ),
               ),
             ),

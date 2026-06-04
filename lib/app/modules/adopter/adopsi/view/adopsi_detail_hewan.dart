@@ -4,31 +4,28 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../common/utils/app_navigator.dart';
 import '../../favorit/view/favorit_view.dart';
-import '../../navbar/widgets/bottom_navbar.dart';
 import '../../notifikasi/view/notifikasi_view.dart';
 import '../widgets/hewan_model.dart';
 import '../widgets/detail_hewan_widgets.dart';
 
 class AdopsiDetailHewanView extends StatelessWidget {
   final HewanModel hewan;
-  final ValueChanged<int>? onTabTap; // ← callback dari NavbarView
   final String jenisKelamin;
   final String umur;
   final String statusAdopsi;
   final double hargaAsli;
   final double hargaDiskon;
-  final String kontakPenjual;
+  final String kontakShelter;
 
   const AdopsiDetailHewanView({
     super.key,
     required this.hewan,
-    this.onTabTap,
     this.jenisKelamin = 'Jantan',
     this.umur = '2 Tahun',
     this.statusAdopsi = 'Belum di adopsi',
     this.hargaAsli = 6500000,
     this.hargaDiskon = 6000000,
-    this.kontakPenjual = '+6281367889011',
+    this.kontakShelter = '+6281367889011',
   });
 
   @override
@@ -87,26 +84,17 @@ class AdopsiDetailHewanView extends StatelessWidget {
                     ),
                     SizedBox(height: 10.h),
                     DetailHewanKontakRow(
-                      kontakPenjual: kontakPenjual,
-                      onKontakTap: () {},
+                      kontakShelter: kontakShelter,
                     ),
-                    SizedBox(height: 16.h),
+                    SizedBox(height: 32.h),
                     const DetailHewanPaymentCard(),
-                    SizedBox(height: 24.h),
+                    SizedBox(height: 48.h),
                   ],
                 ),
               ),
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: AppBottomNavbar(
-        currentIndex: 1,
-        onTap: (index) {
-          // Pop semua halaman sampai NavbarView (root), lalu pindah tab
-          AppNavigator.popUntilFirst(context);
-          onTabTap?.call(index);
-        },
       ),
     );
   }

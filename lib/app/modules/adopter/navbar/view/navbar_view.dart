@@ -28,11 +28,8 @@ class _NavbarViewState extends State<NavbarView> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      HomeView(
-        onGoToAdopsi: goToAdopsi,
-        onTabTap: onItemTapped, // ← diteruskan ke Home
-      ),
-      AdopsiView(onTabTap: onItemTapped), // ← diteruskan ke Adopsi
+      HomeView(onGoToAdopsi: goToAdopsi),
+      const AdopsiView(),
       const PesananView(),
       const ProfilView(),
     ];

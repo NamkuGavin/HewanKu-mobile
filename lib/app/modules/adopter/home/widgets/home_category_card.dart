@@ -45,7 +45,7 @@ class HomeCategoryCard extends StatelessWidget {
                 height: 85.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
+                errorBuilder: (_, _, _) => Container(
                   height: 85.h,
                   color: const Color(0xFFFFD8C0),
                   child: const Icon(Icons.pets, color: Colors.white70),

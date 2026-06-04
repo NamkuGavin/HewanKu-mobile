@@ -12,14 +12,12 @@ class AdopsiListSection extends StatelessWidget {
   final String title;
   final String subtitle;
   final List<HewanModel> items;
-  final ValueChanged<int>? onTabTap; // ← diterima dari AdopsiView
 
   const AdopsiListSection({
     super.key,
     required this.title,
     required this.subtitle,
     required this.items,
-    this.onTabTap,
   });
 
   @override
@@ -59,7 +57,7 @@ class AdopsiListSection extends StatelessWidget {
               OutlinedButton(
                 onPressed: () => AppNavigator.push(
                   context,
-                  LihatSemuaView(title: title, onTabTap: onTabTap),
+                  LihatSemuaView(title: title),
                 ),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: const Color(0xFFF87537),
@@ -91,10 +89,7 @@ class AdopsiListSection extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             itemCount: items.length,
             separatorBuilder: (_, __) => SizedBox(width: 12.w),
-            itemBuilder: (context, index) => _HewanCard(
-              hewan: items[index],
-              onTabTap: onTabTap, // ← diteruskan
-            ),
+            itemBuilder: (context, index) => _HewanCard(hewan: items[index]),
           ),
         ),
       ],
@@ -104,15 +99,14 @@ class AdopsiListSection extends StatelessWidget {
 
 class _HewanCard extends StatelessWidget {
   final HewanModel hewan;
-  final ValueChanged<int>? onTabTap;
-  const _HewanCard({required this.hewan, this.onTabTap});
+  const _HewanCard({required this.hewan});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => AppNavigator.push(
         context,
-        AdopsiDetailHewanView(hewan: hewan, onTabTap: onTabTap),
+        AdopsiDetailHewanView(hewan: hewan),
       ),
       child: Container(
         width: 148.w,
@@ -121,7 +115,7 @@ class _HewanCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.07),
+              color: Colors.black.withOpacity(0.07),
               blurRadius: 10,
               offset: const Offset(0, 3),
             ),

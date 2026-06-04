@@ -9,9 +9,7 @@ import 'hewan_model.dart';
 import '../view/adopsi_detail_hewan.dart';
 
 class AdopsiFeaturedSection extends StatelessWidget {
-  final ValueChanged<int>? onTabTap; // ← diterima dari AdopsiView
-
-  const AdopsiFeaturedSection({super.key, this.onTabTap});
+  const AdopsiFeaturedSection({super.key});
 
   static const List<HewanModel> _items = [
     HewanModel(
@@ -60,7 +58,7 @@ class AdopsiFeaturedSection extends StatelessWidget {
                           right: item == _items.first ? 8.w : 0,
                           left: item == _items.last ? 8.w : 0,
                         ),
-                        child: _FeaturedCard(hewan: item, onTabTap: onTabTap),
+                        child: _FeaturedCard(hewan: item),
                       ),
                     ))
                 .toList(),
@@ -73,15 +71,14 @@ class AdopsiFeaturedSection extends StatelessWidget {
 
 class _FeaturedCard extends StatelessWidget {
   final HewanModel hewan;
-  final ValueChanged<int>? onTabTap;
-  const _FeaturedCard({required this.hewan, this.onTabTap});
+  const _FeaturedCard({required this.hewan});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => AppNavigator.push(
         context,
-        AdopsiDetailHewanView(hewan: hewan, onTabTap: onTabTap),
+        AdopsiDetailHewanView(hewan: hewan),
       ),
       child: Container(
         decoration: BoxDecoration(

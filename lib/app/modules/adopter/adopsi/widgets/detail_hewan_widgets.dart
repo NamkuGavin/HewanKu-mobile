@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../common/contant/assets.dart';
 import '../../favorit/model/favorit_item.dart';
@@ -356,34 +357,46 @@ class DetailHewanFavoritRow extends StatelessWidget {
   }
 }
 
-// ── 7. Kontak Penjual ────────────────────────────────────────────────────────
+// ── 7. Kontak Shelter ────────────────────────────────────────────────────────
 class DetailHewanKontakRow extends StatelessWidget {
-  final String kontakPenjual;
-  final VoidCallback? onKontakTap;
+  final String kontakShelter;
 
   const DetailHewanKontakRow({
     super.key,
-    required this.kontakPenjual,
-    this.onKontakTap,
+    required this.kontakShelter,
   });
+
+  /// Format nomor ke format internasional untuk WhatsApp
+  /// Contoh: +6281367889011 → 6281367889011 (hapus +)
+  String get _waNumber => kontakShelter.replaceAll('+', '').replaceAll(' ', '');
+
+  Future<void> _bukaWhatsApp() async {
+    final uri = Uri.parse('https://wa.me/$_waNumber');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Text(
-          'Kontak Penjual',
-          style: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFF444444)),
+          'Kontak Shelter',
+          style: GoogleFonts.poppins(
+            fontSize: 13.sp,
+            color: const Color(0xFF444444),
+          ),
         ),
         SizedBox(width: 14.w),
         GestureDetector(
-          onTap: onKontakTap,
+          onTap: _bukaWhatsApp,
           child: Text(
-            kontakPenjual,
+            kontakShelter,
             style: GoogleFonts.poppins(
               fontSize: 13.sp,
               fontWeight: FontWeight.w600,
-              color: _orange,
+              color: const Color(0xFFF87537),
             ),
           ),
         ),
@@ -396,18 +409,11 @@ class DetailHewanKontakRow extends StatelessWidget {
 class DetailHewanPaymentCard extends StatelessWidget {
   const DetailHewanPaymentCard({super.key});
 
-  static const _logos = [
-    ImageAsset.gopay,
-    ImageAsset.qris,
-    ImageAsset.mandiriLogo,
-    ImageAsset.danaLogo,
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 20.h),
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFFDDDDDD)),
         borderRadius: BorderRadius.circular(12.r),
@@ -423,24 +429,33 @@ class DetailHewanPaymentCard extends StatelessWidget {
               color: const Color(0xFF333333),
             ),
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 16.h),
           Row(
-            children: _logos
-                .map((logo) => Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4.w),
-                        child: Image.asset(
-                          logo,
-                          height: 28.h,
-                          width: double.infinity,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ))
-                .toList(),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _PaymentLogo(assetPath: ImageAsset.gopay, height: 20.h),
+              _PaymentLogo(assetPath: ImageAsset.qris, height: 20.h),   // QRIS diperkecil
+              _PaymentLogo(assetPath: ImageAsset.mandiriLogo, height: 20.h),
+              _PaymentLogo(assetPath: ImageAsset.danaLogo, height: 20.h),
+            ],
           ),
         ],
       ),
+    );
+  }
+}
+
+class _PaymentLogo extends StatelessWidget {
+  final String assetPath;
+  final double height;
+  const _PaymentLogo({required this.assetPath, required this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      assetPath,
+      height: height,
+      fit: BoxFit.contain,
     );
   }
 }

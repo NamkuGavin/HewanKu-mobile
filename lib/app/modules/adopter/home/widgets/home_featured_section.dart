@@ -8,9 +8,7 @@ import '../../adopsi/view/adopsi_detail_hewan.dart';
 import 'home_animal_card.dart';
 
 class HomeFeaturedSection extends StatelessWidget {
-  final ValueChanged<int>? onTabTap; // ← diterima dari HomeView
-
-  const HomeFeaturedSection({super.key, this.onTabTap});
+  const HomeFeaturedSection({super.key});
 
   static const List<HewanModel> _items = [
     HewanModel(
@@ -67,10 +65,7 @@ class HomeFeaturedSection extends StatelessWidget {
                     harga: hewan.priceRange,
                     onTap: () => AppNavigator.push(
                       context,
-                      AdopsiDetailHewanView(
-                        hewan: hewan,
-                        onTabTap: onTabTap, // ← diteruskan ke Detail
-                      ),
+                      AdopsiDetailHewanView(hewan: hewan),
                     ),
                   ),
                 ),
