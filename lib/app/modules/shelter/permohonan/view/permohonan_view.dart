@@ -13,10 +13,8 @@ class PermohonanView extends StatefulWidget {
 }
 
 class _PermohonanViewState extends State<PermohonanView> {
-  // 0 = Status Form, 1 = Status Pembayaran
-  int _activeTab = 0;
+  int _activeTab = 0; // 0 = Status Form, 1 = Status Pembayaran
 
-  // Data dummy — ganti dengan API nanti
   final List<PermohonanItem> _requests = [
     PermohonanItem(
       id: '1',
@@ -50,7 +48,6 @@ class _PermohonanViewState extends State<PermohonanView> {
     ),
   ];
 
-  // Hitung statistik dari data
   int get _formMasuk => _requests.length;
   int get _diterima =>
       _requests.where((r) => r.status == StatusPermohonan.disetujui).length;
@@ -59,7 +56,6 @@ class _PermohonanViewState extends State<PermohonanView> {
   List<PermohonanItem> get _pending =>
       _requests.where((r) => r.status == StatusPermohonan.pending).toList();
 
-  // Aksi setuju — update status + tampil snackbar
   void _onSetuju(PermohonanItem item) {
     setState(() => item.status = StatusPermohonan.disetujui);
     _showSnackbar(
@@ -69,7 +65,6 @@ class _PermohonanViewState extends State<PermohonanView> {
     );
   }
 
-  // Aksi tolak — update status + tampil snackbar
   void _onTolak(PermohonanItem item) {
     setState(() => item.status = StatusPermohonan.ditolak);
     _showSnackbar(
@@ -121,63 +116,72 @@ class _PermohonanViewState extends State<PermohonanView> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // ── Header oranye penuh ──
+          // ══════════════════════════════════
+          // HEADER — gradient oranye
+          // ══════════════════════════════════
           Container(
-            color: const Color(0xFFF87537),
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFFFBA81F), Color(0xFFF87537)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+            ),
             child: SafeArea(
               bottom: false,
               child: Column(
                 children: [
-                  // Baris back + judul
+                  // Judul — tanpa tombol back
                   Padding(
-                    padding: EdgeInsets.fromLTRB(8.w, 8.h, 20.w, 12.h),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: Colors.white,
-                            size: 20.sp,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            'Permohonan',
-                            textAlign: TextAlign.center,
-                            style: textTheme.bodyLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 44.w), // balance icon back
-                      ],
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 16.h,
+                    ),
+                    child: Text(
+                      'Permohonan',
+                      textAlign: TextAlign.center,
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
 
-                  // Toggle Status Form | Status Pembayaran
+                  // Toggle container PUTIH solid
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.h),
+                    padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 24.h),
                     child: Container(
-                      padding: EdgeInsets.all(4.w),
+                      width: double.infinity,
+                      padding: EdgeInsets.all(5.w),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(14.r),
-                      ),
-                      child: Row(
-                        children: [
-                          _TabItem(
-                            label: 'Status Form',
-                            isActive: _activeTab == 0,
-                            onTap: () => setState(() => _activeTab = 0),
-                          ),
-                          _TabItem(
-                            label: 'Status\nPembayaran',
-                            isActive: _activeTab == 1,
-                            onTap: () => setState(() => _activeTab = 1),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
                           ),
                         ],
+                      ),
+                      // IntrinsicHeight supaya kedua tab sama tinggi
+                      child: IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _TabBtn(
+                              label: 'Status Form',
+                              isActive: _activeTab == 0,
+                              onTap: () => setState(() => _activeTab = 0),
+                            ),
+                            _TabBtn(
+                              label: 'Status\nPembayaran',
+                              isActive: _activeTab == 1,
+                              onTap: () => setState(() => _activeTab = 1),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -197,14 +201,12 @@ class _PermohonanViewState extends State<PermohonanView> {
     );
   }
 
-  // ── Tab Status Form ──
   Widget _buildStatusForm(TextTheme textTheme) {
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 24.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Judul section
           Text(
             'Adopsi Form',
             style: textTheme.bodyLarge?.copyWith(
@@ -221,7 +223,6 @@ class _PermohonanViewState extends State<PermohonanView> {
           ),
           SizedBox(height: 20.h),
 
-          // 3 Stat cards
           Row(
             children: [
               PermohonanStatCard(
@@ -254,7 +255,6 @@ class _PermohonanViewState extends State<PermohonanView> {
           ),
           SizedBox(height: 24.h),
 
-          // Pending Requests
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -279,7 +279,6 @@ class _PermohonanViewState extends State<PermohonanView> {
           ),
           SizedBox(height: 8.h),
 
-          // List request
           if (_pending.isEmpty)
             Center(
               child: Padding(
@@ -316,7 +315,6 @@ class _PermohonanViewState extends State<PermohonanView> {
     );
   }
 
-  // ── Tab Status Pembayaran (placeholder) ──
   Widget _buildStatusPembayaran(TextTheme textTheme) {
     return Center(
       child: Column(
@@ -345,13 +343,13 @@ class _PermohonanViewState extends State<PermohonanView> {
   }
 }
 
-// Tab button di header oranye
-class _TabItem extends StatelessWidget {
+// ── Tab button ──
+class _TabBtn extends StatelessWidget {
   final String label;
   final bool isActive;
   final VoidCallback onTap;
 
-  const _TabItem({
+  const _TabBtn({
     required this.label,
     required this.isActive,
     required this.onTap,
@@ -364,12 +362,14 @@ class _TabItem extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          padding: EdgeInsets.symmetric(vertical: 12.h),
+          // Tidak perlu set width/height — Expanded + CrossAxisAlignment.stretch
+          // sudah memastikan container ini full width dan full height
+          padding: EdgeInsets.symmetric(vertical: 14.h),
           decoration: BoxDecoration(
-            // Aktif = FBA81F (kuning oranye), nonaktif = transparan
             color: isActive ? const Color(0xFFFBA81F) : Colors.transparent,
-            borderRadius: BorderRadius.circular(10.r),
+            borderRadius: BorderRadius.circular(12.r),
           ),
+          alignment: Alignment.center,
           child: Text(
             label,
             textAlign: TextAlign.center,
@@ -377,8 +377,7 @@ class _TabItem extends StatelessWidget {
               fontFamily: 'Poppins',
               fontSize: 13.sp,
               fontWeight: FontWeight.w700,
-              // Aktif = putih, nonaktif = putih juga (di atas bg oranye header)
-              color: Colors.white,
+              color: isActive ? Colors.white : Colors.black87,
               height: 1.3,
             ),
           ),
