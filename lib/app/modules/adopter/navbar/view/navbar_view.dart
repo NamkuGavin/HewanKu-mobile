@@ -5,6 +5,7 @@ import '../../adopsi/view/adopsi_view.dart';
 import '../../home/view/home_view.dart';
 import '../../pesanan/view/pesanan_view.dart';
 import '../../profil/view/profil_view.dart';
+import '../view/navbar_controller.dart';
 import '../widgets/bottom_navbar.dart';
 
 class NavbarView extends StatefulWidget {
@@ -17,8 +18,24 @@ class NavbarView extends StatefulWidget {
 class _NavbarViewState extends State<NavbarView> {
   int selectedIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    NavbarController.tabIndex.addListener(_onControllerChange);
+  }
+
+  @override
+  void dispose() {
+    NavbarController.tabIndex.removeListener(_onControllerChange);
+    super.dispose();
+  }
+
+  void _onControllerChange() {
+    setState(() => selectedIndex = NavbarController.tabIndex.value);
+  }
+
   void onItemTapped(int index) {
-    setState(() => selectedIndex = index);
+    NavbarController.tabIndex.value = index;
   }
 
   void goToAdopsi() {

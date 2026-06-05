@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../common/utils/app_navigator.dart';
 import '../../favorit/view/favorit_view.dart';
 import '../../notifikasi/view/notifikasi_view.dart';
+import '../view/adopsi_form_identitas_view.dart';
 import '../view/adopsi_review_view.dart';
 import '../widgets/hewan_model.dart';
 import '../widgets/detail_hewan_widgets.dart';
@@ -74,10 +75,14 @@ class AdopsiDetailHewanView extends StatelessWidget {
                     DetailHewanPriceRow(
                       hargaAsli: hargaAsli,
                       hargaDiskon: hargaDiskon,
-                      onAdopsiTap: () {},
+                      onAdopsiTap: () => AppNavigator.push(
+                        context,
+                        AdopsiFormIdentitasView(hewan: hewan),
+                      ),
                     ),
                     SizedBox(height: 16.h),
-                    const Divider(color: Color(0xFFEEEEEE), thickness: 1, height: 1),
+                    const Divider(
+                        color: Color(0xFFEEEEEE), thickness: 1, height: 1),
                     SizedBox(height: 14.h),
                     DetailHewanFavoritRow(
                       hewan: hewan,
@@ -87,9 +92,7 @@ class AdopsiDetailHewanView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10.h),
-                    DetailHewanKontakRow(
-                      kontakShelter: kontakShelter,
-                    ),
+                    DetailHewanKontakRow(kontakShelter: kontakShelter),
                     SizedBox(height: 32.h),
                     const DetailHewanPaymentCard(),
                     SizedBox(height: 48.h),

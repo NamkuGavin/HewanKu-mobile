@@ -433,10 +433,10 @@ class DetailHewanPaymentCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _PaymentLogo(assetPath: ImageAsset.gopay, height: 20.h),
-              _PaymentLogo(assetPath: ImageAsset.qris, height: 20.h),   // QRIS diperkecil
-              _PaymentLogo(assetPath: ImageAsset.mandiriLogo, height: 20.h),
-              _PaymentLogo(assetPath: ImageAsset.danaLogo, height: 20.h),
+              _PaymentLogo(assetPath: ImageAsset.gopay, height: 22.h),
+              _PaymentLogo(assetPath: ImageAsset.qris, height: 20.h),   
+              _PaymentLogo(assetPath: ImageAsset.mandiriLogo, height: 22.h),
+              _PaymentLogo(assetPath: ImageAsset.danaLogo, height: 22.h),
             ],
           ),
         ],

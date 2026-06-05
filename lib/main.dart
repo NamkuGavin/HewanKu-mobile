@@ -6,6 +6,8 @@ import 'app/common/theme/app_theme_data.dart';
 import 'app/modules/auth/onboarding/view/onboarding_view.dart';
 import 'app/modules/adopter/favorit/model/favorit_item.dart';
 import 'app/modules/adopter/favorit/model/favorit_provider.dart';
+import 'app/modules/adopter/pesanan/model/pesanan_item.dart';
+import 'app/modules/adopter/pesanan/model/pesanan_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,12 +27,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return FavoritProvider(
       notifier: ValueNotifier<List<FavoritItem>>([]),
-      child: ScreenUtilInit(
-        designSize: const Size(415, 960),
-        minTextAdapt: true,
-        builder: (_, child) {
-          return MaterialApp(title: 'Flutter Demo', theme: AppThemeData.getTheme(), home: OnboardingView());
-        },
+      child: PesananProvider(
+        notifier: ValueNotifier<List<PesananItem>>([]),
+        child: ScreenUtilInit(
+          designSize: const Size(415, 960),
+          minTextAdapt: true,
+          builder: (_, child) {
+            return MaterialApp(
+              title: 'Flutter Demo',
+              theme: AppThemeData.getTheme(),
+              home: OnboardingView(),
+            );
+          },
+        ),
       ),
     );
   }
