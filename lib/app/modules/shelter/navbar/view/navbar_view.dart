@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../home/view/home_view.dart';
+import '../../hewan/view/hewan_view.dart';
 import '../../profil/view/profil_shelter_view.dart';
 import '../../permohonan/view/permohonan_view.dart';
 
@@ -20,14 +21,7 @@ class _NavbarShelterViewState extends State<NavbarShelterView> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       HomeShelterView(onGoToProfil: _goToProfil),
-      const Scaffold(
-        body: Center(
-          child: Text(
-            'Halaman Hewan\n(belum dibuat)',
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
+      const HewanShelterView(),
       const PermohonanView(),
       const ProfilShelterView(),
     ];
