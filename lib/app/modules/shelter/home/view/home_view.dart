@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hewanku_mobile/app/common/contant/assets.dart';
 import 'package:hewanku_mobile/app/modules/shelter/hewan/widgets/hewan_card.dart';
-import 'package:hewanku_mobile/app/modules/shelter/navbar/widgets/permohonan_card.dart';
+import 'package:hewanku_mobile/app/modules/shelter/permohonan/widgets/permohonan_card.dart';
 
 class HomeShelterView extends StatelessWidget {
   // Callback dari navbar — pindah ke tab Profil tanpa push
