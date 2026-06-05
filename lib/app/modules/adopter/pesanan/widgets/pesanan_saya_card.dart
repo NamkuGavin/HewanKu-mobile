@@ -151,7 +151,7 @@ class _PesananSayaCardState extends State<PesananSayaCard> {
                         width: 52.w,
                         height: 52.h,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(
+                        errorBuilder: (_, _, _) => Container(
                           width: 52.w,
                           height: 52.h,
                           color: const Color(0xFFE0E0E0),

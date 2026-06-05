@@ -21,7 +21,7 @@ class AppNetImage extends StatelessWidget {
       return Image.asset(
         url,
         fit: fit,
-        errorBuilder: (_, __, ___) =>
+        errorBuilder: (_, _, _) =>
             Container(color: fallbackColor),
       );
     }
@@ -41,7 +41,7 @@ class AppNetImage extends StatelessWidget {
           ),
         );
       },
-      errorBuilder: (_, __, ___) =>
+      errorBuilder: (_, _, _) =>
           Container(color: fallbackColor),
     );
   }

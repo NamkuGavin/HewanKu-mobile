@@ -88,7 +88,7 @@ class AdopsiListSection extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             physics: const BouncingScrollPhysics(),
             itemCount: items.length,
-            separatorBuilder: (_, __) => SizedBox(width: 12.w),
+            separatorBuilder: (_, _) => SizedBox(width: 12.w),
             itemBuilder: (context, index) => _HewanCard(hewan: items[index]),
           ),
         ),
@@ -115,7 +115,7 @@ class _HewanCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.07),
+              color: Colors.black.withValues(alpha: 0.07),
               blurRadius: 10,
               offset: const Offset(0, 3),
             ),

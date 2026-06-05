@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../common/utils/app_navigator.dart';
 import '../../favorit/view/favorit_view.dart';
 import '../../notifikasi/view/notifikasi_view.dart';
+import '../view/adopsi_review_view.dart';
 import '../widgets/hewan_model.dart';
 import '../widgets/detail_hewan_widgets.dart';
 
@@ -25,7 +26,7 @@ class AdopsiDetailHewanView extends StatelessWidget {
     this.statusAdopsi = 'Belum di adopsi',
     this.hargaAsli = 6500000,
     this.hargaDiskon = 6000000,
-    this.kontakShelter = '+6281367889011',
+    this.kontakShelter = '+6282170677488',
   });
 
   @override
@@ -80,7 +81,10 @@ class AdopsiDetailHewanView extends StatelessWidget {
                     SizedBox(height: 14.h),
                     DetailHewanFavoritRow(
                       hewan: hewan,
-                      onLihatReviewTap: () {},
+                      onLihatReviewTap: () => AppNavigator.push(
+                        context,
+                        const AdopsiReviewView(),
+                      ),
                     ),
                     SizedBox(height: 10.h),
                     DetailHewanKontakRow(

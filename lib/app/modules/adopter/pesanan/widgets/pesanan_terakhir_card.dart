@@ -326,7 +326,7 @@ class _TableRow extends StatelessWidget {
                     width: 32.w,
                     height: 32.h,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
+                    errorBuilder: (_, _, _) => Container(
                       width: 32.w,
                       height: 32.h,
                       color: const Color(0xFFE0E0E0),

@@ -179,7 +179,7 @@ class _PesananViewState extends State<PesananView> {
                   ? ListView.separated(
                       padding: EdgeInsets.only(bottom: 28.h),
                       itemCount: _pesananSaya.length,
-                      separatorBuilder: (_, __) => SizedBox(height: 20.h),
+                      separatorBuilder: (_, _) => SizedBox(height: 20.h),
                       itemBuilder: (context, index) =>
                           PesananSayaCard(item: _pesananSaya[index]),
                     )
@@ -187,7 +187,7 @@ class _PesananViewState extends State<PesananView> {
                   : ListView.separated(
                       padding: EdgeInsets.only(bottom: 28.h),
                       itemCount: _pesananTerakhir.length,
-                      separatorBuilder: (_, __) => SizedBox(height: 20.h),
+                      separatorBuilder: (_, _) => SizedBox(height: 20.h),
                       itemBuilder: (context, index) => PesananTerakhirCard(
                         item: _pesananTerakhir[index],
                         onRatingTap: () {
