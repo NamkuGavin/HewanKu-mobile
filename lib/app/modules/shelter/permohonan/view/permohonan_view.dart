@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../model/permohonan_item.dart';
+import '../model/pembayaran_item.dart';
 import '../widgets/permohonan_stat_card.dart';
 import '../widgets/permohonan_request_card.dart';
+import '../widgets/pembayaran_card.dart';
 
 class PermohonanView extends StatefulWidget {
   const PermohonanView({super.key});
@@ -13,8 +15,9 @@ class PermohonanView extends StatefulWidget {
 }
 
 class _PermohonanViewState extends State<PermohonanView> {
-  int _activeTab = 0; // 0 = Status Form, 1 = Status Pembayaran
+  int _activeTab = 0;
 
+  // ── Data Status Form ──
   final List<PermohonanItem> _requests = [
     PermohonanItem(
       id: '1',
@@ -43,6 +46,46 @@ class _PermohonanViewState extends State<PermohonanView> {
       namaAdopter: 'Andi Wijaya',
       namaFile: 'Andi_Rocky.pdf',
       waktu: '1 hour ago',
+      imageUrl:
+          'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=200',
+    ),
+  ];
+
+  // ── Data Status Pembayaran ──
+  final List<PembayaranItem> _pembayaranList = const [
+    PembayaranItem(
+      namaHewan: 'Luna',
+      jenisHewan: 'Golden Retriever',
+      umur: '2thn',
+      namaAdopter: 'Andi Saputra',
+      metodePembayaran: 'QRIS',
+      waktu: '14:20, 12 Okt 2023',
+      totalBayar: 'Rp1.000.000',
+      status: StatusPembayaran.berhasil,
+      imageUrl:
+          'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200',
+    ),
+    PembayaranItem(
+      namaHewan: 'Milo',
+      jenisHewan: 'Domestic Shorthair',
+      umur: '1thn',
+      namaAdopter: 'Siska Amalia',
+      metodePembayaran: 'QRIS',
+      waktu: '09:15, 11 Okt 2023',
+      totalBayar: 'Rp750.000',
+      status: StatusPembayaran.berhasil,
+      imageUrl:
+          'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200',
+    ),
+    PembayaranItem(
+      namaHewan: 'Oliver',
+      jenisHewan: 'Siam',
+      umur: '6bln',
+      namaAdopter: 'Rizky Hakim',
+      metodePembayaran: 'QRIS',
+      waktu: '18:45, 10 Okt 2023',
+      totalBayar: 'Rp1.000.000',
+      status: StatusPembayaran.dibatalkan,
       imageUrl:
           'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=200',
     ),
@@ -116,9 +159,7 @@ class _PermohonanViewState extends State<PermohonanView> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // ══════════════════════════════════
-          // HEADER — gradient oranye
-          // ══════════════════════════════════
+          // ── Header gradient oranye ──
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
@@ -132,7 +173,6 @@ class _PermohonanViewState extends State<PermohonanView> {
               bottom: false,
               child: Column(
                 children: [
-                  // Judul — tanpa tombol back
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 20.w,
@@ -147,8 +187,7 @@ class _PermohonanViewState extends State<PermohonanView> {
                       ),
                     ),
                   ),
-
-                  // Toggle container PUTIH solid
+                  // Toggle putih solid
                   Padding(
                     padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 24.h),
                     child: Container(
@@ -165,7 +204,6 @@ class _PermohonanViewState extends State<PermohonanView> {
                           ),
                         ],
                       ),
-                      // IntrinsicHeight supaya kedua tab sama tinggi
                       child: IntrinsicHeight(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -201,6 +239,9 @@ class _PermohonanViewState extends State<PermohonanView> {
     );
   }
 
+  // ══════════════════════════
+  // TAB 1: STATUS FORM
+  // ══════════════════════════
   Widget _buildStatusForm(TextTheme textTheme) {
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 24.h),
@@ -222,7 +263,6 @@ class _PermohonanViewState extends State<PermohonanView> {
             ),
           ),
           SizedBox(height: 20.h),
-
           Row(
             children: [
               PermohonanStatCard(
@@ -254,7 +294,6 @@ class _PermohonanViewState extends State<PermohonanView> {
             ],
           ),
           SizedBox(height: 24.h),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -278,7 +317,6 @@ class _PermohonanViewState extends State<PermohonanView> {
             ],
           ),
           SizedBox(height: 8.h),
-
           if (_pending.isEmpty)
             Center(
               child: Padding(
@@ -315,28 +353,38 @@ class _PermohonanViewState extends State<PermohonanView> {
     );
   }
 
+  // ══════════════════════════
+  // TAB 2: STATUS PEMBAYARAN
+  // ══════════════════════════
   Widget _buildStatusPembayaran(TextTheme textTheme) {
-    return Center(
+    return SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 24.h),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.payment_outlined,
-            size: 60.sp,
-            color: const Color(0xFFF87537),
-          ),
-          SizedBox(height: 16.h),
+          // Judul "Pembayaran"
           Text(
-            'Status Pembayaran',
-            style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            'Halaman ini akan dibuat selanjutnya',
-            style: textTheme.labelLarge?.copyWith(
-              color: const Color(0xFF9E9E9E),
+            'Pembayaran',
+            style: textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w800,
+              fontSize: 24.sp,
+              color: Colors.black,
             ),
           ),
+          SizedBox(height: 14.h),
+
+          // Riwayat Transaksi
+          Text(
+            'Riwayat Transaksi',
+            style: textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 16.h),
+
+          // List kartu pembayaran
+          ..._pembayaranList.map((item) => PembayaranCard(item: item)),
         ],
       ),
     );
@@ -348,7 +396,6 @@ class _TabBtn extends StatelessWidget {
   final String label;
   final bool isActive;
   final VoidCallback onTap;
-
   const _TabBtn({
     required this.label,
     required this.isActive,
@@ -362,8 +409,6 @@ class _TabBtn extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          // Tidak perlu set width/height — Expanded + CrossAxisAlignment.stretch
-          // sudah memastikan container ini full width dan full height
           padding: EdgeInsets.symmetric(vertical: 14.h),
           decoration: BoxDecoration(
             color: isActive ? const Color(0xFFFBA81F) : Colors.transparent,
