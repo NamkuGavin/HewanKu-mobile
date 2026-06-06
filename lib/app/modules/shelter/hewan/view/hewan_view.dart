@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hewanku_mobile/app/common/contant/assets.dart';
 import 'package:hewanku_mobile/app/modules/shelter/hewan/widgets/hewan_card.dart';
 import 'package:hewanku_mobile/app/modules/shelter/hewan/widgets/hewan_banner.dart';
+import 'package:hewanku_mobile/app/modules/shelter/hewan/view/tambah_hewan_view.dart';
 
 class HewanShelterView extends StatefulWidget {
   const HewanShelterView({super.key});
@@ -120,7 +121,10 @@ class _HewanShelterViewState extends State<HewanShelterView> {
               // ── Banner tambah hewan ──
               HewanBanner(
                 onTambah: () {
-                  // TODO: navigasi ke halaman tambah hewan
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const TambahHewanView()),
+                  );
                 },
               ),
               SizedBox(height: 20.h),
