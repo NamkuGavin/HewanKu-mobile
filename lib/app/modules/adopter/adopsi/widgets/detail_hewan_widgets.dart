@@ -294,30 +294,23 @@ class DetailHewanFavoritRow extends StatelessWidget {
       valueListenable: FavoritProvider.of(context),
       builder: (context, list, _) {
         final isFavorit = list.any((f) => f.namaHewan == hewan.name);
+
+        // FavoritItem lengkap — dibuat sekali, dipakai untuk tambah & hapus
+        final favoritItem = FavoritItem(
+          imageUrl: hewan.imageUrl,
+          namaHewan: hewan.name,
+          namaShelter: hewan.shelter,
+          hewan: hewan, 
+        );
+
         return Row(
           children: [
             GestureDetector(
               onTap: () {
                 if (isFavorit) {
-                  FavoritProvider.hapus(
-                    context,
-                    FavoritItem(
-                      imageUrl: hewan.imageUrl,
-                      namaHewan: hewan.name,
-                      namaShelter: hewan.shelter,
-                      waktu: 'Baru saja',
-                    ),
-                  );
+                  FavoritProvider.hapus(context, favoritItem);
                 } else {
-                  FavoritProvider.tambah(
-                    context,
-                    FavoritItem(
-                      imageUrl: hewan.imageUrl,
-                      namaHewan: hewan.name,
-                      namaShelter: hewan.shelter,
-                      waktu: 'Baru saja',
-                    ),
-                  );
+                  FavoritProvider.tambah(context, favoritItem);
                 }
               },
               child: Row(

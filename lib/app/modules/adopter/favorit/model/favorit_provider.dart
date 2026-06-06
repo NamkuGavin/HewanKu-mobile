@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'favorit_item.dart';
 
-/// FavoritProvider
-/// Lokasi: lib/app/modules/favorit/model/favorit_provider.dart
-///
 /// Cara pakai:
 /// 1. Wrap MaterialApp atau root widget dengan FavoritProvider
 /// 2. Akses dari mana saja via: FavoritProvider.of(context)
