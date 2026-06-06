@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ProfileInfoSection extends StatelessWidget {
   final String namaLengkap;
   final String email;
-  final String nomorHandphone;
+  final String noHandphone;
   final VoidCallback? onEditTap;
 
   const ProfileInfoSection({
     super.key,
     required this.namaLengkap,
     required this.email,
-    required this.nomorHandphone,
+    required this.noHandphone,
     this.onEditTap,
   });
 
@@ -70,10 +70,10 @@ class ProfileInfoSection extends StatelessWidget {
         _buildReadonlyField(context, email),
         SizedBox(height: 14.h),
 
-        // Field: Nomor Handphone
-        _buildFieldLabel(context, 'Nomer Handphone'),
+        // Field: No. Handphone
+        _buildFieldLabel(context, 'No. Handphone'),
         SizedBox(height: 6.h),
-        _buildReadonlyField(context, nomorHandphone),
+        _buildReadonlyField(context, noHandphone),
       ],
     );
   }

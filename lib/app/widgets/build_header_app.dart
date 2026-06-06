@@ -7,37 +7,67 @@ import '../modules/adopter/favorit/view/favorit_view.dart';
 import '../modules/adopter/notifikasi/view/notifikasi_view.dart';
 
 class BuildAppHeader extends StatelessWidget {
+  /// Jika [title] diisi, tampilkan teks di tengah (untuk halaman Profil).
+  /// Jika null, tampilkan logo HewanKu (default — Home, Adopsi, dll).
+  final String? title;
+
   const BuildAppHeader({
     super.key,
-    // onFavoriteTap deprecated — navigasi langsung dari widget
+    this.title,
     @Deprecated('tidak dipakai') VoidCallback? onFavoriteTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
+    final textTheme = Theme.of(context).textTheme;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 10),
-      child: Row(
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          SvgPicture.asset(IconAsset.hewankuLogoSecondary),
-          const Spacer(),
-          _HeaderIconButton(
-            icon: Icons.notifications_none_rounded,
-            color: primaryColor,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const NotifikasiView()),
+          // Kiri: logo (hanya tampil kalau tidak ada title)
+          if (title == null)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: SvgPicture.asset(IconAsset.hewankuLogoSecondary),
             ),
-          ),
-          SizedBox(width: 8.w),
-          _HeaderIconButton(
-            icon: Icons.favorite_border_rounded,
-            color: primaryColor,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const FavoritView()),
+
+          // Tengah: title (hanya tampil kalau ada title)
+          if (title != null)
+            Text(
+              title!,
+              style: textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
+            ),
+
+          // Kanan: icon notif & favorit (selalu tampil)
+          Align(
+            alignment: Alignment.centerRight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _HeaderIconButton(
+                  icon: Icons.notifications_none_rounded,
+                  color: primaryColor,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const NotifikasiView()),
+                  ),
+                ),
+                SizedBox(width: 8.w),
+                _HeaderIconButton(
+                  icon: Icons.favorite_border_rounded,
+                  color: primaryColor,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const FavoritView()),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

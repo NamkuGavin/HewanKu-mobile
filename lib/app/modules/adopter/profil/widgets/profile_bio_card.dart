@@ -12,7 +12,6 @@ class ProfileBioCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final primaryColor = Theme.of(context).primaryColor;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +30,7 @@ class ProfileBioCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: primaryColor, width: 1.2),
+            border: Border.all(color: Color(0xFFFBA81F), width: 1.2),
           ),
           child: Text(
             bio,

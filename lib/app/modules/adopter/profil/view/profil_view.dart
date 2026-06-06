@@ -7,17 +7,45 @@ import '../widgets/profile_info_section.dart';
 import '../widgets/profile_action_button.dart';
 import '../widgets/profile_header_widget.dart';
 import '../widgets/logout_sheet.dart';
+import '../widgets/edit_profil_dialog.dart';
+import '../widgets/ubah_sandi_dialog.dart';
 
-class ProfilView extends StatelessWidget {
+class ProfilView extends StatefulWidget {
   const ProfilView({super.key});
+
+  @override
+  State<ProfilView> createState() => _ProfilViewState();
+}
+
+class _ProfilViewState extends State<ProfilView> {
+  String _bio ='';
+  String _namaLengkap = 'Ali Luqmanul hakim';
+  String _email = 'alihakimluqmasdaliaks@gmail.com';
+  String _noHandphone = '+6291278312873';
+
+  Future<void> _bukaEditProfil() async {
+    final result = await EditProfilDialog.show(
+      context,
+      initialBio: _bio,
+      initialNama: _namaLengkap,
+      initialEmail: _email,
+      initialNoHp: _noHandphone,
+    );
+    if (result != null) {
+      setState(() {
+        _bio = result.bio;
+        _namaLengkap = result.namaLengkap;
+        _email = result.email;
+        _noHandphone = result.noHandphone;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Header — navigasi ke favorit & notif sudah di-handle di dalam widget
         const ProfileHeaderWidget(),
-
         Expanded(
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -25,8 +53,6 @@ class ProfilView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 16.h),
-
-                // 1. Foto profil
                 ProfileAvatarWidget(
                   imageUrl: null,
                   onEditTap: () {
@@ -34,39 +60,21 @@ class ProfilView extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 24.h),
-
-                // 2. Tentang Aku
-                ProfileBioCard(
-                  bio:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
-                      'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
-                      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris '
-                      'nisi ut aliquip ex ea commodo consequat.',
-                ),
+                ProfileBioCard(bio: _bio),
                 SizedBox(height: 28.h),
-
-                // 3. Informasi Pribadi
                 ProfileInfoSection(
-                  namaLengkap: 'Ali Luqmanul hakim',
-                  email: 'alihakimluqmasdaliaks@gmail.com',
-                  nomorHandphone: '+6291278312873',
-                  onEditTap: () {
-                    // TODO: navigasi ke halaman edit profil
-                  },
+                  namaLengkap: _namaLengkap,
+                  email: _email,
+                  noHandphone: _noHandphone,
+                  onEditTap: _bukaEditProfil,
                 ),
                 SizedBox(height: 28.h),
-
-                // 4. Ubah Kata Sandi
                 ProfileActionButton(
                   icon: Icons.lock_outline_rounded,
                   label: 'Ubah Kata Sandi',
-                  onTap: () {
-                    // TODO: navigasi ke halaman ubah kata sandi
-                  },
+                  onTap: () => UbahSandiDialog.show(context),
                 ),
                 SizedBox(height: 12.h),
-
-                // 5. Log Out
                 ProfileActionButton(
                   icon: Icons.logout_rounded,
                   label: 'Log Out',
