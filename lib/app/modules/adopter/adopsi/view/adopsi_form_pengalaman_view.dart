@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../common/utils/app_navigator.dart';
 import '../../../../widgets/build_header_app.dart';
 import '../../navbar/view/navbar_controller.dart';
@@ -67,10 +67,12 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
   void _showError(String msg) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(msg),
+        content: Text(msg, style: GoogleFonts.poppins(fontSize: 12.sp)),
         backgroundColor: const Color(0xFFF87537),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 90.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       ),
     );
   }

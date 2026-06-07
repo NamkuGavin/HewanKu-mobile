@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../common/utils/app_navigator.dart';
 import '../../../../widgets/build_header_app.dart';
@@ -32,9 +33,9 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
   String? _daerah;
   String? _jalan;
 
-  // ── Multi-select checkboxes ───────────────────────────────────────────────
-  final Set<String> _pekerjaan = {};
-  final Set<String> _tempatTinggal = {};
+  // ── Single-select checkboxes ───────────────────────────────────────────────
+  String? _pekerjaan;
+  String? _tempatTinggal;
 
   // ── Dropdown options ──────────────────────────────────────────────────────
   static const _opsiJenisKelamin = ['Pria', 'Wanita'];
@@ -97,12 +98,12 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
       _showError('Zip Code wajib diisi');
       return false;
     }
-    if (_pekerjaan.isEmpty) {
-      _showError('Pekerjaan/Status wajib dipilih minimal satu');
+    if (_pekerjaan == null) {
+      _showError('Pekerjaan/Status wajib dipilih');
       return false;
     }
-    if (_tempatTinggal.isEmpty) {
-      _showError('Tempat Tinggal wajib dipilih minimal satu');
+    if (_tempatTinggal == null) {
+      _showError('Tempat Tinggal wajib dipilih');
       return false;
     }
     return true;
@@ -111,10 +112,12 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
   void _showError(String msg) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(msg),
+        content: Text(msg, style: GoogleFonts.poppins(fontSize: 12.sp)),
         backgroundColor: const Color(0xFFF87537),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 90.h), 
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       ),
     );
   }
@@ -223,11 +226,7 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
                       options: _opsiPekerjaan,
                       selected: _pekerjaan,
                       onToggle: (opt) => setState(() {
-                        if (_pekerjaan.contains(opt)) {
-                          _pekerjaan.remove(opt);
-                        } else {
-                          _pekerjaan.add(opt);
-                        }
+                        _pekerjaan = opt;
                       }),
                     ),
                     SizedBox(height: 20.h),
@@ -237,11 +236,7 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
                       options: _opsiTempatTinggal,
                       selected: _tempatTinggal,
                       onToggle: (opt) => setState(() {
-                        if (_tempatTinggal.contains(opt)) {
-                          _tempatTinggal.remove(opt);
-                        } else {
-                          _tempatTinggal.add(opt);
-                        }
+                        _tempatTinggal = opt;
                       }),
                     ),
                     SizedBox(height: 8.h),

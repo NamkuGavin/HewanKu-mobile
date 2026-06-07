@@ -194,12 +194,12 @@ class FormCheckboxOption extends StatelessWidget {
   }
 }
 
-// ── Checkbox group 2 kolom (multi-select) ────────────────────────────────────
+// ── Checkbox group 2 kolom (single-select) ───────────────────────────────────
 class FormCheckboxGroup extends StatelessWidget {
   final String label;
   final bool required;
   final List<String> options;
-  final Set<String> selected;
+  final String? selected;           
   final ValueChanged<String> onToggle;
 
   const FormCheckboxGroup({
@@ -226,7 +226,7 @@ class FormCheckboxGroup extends StatelessWidget {
           children: options
               .map((opt) => FormCheckboxOption(
                     label: opt,
-                    checked: selected.contains(opt),
+                    checked: selected == opt,   // ← single-select
                     onChanged: (_) => onToggle(opt),
                   ))
               .toList(),
