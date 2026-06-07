@@ -5,6 +5,13 @@ import '../../hewan/view/hewan_view.dart';
 import '../../profil/view/profil_shelter_view.dart';
 import '../../permohonan/view/permohonan_view.dart';
 
+// ============================================================
+// lib/app/modules/shelter/navbar/view/navbar_view.dart
+//
+// FIX: tambah _goToHewan() dan _goToPermohonan()
+//      lalu pass ke HomeShelterView
+// ============================================================
+
 class NavbarShelterView extends StatefulWidget {
   const NavbarShelterView({super.key});
 
@@ -16,11 +23,17 @@ class _NavbarShelterViewState extends State<NavbarShelterView> {
   int _selectedIndex = 0;
 
   void _goToProfil() => setState(() => _selectedIndex = 3);
+  void _goToHewan() => setState(() => _selectedIndex = 1); // ← BARU
+  void _goToPermohonan() => setState(() => _selectedIndex = 2); // ← BARU
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      HomeShelterView(onGoToProfil: _goToProfil),
+      HomeShelterView(
+        onGoToProfil: _goToProfil,
+        onGoToHewan: _goToHewan, // ← BARU
+        onGoToPermohonan: _goToPermohonan, // ← BARU
+      ),
       const HewanShelterView(),
       const PermohonanView(),
       const ProfilShelterView(),

@@ -3,18 +3,254 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hewanku_mobile/app/common/contant/assets.dart';
 import 'package:hewanku_mobile/app/modules/shelter/hewan/widgets/hewan_card.dart';
-import 'package:hewanku_mobile/app/modules/shelter/permohonan/widgets/permohonan_card.dart';
+import 'package:hewanku_mobile/app/modules/shelter/hewan/view/tambah_hewan_view.dart';
 
-class HomeShelterView extends StatelessWidget {
-  // Callback dari navbar — pindah ke tab Profil tanpa push
+// Import widget-widget dari folder home/widgets/
+import '../widgets/home_shelter_banner.dart';
+import '../widgets/home_stat_card.dart';
+import '../widgets/home_section_header.dart';
+import '../widgets/home_permohonan_card.dart';
+
+// ============================================================
+// lib/app/modules/shelter/home/view/home_view.dart
+//
+// View ini hanya berisi:
+// 1. State (data + logika navigasi)
+// 2. build() yang merakit widget-widget dari widgets/
+// Tidak ada UI detail di sini — semua ada di masing-masing widget
+// ============================================================
+
+class HomeShelterView extends StatefulWidget {
   final VoidCallback? onGoToProfil;
+  final VoidCallback? onGoToHewan;
+  final VoidCallback? onGoToPermohonan;
 
-  const HomeShelterView({super.key, this.onGoToProfil});
+  const HomeShelterView({
+    super.key,
+    this.onGoToProfil,
+    this.onGoToHewan,
+    this.onGoToPermohonan,
+  });
 
+  @override
+  State<HomeShelterView> createState() => _HomeShelterViewState();
+}
+
+class _HomeShelterViewState extends State<HomeShelterView> {
+  // ── Data dummy — ganti dengan API nanti ──────────────────
+  final List<Map<String, dynamic>> _hewanList = [
+    {
+      'name': 'Mochi',
+      'price': 'Rp 0 (Adopsi)',
+      'status': 'AKTIF',
+      'statusColor': Colors.green,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200',
+      'waktu': '2 jam lalu',
+    },
+    {
+      'name': 'Buddy',
+      'price': 'Rp 0 (Adopsi)',
+      'status': 'PENDING',
+      'statusColor': Colors.orange,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200',
+      'waktu': '5 jam lalu',
+    },
+    {
+      'name': 'Luna',
+      'price': 'Teradopsi',
+      'status': 'SELESAI',
+      'statusColor': Colors.grey,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?w=200',
+      'waktu': '1 hari lalu',
+    },
+  ];
+
+  final List<Map<String, String>> _permohonanList = [
+    {
+      'petName': 'Milo',
+      'requester': 'Requested by Sarah Jenkins',
+      'imageUrl':
+          'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=100',
+    },
+    {
+      'petName': 'Bella',
+      'requester': 'Requested by David Chen',
+      'imageUrl':
+          'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=100',
+    },
+  ];
+
+  // ── Logika navigasi ──────────────────────────────────────
+
+  Future<void> _bukaHalamanTambah() async {
+    final result = await Navigator.push<Map<String, dynamic>>(
+      context,
+      MaterialPageRoute(builder: (_) => const TambahHewanView()),
+    );
+    if (result != null && mounted) {
+      setState(() => _hewanList.insert(0, result));
+    }
+  }
+
+  Future<void> _bukaHalamanEdit(Map<String, dynamic> hewan) async {
+    final result = await Navigator.push<Map<String, dynamic>>(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            TambahHewanView(namaAwal: hewan['name'], hargaAwal: hewan['price']),
+      ),
+    );
+    if (result != null && mounted) {
+      final idx = _hewanList.indexOf(hewan);
+      if (idx != -1) setState(() => _hewanList[idx] = result);
+    }
+  }
+
+  void _konfirmasiHapus(Map<String, dynamic> hewan) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+      ),
+      builder: (ctx) => Padding(
+        padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 32.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40.w,
+              height: 4.h,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(2.r),
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Icon(
+              Icons.delete_outline_rounded,
+              size: 48.sp,
+              color: Colors.red[400],
+            ),
+            SizedBox(height: 12.h),
+            Text(
+              'Hapus ${hewan['name']}?',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              'Data hewan ini akan dihapus permanen dan tidak bisa dikembalikan.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 13.sp,
+                color: const Color(0xFF9E9E9E),
+                height: 1.5,
+              ),
+            ),
+            SizedBox(height: 24.h),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black87,
+                      elevation: 0,
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                      side: const BorderSide(color: Color(0xFFE0E0E0)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.r),
+                      ),
+                    ),
+                    child: Text(
+                      'Batal',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                      setState(() => _hewanList.remove(hewan));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Row(
+                            children: [
+                              Icon(
+                                Icons.delete_outline_rounded,
+                                color: Colors.white,
+                                size: 18.sp,
+                              ),
+                              SizedBox(width: 8.w),
+                              Text(
+                                '${hewan['name']} telah dihapus',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          backgroundColor: Colors.red[400],
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 16.h),
+                          duration: const Duration(seconds: 3),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red[400],
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.r),
+                      ),
+                    ),
+                    child: Text(
+                      'Hapus',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14.sp,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ── Build ────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final primaryColor = Theme.of(context).primaryColor;
+    final jumlahAktif = _hewanList.where((h) => h['status'] == 'AKTIF').length;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
@@ -26,7 +262,7 @@ class HomeShelterView extends StatelessWidget {
             children: [
               SizedBox(height: 12.h),
 
-              // Header
+              // ── Header logo + notif ──────────────────────
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -38,8 +274,13 @@ class HomeShelterView extends StatelessWidget {
                       customBorder: const CircleBorder(),
                       onTap: () {},
                       child: SizedBox(
-                        width: 36.w, height: 36.h,
-                        child: Icon(Icons.notifications_none_rounded, size: 20.sp, color: primaryColor),
+                        width: 36.w,
+                        height: 36.h,
+                        child: Icon(
+                          Icons.notifications_none_rounded,
+                          size: 20.sp,
+                          color: primaryColor,
+                        ),
                       ),
                     ),
                   ),
@@ -47,12 +288,18 @@ class HomeShelterView extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
 
-              // Search bar
+              // ── Search bar ───────────────────────────────
               TextFormField(
                 decoration: InputDecoration(
                   hintText: 'Cari Hewan...',
-                  hintStyle: textTheme.labelLarge?.copyWith(color: const Color(0xFF9E9E9E)),
-                  prefixIcon: Icon(Icons.search, color: Colors.grey, size: 20.sp),
+                  hintStyle: textTheme.labelLarge?.copyWith(
+                    color: const Color(0xFF9E9E9E),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                    size: 20.sp,
+                  ),
                   filled: true,
                   fillColor: const Color(0xFFE9E9E9),
                   contentPadding: EdgeInsets.symmetric(vertical: 12.h),
@@ -64,130 +311,55 @@ class HomeShelterView extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
 
-              // Banner
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(20.w),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFF0E6),
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Shelter Hewan',
-                      style: textTheme.labelLarge?.copyWith(color: primaryColor, fontWeight: FontWeight.w700)),
-                    SizedBox(height: 8.h),
-                    Text('Ayo Buat Shelter\nKamu',
-                      style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w800, height: 1.2, fontSize: 22.sp)),
-                    SizedBox(height: 8.h),
-                    Text('Kelola hewan peliharaan dan temukan pemilik baru untuk mereka.',
-                      style: textTheme.labelLarge?.copyWith(color: Colors.black54)),
-                    SizedBox(height: 16.h),
-
-                    // Tombol Daftar Shelter → pindah tab ke Profil (navbar tetap ada)
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: primaryColor,
-                          minimumSize: Size(double.infinity, 45.h),
-                          elevation: 0,
-                          side: const BorderSide(color: Color(0xFFE9E9E9)),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
-                        ),
-                        onPressed: onGoToProfil, // ← pindah tab, bukan push
-                        icon: Icon(Icons.storefront_outlined, size: 18.sp),
-                        label: Text('Daftar Shelter',
-                          style: textTheme.labelLarge?.copyWith(color: primaryColor, fontWeight: FontWeight.w600)),
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-
-                    // Tombol Daftar Hewan
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          foregroundColor: Colors.white,
-                          minimumSize: Size(double.infinity, 45.h),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
-                        ),
-                        onPressed: () {
-                          // TODO: navigasi ke halaman daftar hewan
-                        },
-                        icon: Icon(Icons.add_circle_outline, size: 18.sp),
-                        label: Text('Daftar Hewan',
-                          style: textTheme.labelLarge?.copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
-                      ),
-                    ),
-                  ],
-                ),
+              // ── Banner ───────────────────────────────────
+              HomeShelterBanner(
+                onDaftarShelter: widget.onGoToProfil,
+                onDaftarHewan: _bukaHalamanTambah,
               ),
               SizedBox(height: 20.h),
 
-              // Statistik
-              Container(
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(14.r),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('SIAP ADOPSI', style: textTheme.labelMedium?.copyWith(color: Colors.grey, fontWeight: FontWeight.w700, letterSpacing: 0.5)),
-                        SizedBox(height: 4.h),
-                        Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                          Text('24', style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800, fontSize: 28.sp)),
-                          SizedBox(width: 4.w),
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 2.h),
-                            child: Text('Ekor', style: textTheme.bodySmall?.copyWith(color: Colors.black54)),
-                          ),
-                        ]),
-                      ],
-                    ),
-                    Icon(Icons.bar_chart_rounded, color: primaryColor, size: 32.sp),
-                  ],
-                ),
-              ),
+              // ── Statistik ────────────────────────────────
+              HomeStatCard(jumlahAktif: jumlahAktif),
               SizedBox(height: 24.h),
 
-              // Hewan di Shelter
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Hewan di Shelter kamu', style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700)),
-                  TextButton(onPressed: () {}, child: Text('Lihat Semua', style: TextStyle(color: primaryColor, fontSize: 12.sp))),
-                ],
+              // ── Section Hewan ────────────────────────────
+              HomeSectionHeader(
+                title: 'Hewan di Shelter kamu',
+                onLihatSemua: widget.onGoToHewan,
               ),
               SizedBox(height: 8.h),
 
-              HewanCard(name: 'Mochi', price: 'Rp 0 (Adopsi)', status: 'AKTIF', statusColor: Colors.green, imageUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200', waktu: '2 jam lalu'),
-              HewanCard(name: 'Buddy', price: 'Rp 0 (Adopsi)', status: 'PENDING', statusColor: Colors.orange, imageUrl: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200', waktu: '5 jam lalu'),
-              HewanCard(name: 'Luna', price: 'Teradopsi', status: 'SELESAI', statusColor: Colors.grey, imageUrl: 'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?w=200', waktu: '1 hari lalu'),
+              ..._hewanList.map(
+                (h) => HewanCard(
+                  name: h['name'],
+                  price: h['price'],
+                  status: h['status'],
+                  statusColor: h['statusColor'],
+                  imageUrl: h['imageUrl'],
+                  waktu: h['waktu'],
+                  onEdit: () => _bukaHalamanEdit(h),
+                  onDelete: () => _konfirmasiHapus(h),
+                ),
+              ),
+
               SizedBox(height: 8.h),
 
-              // Permohonan Adopsi
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Permohonan Adopsi', style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700)),
-                  TextButton(onPressed: () {}, child: Text('Lihat Semua', style: TextStyle(color: primaryColor, fontSize: 12.sp))),
-                ],
+              // ── Section Permohonan ────────────────────────
+              HomeSectionHeader(
+                title: 'Permohonan Adopsi',
+                onLihatSemua: widget.onGoToPermohonan,
               ),
               SizedBox(height: 8.h),
 
-              const PermohonanCard(petName: 'Milo', requester: 'Requested by Sarah Jenkins', imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=100'),
-              const PermohonanCard(petName: 'Bella', requester: 'Requested by David Chen', imageUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=100'),
+              ..._permohonanList.map(
+                (p) => HomePermohonanCard(
+                  petName: p['petName']!,
+                  requester: p['requester']!,
+                  imageUrl: p['imageUrl'],
+                  onTap: widget.onGoToPermohonan,
+                ),
+              ),
+
               SizedBox(height: 30.h),
             ],
           ),
