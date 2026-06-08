@@ -19,23 +19,50 @@ class OnboardingView extends StatelessWidget {
         scrollable: true,
         child: SafeArea(
           child: Column(
-            spacing: 150.h,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Logo
               SvgPicture.asset(IconAsset.hewankuLogo),
-              Text(
-                "Lorem ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.llamco laboris nisi  commodo consequat",
-                textAlign: TextAlign.center,
-                style: textTheme.bodySmall,
+
+              SizedBox(height: 40.h),
+
+              // Judul + deskripsi — dinaikkan, lebih dekat ke logo
+              Column(
+                children: [
+                  Text(
+                    'HewanKu',
+                    textAlign: TextAlign.center,
+                    style: textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: const Color(0xFFFBA81F), // ← FBA81F
+                    ),
+                  ),
+                  SizedBox(height: 14.h),
+                  Text(
+                    'Platform adopsi hewan peliharaan\nterpercaya di Indonesia.',
+                    textAlign: TextAlign.center,
+                    style: textTheme.bodySmall?.copyWith(
+                      color: Colors.black54,
+                      height: 1.7,
+                    ),
+                  ),
+                ],
               ),
+
+              SizedBox(height: 80.h),
+
+              // Tombol
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () => AppNavigator.push(context, const RoleView()),
                   child: Text(
                     "Get Started",
-                    style: textTheme.labelLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: textTheme.labelLarge!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

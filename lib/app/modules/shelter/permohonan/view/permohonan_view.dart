@@ -295,23 +295,11 @@ class _PermohonanViewState extends State<PermohonanView> {
           ),
           SizedBox(height: 24.h),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Pending Requests',
                 style: textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w700,
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'View all',
-                  style: TextStyle(
-                    color: const Color(0xFFF87537),
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
                 ),
               ),
             ],
