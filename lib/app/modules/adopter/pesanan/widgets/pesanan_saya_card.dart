@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../model/pesanan_item.dart';
 import 'pesanan_timeline.dart';
+import '../../pesanan/view/pesanan_pembayaran_view.dart';
+import '../../adopsi/widgets/hewan_model.dart';
+import '../../../../common/utils/app_navigator.dart';
+import '../../../../common/widgets/app_net_image.dart';
 
 class PesananSayaCard extends StatefulWidget {
   final PesananItem item;
@@ -146,16 +149,12 @@ class _PesananSayaCardState extends State<PesananSayaCard> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.r),
-                      child: Image.network(
-                        item.hewan.imageUrl,
+                      child: SizedBox(
                         width: 52.w,
                         height: 52.h,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => Container(
-                          width: 52.w,
-                          height: 52.h,
-                          color: const Color(0xFFE0E0E0),
-                          child: const Icon(Icons.pets, color: Colors.white54),
+                        child: AppNetImage(
+                          url: item.hewan.imageUrl,
+                          fallbackColor: const Color(0xFFE0E0E0),
                         ),
                       ),
                     ),
@@ -269,18 +268,41 @@ class _PesananSayaCardState extends State<PesananSayaCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Status Pembayaran',
-            style: textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
-            ),
-          ),
+          Text('Status Pembayaran',
+              style: textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.w700, color: Colors.black)),
           SizedBox(height: 8.h),
-          Text(
-            'Menunggu konfirmasi pembayaran...',
-            style: textTheme.labelMedium?.copyWith(
-              color: const Color(0xFF9E9E9E),
+          Text('Menunggu konfirmasi pembayaran...',
+              style: textTheme.labelMedium?.copyWith(
+                  color: const Color(0xFF9E9E9E))),
+          SizedBox(height: 12.h),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => AppNavigator.push(
+                context,
+                PesananPembayaranView(
+                  pesanan: widget.item,
+                  hewan: HewanModel(
+                    name: widget.item.hewan.namaHewan,
+                    shelter: widget.item.hewan.subNama,
+                    priceRange: widget.item.hewan.totalBiaya,
+                    rating: 5.0,
+                    reviewCount: 0,
+                    tags: [],
+                    imageUrl: widget.item.hewan.imageUrl,
+                    fallbackColorValue: 0xFFFFD8C0,
+                  ),
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.r)),
+              ),
+              child: Text('Lanjutkan Pembayaran',
+                  style: textTheme.labelLarge?.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.w700)),
             ),
           ),
         ],

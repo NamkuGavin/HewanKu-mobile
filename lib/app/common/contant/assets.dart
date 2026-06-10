@@ -28,4 +28,5 @@ class IconAsset {
   static const String profileActive = "assets/icons/profile_active.png";
   static const String profile = "assets/icons/profile.png";
   static const String hewankuLogoSecondary = "assets/icons/hewanku_logo_secondary.svg";
+  static const String whatsappIcon = "assets/icons/whatsappIcon.png";
 }
