@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widgets/hewan_upload_foto.dart';
-import '../widgets/hewan_info_card.dart';
 import '../widgets/hewan_tag_input.dart';
 
 // ============================================================
@@ -14,11 +13,7 @@ class TambahHewanView extends StatefulWidget {
   final String? namaAwal;
   final String? hargaAwal;
 
-  const TambahHewanView({
-    super.key,
-    this.namaAwal,
-    this.hargaAwal,
-  });
+  const TambahHewanView({super.key, this.namaAwal, this.hargaAwal});
 
   @override
   State<TambahHewanView> createState() => _TambahHewanViewState();
@@ -42,18 +37,14 @@ class _TambahHewanViewState extends State<TambahHewanView> {
   String _selectedJenis = 'Anjing';
   int _selectedGender = 0; // 0 = Jantan, 1 = Betina
   List<String> _tags = ['Energik', 'Tenang', 'Ramah Anak'];
-  String _estimasiPerawatan = 'Perhatian Segera';
-  String _statusKesehatan = 'Sudah Diperiksa Dokter';
-
   final List<String> _jenisHewan = [
-    'Anjing', 'Kucing', 'Kelinci', 'Hamster', 'Burung', 'Ikan', 'Lainnya',
-  ];
-
-  final List<String> _estimasiList = [
-    'Perhatian Segera', 'Perawatan Rutin', 'Perawatan Minimal',
-  ];
-  final List<String> _statusList = [
-    'Sudah Diperiksa Dokter', 'Belum Diperiksa', 'Dalam Pengobatan',
+    'Anjing',
+    'Kucing',
+    'Kelinci',
+    'Hamster',
+    'Burung',
+    'Ikan',
+    'Lainnya',
   ];
 
   @override
@@ -66,63 +57,6 @@ class _TambahHewanViewState extends State<TambahHewanView> {
     super.dispose();
   }
 
-  // ── Pilih opsi lewat bottom sheet ────────────────────────
-  void _showPilihDialog({
-    required String judul,
-    required List<String> opsi,
-    required String dipilih,
-    required ValueChanged<String> onPilih,
-  }) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-      ),
-      builder: (_) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              judul,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(height: 8.h),
-            ...opsi.map(
-              (o) => ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  o,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14.sp,
-                    color: Colors.black87,
-                  ),
-                ),
-                trailing: o == dipilih
-                    ? Icon(Icons.check_circle_rounded,
-                        color: const Color(0xFFF87537), size: 20.sp)
-                    : null,
-                onTap: () {
-                  onPilih(o);
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            SizedBox(height: 8.h),
-          ],
-        ),
-      ),
-    );
-  }
-
   // ── Publikasi hewan ───────────────────────────────────────
   void _publikasikan() {
     if (_namaController.text.trim().isEmpty) {
@@ -130,7 +64,11 @@ class _TambahHewanViewState extends State<TambahHewanView> {
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.white, size: 18.sp),
+              Icon(
+                Icons.warning_amber_rounded,
+                color: Colors.white,
+                size: 18.sp,
+              ),
               SizedBox(width: 8.w),
               const Text(
                 'Nama hewan wajib diisi!',
@@ -141,7 +79,8 @@ class _TambahHewanViewState extends State<TambahHewanView> {
           backgroundColor: Colors.orange,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.r)),
+            borderRadius: BorderRadius.circular(12.r),
+          ),
           margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 16.h),
         ),
       );
@@ -168,8 +107,6 @@ class _TambahHewanViewState extends State<TambahHewanView> {
       'umur': _umurController.text.trim(),
       'deskripsi': _deskripsiController.text.trim(),
       'kelamin': _selectedGender == 0 ? 'Jantan' : 'Betina',
-      'estimasiPerawatan': _estimasiPerawatan,
-      'statusKesehatan': _statusKesehatan,
       'tags': List<String>.from(_tags),
     };
   }
@@ -239,7 +176,9 @@ class _TambahHewanViewState extends State<TambahHewanView> {
                   onPressed: () {
                     // ✅ FIX: pop dialog dulu, lalu pop view dengan membawa DATA hewan
                     Navigator.of(context).pop(); // tutup dialog
-                    Navigator.of(context).pop(_buildHewanData()); // ← kirim data ke hewan_view
+                    Navigator.of(
+                      context,
+                    ).pop(_buildHewanData()); // ← kirim data ke hewan_view
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFF87537),
@@ -412,44 +351,6 @@ class _TambahHewanViewState extends State<TambahHewanView> {
                     HewanUploadFoto(onTap: () {}),
                     SizedBox(height: 24.h),
 
-                    // ── Info Pratinjau Cepat ──
-                    Text(
-                      'Info Pratinjau Cepat',
-                      style: textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    HewanInfoCard(
-                      icon: Icons.schedule_outlined,
-                      label: 'Estimasi Perawatan',
-                      value: _estimasiPerawatan,
-                      iconColor: primaryColor,
-                      iconBgColor: const Color(0xFFFFF3EC),
-                      onTap: () => _showPilihDialog(
-                        judul: 'Estimasi Perawatan',
-                        opsi: _estimasiList,
-                        dipilih: _estimasiPerawatan,
-                        onPilih: (v) => setState(() => _estimasiPerawatan = v),
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
-                    HewanInfoCard(
-                      icon: Icons.health_and_safety_outlined,
-                      label: 'Status Kesehatan',
-                      value: _statusKesehatan,
-                      iconColor: Colors.green,
-                      iconBgColor: const Color(0xFFE8F5E9),
-                      onTap: () => _showPilihDialog(
-                        judul: 'Status Kesehatan',
-                        opsi: _statusList,
-                        dipilih: _statusKesehatan,
-                        onPilih: (v) => setState(() => _statusKesehatan = v),
-                      ),
-                    ),
-                    SizedBox(height: 24.h),
-
                     // ── Form Fields ──
                     _buildLabel('Nama Panggilan Hewan'),
                     SizedBox(height: 8.h),
@@ -463,7 +364,10 @@ class _TambahHewanViewState extends State<TambahHewanView> {
 
                     _buildLabel('Jenis Hewan'),
                     SizedBox(height: 8.h),
-                    _buildTextField(_jenisRasController, 'mis. Golden Retriever'),
+                    _buildTextField(
+                      _jenisRasController,
+                      'mis. Golden Retriever',
+                    ),
                     SizedBox(height: 16.h),
 
                     _buildLabel('Umur Hewan'),
@@ -605,9 +509,9 @@ class _TambahHewanViewState extends State<TambahHewanView> {
     return Text(
       label,
       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
+        fontWeight: FontWeight.w600,
+        color: Colors.black87,
+      ),
     );
   }
 
@@ -621,20 +525,17 @@ class _TambahHewanViewState extends State<TambahHewanView> {
       controller: controller,
       maxLines: maxLines,
       keyboardType: keyboardType,
-      style: Theme.of(context)
-          .textTheme
-          .labelLarge
-          ?.copyWith(color: Colors.black87),
+      style: Theme.of(
+        context,
+      ).textTheme.labelLarge?.copyWith(color: Colors.black87),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: Theme.of(context)
-            .textTheme
-            .labelLarge
-            ?.copyWith(color: const Color(0xFF9E9E9E)),
+        hintStyle: Theme.of(
+          context,
+        ).textTheme.labelLarge?.copyWith(color: const Color(0xFF9E9E9E)),
         filled: true,
         fillColor: const Color(0xFFF8F8F8),
-        contentPadding:
-            EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
@@ -671,10 +572,9 @@ class _TambahHewanViewState extends State<TambahHewanView> {
             color: const Color(0xFF9E9E9E),
             size: 20.sp,
           ),
-          style: Theme.of(context)
-              .textTheme
-              .labelLarge
-              ?.copyWith(color: Colors.black87),
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge?.copyWith(color: Colors.black87),
           onChanged: (v) => setState(() => _selectedJenis = v!),
           items: _jenisHewan
               .map((j) => DropdownMenuItem(value: j, child: Text(j)))
