@@ -74,7 +74,7 @@ class HomeHeroBanner extends StatelessWidget {
 
                     // Deskripsi
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                      'Buka pintu rumah dan hatimu untuk hewan yang kamu butuhkan. Temukan kecocokan terbaik dan berikan mereka kesempatan kedua untuk hidup bahagia bersamamu.',
                       style: textTheme.labelLarge?.copyWith(
                         color: const Color(0xFF757575),
                         height: 1.6,
