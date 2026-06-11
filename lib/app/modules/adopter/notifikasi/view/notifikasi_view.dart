@@ -16,7 +16,7 @@ class _NotifikasiViewState extends State<NotifikasiView> {
   // StatefulWidget karena list bisa berubah (delete / mark as read)
   // Ganti dengan data dari API nanti
   // Untuk test empty state: ubah jadi list kosong []
-  List<NotifikasiItem> _notifList = [
+  final List<NotifikasiItem> _notifList = [
     const NotifikasiItem(
       judul: 'App Update',
       deskripsi: 'New update out now! Discover improved productivity tools and more.',

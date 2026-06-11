@@ -31,7 +31,7 @@ class HewanBanner extends StatelessWidget {
               width: 48.w,
               height: 48.h,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.3),
+                color: Colors.white.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
               ),
               child: Icon(Icons.add, color: Colors.white, size: 28.sp),
@@ -51,7 +51,7 @@ class HewanBanner extends StatelessWidget {
             Text(
               'Daftarkan penghuni baru shelter!',
               style: textTheme.labelLarge?.copyWith(
-                color: Colors.white.withOpacity(0.85),
+                color: Colors.white.withValues(alpha: 0.85),
               ),
             ),
           ],

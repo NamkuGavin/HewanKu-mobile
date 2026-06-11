@@ -29,10 +29,10 @@ class PermohonanStatCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(color: borderColor.withOpacity(0.35), width: 1.2),
+          border: Border.all(color: borderColor.withValues(alpha: 0.35), width: 1.2),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 6,
               offset: const Offset(0, 2),
             ),

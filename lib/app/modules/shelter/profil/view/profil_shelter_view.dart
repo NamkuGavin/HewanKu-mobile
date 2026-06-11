@@ -256,7 +256,7 @@ class _VerifikasiCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFFFF3EC),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: primaryColor.withOpacity(0.3)),
+        border: Border.all(color: primaryColor.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [

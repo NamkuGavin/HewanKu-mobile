@@ -20,7 +20,7 @@ class PembayaranCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -42,7 +42,7 @@ class PembayaranCard extends StatelessWidget {
                           width: 60.w,
                           height: 60.h,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => _placeholder(),
+                          errorBuilder: (_, _, _) => _placeholder(),
                         )
                       : _placeholder(),
                 ),
@@ -79,7 +79,7 @@ class PembayaranCard extends StatelessWidget {
                     vertical: 5.h,
                   ),
                   decoration: BoxDecoration(
-                    color: item.statusColor.withOpacity(0.12),
+                    color: item.statusColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Text(

@@ -26,7 +26,7 @@ class PermohonanRequestCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -49,7 +49,7 @@ class PermohonanRequestCard extends StatelessWidget {
                           width: 64.w,
                           height: 64.h,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => _placeholder(),
+                          errorBuilder: (_, _, _) => _placeholder(),
                         )
                       : _placeholder(),
                 ),
@@ -158,7 +158,7 @@ class PermohonanRequestCard extends StatelessWidget {
                         color: const Color(0xFFE8F5E9),
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
-                          color: Colors.green.withOpacity(0.3),
+                          color: Colors.green.withValues(alpha: 0.3),
                         ),
                       ),
                       child: Row(
@@ -189,7 +189,7 @@ class PermohonanRequestCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFEBEE),
                         borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(color: Colors.red.withOpacity(0.3)),
+                        border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

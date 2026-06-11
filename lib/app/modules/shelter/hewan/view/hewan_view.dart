@@ -344,7 +344,7 @@ class _HewanShelterViewState extends State<HewanShelterView> {
 
               // ── Banner tambah hewan ──
               HewanBanner(
-                // ✅ FIX: panggil _bukaHalamanTambah, bukan TODO
+                // ✅ FIX: panggil _bukaHalamanTambah,
                 onTambah: _bukaHalamanTambah,
               ),
               SizedBox(height: 20.h),
@@ -474,7 +474,7 @@ class _StatCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

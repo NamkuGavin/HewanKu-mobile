@@ -87,7 +87,7 @@ class _HewanTagInputState extends State<HewanTagInput> {
                 color: const Color(0xFFFFF3EC),
                 borderRadius: BorderRadius.circular(50.r),
                 border: Border.all(
-                  color: const Color(0xFFF87537).withOpacity(0.4),
+                  color: const Color(0xFFF87537).withValues(alpha: 0.4),
                 ),
               ),
               child: Text(
