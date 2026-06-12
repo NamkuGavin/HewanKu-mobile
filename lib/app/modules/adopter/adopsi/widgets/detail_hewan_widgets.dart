@@ -8,7 +8,6 @@ import '../../favorit/model/favorit_item.dart';
 import '../../favorit/model/favorit_provider.dart';
 import '../../../../common/widgets/app_net_image.dart';
 import 'hewan_model.dart';
-import 'hewan_list_card.dart';
 
 // ── Konstanta warna lokal ────────────────────────────────────────────────────
 const _orange = Color(0xFFF87537);
@@ -107,22 +106,7 @@ class DetailHewanRating extends StatelessWidget {
   }
 }
 
-// ── 3. Tags ──────────────────────────────────────────────────────────────────
-class DetailHewanTags extends StatelessWidget {
-  final List<String> tags;
-  const DetailHewanTags({super.key, required this.tags});
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 6.w,
-      runSpacing: 6.h,
-      children: tags.map((tag) => HewanTagChip(label: tag)).toList(),
-    );
-  }
-}
-
-// ── 4. Info Grid ─────────────────────────────────────────────────────────────
+// ── 3. Info Grid ─────────────────────────────────────────────────────────────
 class DetailHewanInfoGrid extends StatelessWidget {
   final String jenisKelamin;
   final String umur;
@@ -188,65 +172,29 @@ class _InfoLabel extends StatelessWidget {
   }
 }
 
-// ── 5. Harga + Tombol Adopsi ─────────────────────────────────────────────────
+// ── 4. Harga + Tombol Adopsi ─────────────────────────────────────────────────
 class DetailHewanPriceRow extends StatelessWidget {
-  final double hargaAsli;
-  final double hargaDiskon;
+  final String harga;
   final VoidCallback? onAdopsiTap;
 
   const DetailHewanPriceRow({
     super.key,
-    required this.hargaAsli,
-    required this.hargaDiskon,
+    required this.harga,
     this.onAdopsiTap,
   });
-
-  int get _discountPercent =>
-      ((hargaAsli - hargaDiskon) / hargaAsli * 100).round();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              formatRupiah(hargaDiskon),
-              style: GoogleFonts.poppins(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w800,
-                color: Colors.lightBlueAccent,
-              ),
-            ),
-            SizedBox(width: 6.w),
-            Text(
-              formatRupiah(hargaAsli),
-              style: GoogleFonts.poppins(
-                fontSize: 12.sp,
-                color: const Color(0xFFAAAAAA),
-                decoration: TextDecoration.lineThrough,
-                decorationColor: const Color(0xFFAAAAAA),
-              ),
-            ),
-            SizedBox(width: 5.w),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-              decoration: BoxDecoration(
-                color: _orange,
-                borderRadius: BorderRadius.circular(4.r),
-              ),
-              child: Text(
-                '$_discountPercent% OFF',
-                style: GoogleFonts.poppins(
-                  fontSize: 9.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
+        Text(
+          harga,
+          style: GoogleFonts.poppins(
+            fontSize: 22.sp,
+            fontWeight: FontWeight.w800,
+            color: const Color(0xFF1A1A1A),
+          ),
         ),
         SizedBox(height: 10.h),
         SizedBox(
@@ -276,7 +224,7 @@ class DetailHewanPriceRow extends StatelessWidget {
   }
 }
 
-// ── 6. Favorit + Lihat Review ────────────────────────────────────────────────
+// ── 5. Favorit + Lihat Review ────────────────────────────────────────────────
 // Menerima HewanModel agar bisa tambah/hapus favorit via FavoritProvider
 class DetailHewanFavoritRow extends StatelessWidget {
   final HewanModel hewan;
@@ -350,7 +298,7 @@ class DetailHewanFavoritRow extends StatelessWidget {
   }
 }
 
-// ── 7. Kontak Shelter ────────────────────────────────────────────────────────
+// ── 6. Kontak Shelter ────────────────────────────────────────────────────────
 class DetailHewanKontakRow extends StatelessWidget {
   final String kontakShelter;
 
@@ -398,7 +346,7 @@ class DetailHewanKontakRow extends StatelessWidget {
   }
 }
 
-// ── 8. Payment Card ──────────────────────────────────────────────────────────
+// ── 7. Payment Card ──────────────────────────────────────────────────────────
 class DetailHewanPaymentCard extends StatelessWidget {
   const DetailHewanPaymentCard({super.key});
 

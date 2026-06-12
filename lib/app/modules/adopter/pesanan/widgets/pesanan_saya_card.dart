@@ -286,7 +286,7 @@ class _PesananSayaCardState extends State<PesananSayaCard> {
                   hewan: widget.item.hewanModel ?? HewanModel(
                     name: widget.item.hewan.namaHewan,
                     shelter: widget.item.hewan.subNama,
-                    priceRange: widget.item.hewan.totalBiaya,
+                    price: widget.item.hewan.totalBiaya,
                     rating: 5.0,
                     reviewCount: 0,
                     tags: [],

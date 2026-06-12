@@ -15,7 +15,7 @@ class AdopsiFeaturedSection extends StatelessWidget {
     HewanModel(
       name: 'Kucing Anggora',
       shelter: 'Shelter Hewan Abadi',
-      priceRange: 'Rp 2.000.000',
+      price: 'Rp 2.000.000',
       rating: 5.0,
       reviewCount: 0,
       tags: ['Kucing'],
@@ -25,7 +25,7 @@ class AdopsiFeaturedSection extends StatelessWidget {
     HewanModel(
       name: 'British Short Hair',
       shelter: 'Shelter Hewan Abadi',
-      priceRange: 'Rp 2.000.000',
+      price: 'Rp 2.000.000',
       rating: 5.0,
       reviewCount: 0,
       tags: ['Kucing'],
@@ -125,7 +125,7 @@ class _FeaturedCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 12.h),
               child: Text(
-                hewan.priceRange,
+                hewan.price,
                 style: GoogleFonts.poppins(
                   fontSize: 11.sp,
                   color: const Color(0xFFAAAAAA),

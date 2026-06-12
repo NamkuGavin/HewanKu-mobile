@@ -152,39 +152,14 @@ class _HewanCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 4.h),
+              padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 12.h),
               child: Text(
-                hewan.shelter,
+                hewan.price,
                 style: GoogleFonts.poppins(
-                  fontSize: 10.sp,
-                  color: const Color(0xFF999999),
+                  fontSize: 11.sp,
+                  color: const Color(0xFFAAAAAA),
+                  fontWeight: FontWeight.w400,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 10.h),
-              child: Row(
-                children: [
-                  Icon(Icons.star_rounded, size: 13.w, color: const Color(0xFFF87537)),
-                  SizedBox(width: 3.w),
-                  Text(
-                    '(${hewan.rating.toStringAsFixed(1)})',
-                    style: GoogleFonts.poppins(
-                      fontSize: 10.sp,
-                      color: const Color(0xFF555555),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Text(
-                    '  •  ${hewan.reviewCount} Ulasan',
-                    style: GoogleFonts.poppins(
-                      fontSize: 9.sp,
-                      color: const Color(0xFFAAAAAA),
-                    ),
-                  ),
-                ],
               ),
             ),
           ],

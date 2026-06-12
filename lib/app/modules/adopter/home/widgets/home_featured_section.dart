@@ -14,7 +14,7 @@ class HomeFeaturedSection extends StatelessWidget {
     HewanModel(
       name: 'Kucing Anggora',
       shelter: 'Shelter Hewan Abadi',
-      priceRange: 'Rp 2.000.000',
+      price: 'Rp 2.000.000',
       rating: 5.0,
       reviewCount: 0,
       tags: ['Kucing'],
@@ -24,7 +24,7 @@ class HomeFeaturedSection extends StatelessWidget {
     HewanModel(
       name: 'British Short Hair',
       shelter: 'Shelter Hewan Abadi',
-      priceRange: 'Rp 2.000.000',
+      price: 'Rp 2.000.000',
       rating: 5.0,
       reviewCount: 0,
       tags: ['Kucing'],
@@ -62,7 +62,7 @@ class HomeFeaturedSection extends StatelessWidget {
                   child: HomeAnimalCard(
                     imageUrl: hewan.imageUrl,
                     namaHewan: hewan.name,
-                    harga: hewan.priceRange,
+                    harga: hewan.price,
                     onTap: () => AppNavigator.push(
                       context,
                       AdopsiDetailHewanView(hewan: hewan),

@@ -14,7 +14,7 @@ class AdopsiView extends StatelessWidget {
     HewanModel(
       name: 'Anjing Chuahua',
       shelter: 'Shelter Hewan Abadi',
-      priceRange: '-',
+      price: '-',
       rating: 5.0,
       reviewCount: 5,
       tags: ['Anjing'],
@@ -24,7 +24,7 @@ class AdopsiView extends StatelessWidget {
     HewanModel(
       name: 'Iguana',
       shelter: 'Shelter Hewan Abadi',
-      priceRange: '-',
+      price: '-',
       rating: 5.0,
       reviewCount: 5,
       tags: ['Iguana'],
@@ -34,7 +34,7 @@ class AdopsiView extends StatelessWidget {
     HewanModel(
       name: 'Kura-kura',
       shelter: 'Shelter Hewan Abadi',
-      priceRange: '-',
+      price: '-',
       rating: 5.0,
       reviewCount: 5,
       tags: ['Kura-kura'],
@@ -47,7 +47,7 @@ class AdopsiView extends StatelessWidget {
     HewanModel(
       name: 'Kucing Sphynx',
       shelter: 'Shelter Hewan Abadi',
-      priceRange: '-',
+      price: '-',
       rating: 5.0,
       reviewCount: 5,
       tags: ['Kucing'],
@@ -57,7 +57,7 @@ class AdopsiView extends StatelessWidget {
     HewanModel(
       name: 'British Short Hair',
       shelter: 'Shelter Hewan Abadi',
-      priceRange: '-',
+      price: '-',
       rating: 5.0,
       reviewCount: 5,
       tags: ['Kucing'],
@@ -67,7 +67,7 @@ class AdopsiView extends StatelessWidget {
     HewanModel(
       name: 'Kura-kura',
       shelter: 'Shelter Hewan Abadi',
-      priceRange: '-',
+      price: '-',
       rating: 5.0,
       reviewCount: 5,
       tags: ['Kura-kura'],
@@ -89,8 +89,8 @@ class AdopsiView extends StatelessWidget {
           const AdopsiFeaturedSection(), // ← diperbaiki
           const SizedBox(height: 24),
           AdopsiListSection(
-            title: 'Top Sales',
-            subtitle: 'Kami pilihin hewan kesukaanmu',
+            title: 'Hewan Unggulan',
+            subtitle: 'Kami pilihin hewan yang paling sering diadopsi',
             items: _rekomendasiItems,
           ),
           const SizedBox(height: 24),

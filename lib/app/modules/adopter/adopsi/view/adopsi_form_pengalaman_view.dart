@@ -103,8 +103,8 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
         imageUrl: widget.hewan.imageUrl,
         namaHewan: widget.hewan.name,
         subNama: widget.hewan.shelter,
-        totalBiaya: widget.hewan.priceRange != '-'
-            ? widget.hewan.priceRange
+        totalBiaya: widget.hewan.price != '-'
+            ? widget.hewan.price
             : 'Lihat Detail',
       ),
       timeline: [

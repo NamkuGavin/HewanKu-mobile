@@ -9,31 +9,39 @@ import '../view/adopsi_detail_hewan.dart';
 
 class HewanListCard extends StatelessWidget {
   final HewanModel hewan;
-
   const HewanListCard({super.key, required this.hewan});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => AppNavigator.push(
-        context,
-        AdopsiDetailHewanView(hewan: hewan),
-      ),
+      onTap: () => AppNavigator.push(context, AdopsiDetailHewanView(hewan: hewan)),
       child: Column(
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _ImageWithRating(hewan: hewan),
+                // Foto hewan — tanpa rating overlay
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12.r),
+                  child: SizedBox(
+                    width: 110.w,
+                    height: 110.h,
+                    child: AppNetImage(
+                      url: hewan.imageUrl,
+                      fallbackColor: Color(hewan.fallbackColorValue),
+                    ),
+                  ),
+                ),
                 SizedBox(width: 14.w),
+                // Nama + harga saja
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${hewan.name}, ${hewan.shelter}.',
+                        hewan.name,
                         style: GoogleFonts.poppins(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
@@ -41,22 +49,14 @@ class HewanListCard extends StatelessWidget {
                           height: 1.35,
                         ),
                       ),
-                      SizedBox(height: 4.h),
+                      SizedBox(height: 6.h),
                       Text(
-                        hewan.priceRange,
+                        hewan.price,
                         style: GoogleFonts.poppins(
                           fontSize: 12.sp,
                           color: const Color(0xFF888888),
                           fontWeight: FontWeight.w400,
                         ),
-                      ),
-                      SizedBox(height: 10.h),
-                      Wrap(
-                        spacing: 6.w,
-                        runSpacing: 6.h,
-                        children: hewan.tags
-                            .map((tag) => HewanTagChip(label: tag))
-                            .toList(),
                       ),
                     ],
                   ),
@@ -65,101 +65,11 @@ class HewanListCard extends StatelessWidget {
             ),
           ),
           Divider(
-            height: 1,
-            thickness: 1,
+            height: 1, thickness: 1,
             color: const Color(0xFFF0F0F0),
-            indent: 20.w,
-            endIndent: 20.w,
+            indent: 20.w, endIndent: 20.w,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ImageWithRating extends StatelessWidget {
-  final HewanModel hewan;
-  const _ImageWithRating({required this.hewan});
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12.r),
-          child: SizedBox(
-            width: 110.w,
-            height: 110.h,
-            child: AppNetImage(
-              url: hewan.imageUrl,
-              fallbackColor: Color(hewan.fallbackColorValue),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.55),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(12.r),
-                bottomRight: Radius.circular(12.r),
-              ),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 4.h),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.star_rounded, size: 13.w, color: const Color(0xFFF87537)),
-                    SizedBox(width: 3.w),
-                    Text(
-                      '(${hewan.rating.toStringAsFixed(1)})',
-                      style: GoogleFonts.poppins(
-                        fontSize: 10.sp,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  '+${hewan.reviewCount} Ulasan',
-                  style: GoogleFonts.poppins(fontSize: 9.sp, color: Colors.white70),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class HewanTagChip extends StatelessWidget {
-  final String label;
-  const HewanTagChip({super.key, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: const Color(0xFFDDDDDD), width: 1),
-        borderRadius: BorderRadius.circular(50.r),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.poppins(
-          fontSize: 11.sp,
-          color: const Color(0xFF444444),
-          fontWeight: FontWeight.w400,
-        ),
       ),
     );
   }

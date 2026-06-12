@@ -58,7 +58,7 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
   void _showQrisDialog() {
     showDialog(
       context: context,
-      builder: (_) => QrisDialog(total: widget.hewan.priceRange),
+      builder: (_) => QrisDialog(total: widget.hewan.price),
     );
   }
 
@@ -67,7 +67,7 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
       context: context,
       builder: (_) => TransferDialog(
         method: method,
-        total: widget.hewan.priceRange,
+        total: widget.hewan.price,
         nomorRekening: '1234 5678 9012 3456',
         atasNama: widget.pesanan.namaShelter,
       ),

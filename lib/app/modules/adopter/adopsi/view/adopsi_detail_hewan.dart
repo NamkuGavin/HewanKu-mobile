@@ -12,23 +12,8 @@ import '../widgets/detail_hewan_widgets.dart';
 
 class AdopsiDetailHewanView extends StatelessWidget {
   final HewanModel hewan;
-  final String jenisKelamin;
-  final String umur;
-  final String statusAdopsi;
-  final double hargaAsli;
-  final double hargaDiskon;
-  final String kontakShelter;
 
-  const AdopsiDetailHewanView({
-    super.key,
-    required this.hewan,
-    this.jenisKelamin = 'Jantan',
-    this.umur = '2 Tahun',
-    this.statusAdopsi = 'Belum di adopsi',
-    this.hargaAsli = 6500000,
-    this.hargaDiskon = 6000000,
-    this.kontakShelter = '+6282170677488',
-  });
+  const AdopsiDetailHewanView({super.key, required this.hewan});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +35,7 @@ class AdopsiDetailHewanView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Nama + shelter
                     Text(
                       '${hewan.name} - ${hewan.shelter}',
                       style: GoogleFonts.poppins(
@@ -65,24 +51,26 @@ class AdopsiDetailHewanView extends StatelessWidget {
                       reviewCount: hewan.reviewCount,
                     ),
                     SizedBox(height: 14.h),
+
+                    // Info grid — pakai field dari HewanModel
                     DetailHewanInfoGrid(
-                      jenisKelamin: jenisKelamin,
-                      umur: umur,
-                      statusAdopsi: statusAdopsi,
+                      jenisKelamin: hewan.jenisKelamin ?? '-',
+                      umur: hewan.umur ?? '-',
+                      statusAdopsi: 'Belum di adopsi',
                       kategori: category,
                     ),
                     SizedBox(height: 16.h),
+
+                    // Harga dari priceRange + tombol adopsi
                     DetailHewanPriceRow(
-                      hargaAsli: hargaAsli,
-                      hargaDiskon: hargaDiskon,
+                      harga: hewan.price,
                       onAdopsiTap: () => AppNavigator.push(
                         context,
                         AdopsiFormIdentitasView(hewan: hewan),
                       ),
                     ),
                     SizedBox(height: 16.h),
-                    const Divider(
-                        color: Color(0xFFEEEEEE), thickness: 1, height: 1),
+                    const Divider(color: Color(0xFFEEEEEE), thickness: 1, height: 1),
                     SizedBox(height: 14.h),
                     DetailHewanFavoritRow(
                       hewan: hewan,
@@ -92,7 +80,9 @@ class AdopsiDetailHewanView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10.h),
-                    DetailHewanKontakRow(kontakShelter: kontakShelter),
+                    DetailHewanKontakRow(
+                      kontakShelter: hewan.kontakShelter ?? '-',
+                    ),
                     SizedBox(height: 32.h),
                     const DetailHewanPaymentCard(),
                     SizedBox(height: 48.h),
@@ -107,7 +97,6 @@ class AdopsiDetailHewanView extends StatelessWidget {
   }
 }
 
-// ── Header ───────────────────────────────────────────────────────────────────
 class _DetailHewanHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -153,8 +142,7 @@ class _IconBtn extends StatelessWidget {
         customBorder: const CircleBorder(),
         onTap: onTap,
         child: SizedBox(
-          width: 36.w,
-          height: 36.h,
+          width: 36.w, height: 36.h,
           child: Icon(icon, size: 20.w, color: color),
         ),
       ),

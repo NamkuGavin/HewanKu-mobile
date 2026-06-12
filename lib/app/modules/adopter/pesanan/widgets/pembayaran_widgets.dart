@@ -139,7 +139,7 @@ class OrderProductTable extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 8.w),
-                Text(hewan.priceRange,
+                Text(hewan.price,
                   style: textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.w600, color: Colors.black)),
               ],

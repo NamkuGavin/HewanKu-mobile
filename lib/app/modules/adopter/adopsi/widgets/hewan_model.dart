@@ -2,7 +2,7 @@
 class HewanModel {
   final String name;
   final String shelter;
-  final String priceRange;
+  final String price;
   final double rating;
   final int reviewCount;
   final List<String> tags;
@@ -18,7 +18,7 @@ class HewanModel {
   const HewanModel({
     required this.name,
     required this.shelter,
-    required this.priceRange,
+    required this.price,
     required this.rating,
     required this.reviewCount,
     required this.tags,
