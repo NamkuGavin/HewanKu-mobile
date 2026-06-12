@@ -9,12 +9,11 @@ class HewanModel {
   final String imageUrl;
   final int fallbackColorValue;
 
-  // Field baru untuk detail pembayaran
-  final String? ras;
+  // Field detail hewan
   final String? umur;
-  final String? berat;
-  final String? kesehatan;
+  final String? jenisKelamin;
   final String? kontakShelter;
+  final String? kategori;
 
   const HewanModel({
     required this.name,
@@ -25,10 +24,9 @@ class HewanModel {
     required this.tags,
     required this.imageUrl,
     required this.fallbackColorValue,
-    this.ras,
     this.umur,
-    this.berat,
-    this.kesehatan,
+    this.jenisKelamin,
     this.kontakShelter,
+    this.kategori,
   });
 }

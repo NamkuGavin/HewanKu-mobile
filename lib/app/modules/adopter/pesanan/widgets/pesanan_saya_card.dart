@@ -283,7 +283,7 @@ class _PesananSayaCardState extends State<PesananSayaCard> {
                 context,
                 PesananPembayaranView(
                   pesanan: widget.item,
-                  hewan: HewanModel(
+                  hewan: widget.item.hewanModel ?? HewanModel(
                     name: widget.item.hewan.namaHewan,
                     shelter: widget.item.hewan.subNama,
                     priceRange: widget.item.hewan.totalBiaya,

@@ -172,7 +172,7 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
                           ),
                           SizedBox(height: 12.h),
 
-                          // Tabel produk
+                          // Tabel hewan & harga
                           OrderProductTable(hewan: h),
                           SizedBox(height: 16.h),
 
@@ -200,7 +200,7 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
                         ],
                       ),
                     ),
-
+                    SizedBox(height: 20.h),
                     // ── Tombol Lanjutkan Bayar ──
                     SizedBox(
                       width: double.infinity,
@@ -214,7 +214,7 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
                         ),
                         child: Text('LANJUTKAN BAYAR',
                           style: GoogleFonts.poppins(
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w700,
                               color: Colors.white),
                         ),

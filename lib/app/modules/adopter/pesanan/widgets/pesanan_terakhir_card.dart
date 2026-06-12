@@ -233,7 +233,7 @@ class PesananTerakhirCard extends StatelessWidget {
   }
 }
 
-// Header tabel — Nama | Kesehatan | Kuantitas | Harga
+// Header tabel — Nama |  Harga
 class _TableHeader extends StatelessWidget {
   final TextTheme textTheme;
   const _TableHeader({required this.textTheme});
@@ -253,30 +253,6 @@ class _TableHeader extends StatelessWidget {
             flex: 4,
             child: Text(
               'Nama',
-              style: textTheme.labelMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF555555),
-              ),
-            ),
-          ),
-          // Kesehatan
-          Expanded(
-            flex: 3,
-            child: Text(
-              'Kesehatan',
-              textAlign: TextAlign.center,
-              style: textTheme.labelMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF555555),
-              ),
-            ),
-          ),
-          // Kuantitas
-          Expanded(
-            flex: 2,
-            child: Text(
-              'Kuantitas',
-              textAlign: TextAlign.center,
               style: textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF555555),
@@ -362,28 +338,6 @@ class _TableRow extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
-          // Kolom Kesehatan
-          Expanded(
-            flex: 3,
-            child: Text(
-              row.kesehatan,
-              textAlign: TextAlign.center,
-              style: textTheme.labelMedium?.copyWith(
-                color: const Color(0xFF555555),
-              ),
-            ),
-          ),
-          // Kolom Kuantitas
-          Expanded(
-            flex: 2,
-            child: Text(
-              row.kuantitas,
-              textAlign: TextAlign.center,
-              style: textTheme.labelMedium?.copyWith(
-                color: const Color(0xFF555555),
-              ),
             ),
           ),
           // Kolom Harga

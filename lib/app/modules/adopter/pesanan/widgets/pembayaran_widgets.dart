@@ -96,7 +96,7 @@ class OrderProductTable extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Text('Produk',
+                  child: Text('Hewan',
                     style: textTheme.labelMedium?.copyWith(
                       fontWeight: FontWeight.w600, color: const Color(0xFF555555))),
                 ),
@@ -107,7 +107,7 @@ class OrderProductTable extends StatelessWidget {
             ),
           ),
           const Divider(height: 1, thickness: 1, color: Color(0xFFE0E0E0)),
-          // Row produk — tanpa icon cancel
+          // Row hewan & harga
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
             child: Row(
@@ -159,12 +159,13 @@ class HewanDetailCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    // Ambil kategori dari tag pertama, fallback ke '-'
+    final kategori = hewan.tags.isNotEmpty ? hewan.tags.first : '-';
     final rows = [
       ['Nama Hewan', hewan.name],
-      ['Ras', hewan.ras ?? '-'],
+      ['Kategori', kategori],
+      ['Jenis Kelamin', hewan.jenisKelamin ?? '-'],
       ['Umur', hewan.umur ?? '-'],
-      ['Berat', hewan.berat ?? '-'],
-      ['Kesehatan', hewan.kesehatan ?? '-'],
     ];
 
     return Container(
@@ -177,14 +178,15 @@ class HewanDetailCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: rows.map((r) => Padding(
-          padding: EdgeInsets.only(bottom: 6.h),
+          padding: EdgeInsets.only(bottom: 7.h),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 70.w,
+                width: 80.w,
                 child: Text(r[0],
-                  style: textTheme.labelMedium?.copyWith(color: const Color(0xFF9E9E9E))),
+                  style: textTheme.labelMedium?.copyWith(
+                    color: const Color(0xFF9E9E9E))),
               ),
               Expanded(
                 child: Text(r[1],

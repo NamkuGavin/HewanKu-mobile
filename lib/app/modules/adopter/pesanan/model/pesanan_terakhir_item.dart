@@ -2,16 +2,12 @@ class DetailAdopsiRow {
   final String imageUrl;
   final String namaHewan;
   final String subNama;
-  final String kesehatan;
-  final String kuantitas;
   final String harga;
 
   const DetailAdopsiRow({
     required this.imageUrl,
     required this.namaHewan,
     required this.subNama,
-    required this.kesehatan,
-    required this.kuantitas,
     required this.harga,
   });
 }

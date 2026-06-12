@@ -69,7 +69,7 @@ class AdopsiDetailHewanView extends StatelessWidget {
                       jenisKelamin: jenisKelamin,
                       umur: umur,
                       statusAdopsi: statusAdopsi,
-                      category: category,
+                      kategori: category,
                     ),
                     SizedBox(height: 16.h),
                     DetailHewanPriceRow(

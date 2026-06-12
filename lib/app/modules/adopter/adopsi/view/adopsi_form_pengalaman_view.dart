@@ -72,7 +72,7 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 90.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
       ),
     );
   }
@@ -123,6 +123,7 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
         ),
       ],
       perkiraanKedatangan: '1-3 Hari Kerja',
+      hewanModel: widget.hewan, // <-- simpan data lengkap HewanModel
     );
   }
 

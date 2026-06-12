@@ -127,14 +127,14 @@ class DetailHewanInfoGrid extends StatelessWidget {
   final String jenisKelamin;
   final String umur;
   final String statusAdopsi;
-  final String category;
+  final String kategori;
 
   const DetailHewanInfoGrid({
     super.key,
     required this.jenisKelamin,
     required this.umur,
     required this.statusAdopsi,
-    required this.category,
+    required this.kategori,
   });
 
   @override
@@ -151,7 +151,7 @@ class DetailHewanInfoGrid extends StatelessWidget {
         Row(
           children: [
             Expanded(child: _InfoLabel('Umur', umur, bold: true)),
-            Expanded(child: _InfoLabel('Category', category, bold: true)),
+            Expanded(child: _InfoLabel('Kategori', kategori, bold: true)),
           ],
         ),
       ],

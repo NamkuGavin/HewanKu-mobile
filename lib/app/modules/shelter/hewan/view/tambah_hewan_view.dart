@@ -268,7 +268,6 @@ class _TambahHewanViewState extends State<TambahHewanView> {
   // ═══════════════════════════════════════════════════════════
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final primaryColor = Theme.of(context).primaryColor;
     final isEdit = widget.namaAwal != null;
 
