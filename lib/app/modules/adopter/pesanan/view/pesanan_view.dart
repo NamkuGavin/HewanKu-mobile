@@ -99,33 +99,30 @@ class _PesananViewState extends State<PesananView> {
                   child: isEmpty
                       ? const PesananEmptyState()
                       : _selectedTab == 0
-                          // ── Tab Pesanan Saya ──
-                          ? ListView.separated(
-                              padding: EdgeInsets.only(bottom: 28.h),
-                              itemCount: allPesananSaya.length,
-                              separatorBuilder: (_, _) =>
-                                  SizedBox(height: 20.h),
-                              itemBuilder: (context, index) =>
-                                  PesananSayaCard(item: allPesananSaya[index]),
-                            )
-                          // ── Tab Pesanan Terakhir ──
-                          : ListView.separated(
-                              padding: EdgeInsets.only(bottom: 28.h),
-                              itemCount: _pesananTerakhir.length,
-                              separatorBuilder: (_, _) =>
-                                  SizedBox(height: 20.h),
-                              itemBuilder: (context, index) =>
-                                  PesananTerakhirCard(
-                                item: _pesananTerakhir[index],
-                                onRatingTap: () {
-                                  RatingUlasanDialog.show(
-                                    context,
-                                    namaShelter:
-                                        _pesananTerakhir[index].namaShelter,
-                                  );
-                                },
-                              ),
-                            ),
+                      // ── Tab Pesanan Saya ──
+                      ? ListView.separated(
+                          padding: EdgeInsets.only(bottom: 28.h),
+                          itemCount: allPesananSaya.length,
+                          separatorBuilder: (_, _) => SizedBox(height: 20.h),
+                          itemBuilder: (context, index) =>
+                              PesananSayaCard(item: allPesananSaya[index]),
+                        )
+                      // ── Tab Pesanan Terakhir ──
+                      : ListView.separated(
+                          padding: EdgeInsets.only(bottom: 28.h),
+                          itemCount: _pesananTerakhir.length,
+                          separatorBuilder: (_, _) => SizedBox(height: 20.h),
+                          itemBuilder: (context, index) => PesananTerakhirCard(
+                            item: _pesananTerakhir[index],
+                            onRatingTap: () {
+                              RatingUlasanDialog.show(
+                                context,
+                                namaShelter:
+                                    _pesananTerakhir[index].namaShelter,
+                              );
+                            },
+                          ),
+                        ),
                 ),
               ],
             ),

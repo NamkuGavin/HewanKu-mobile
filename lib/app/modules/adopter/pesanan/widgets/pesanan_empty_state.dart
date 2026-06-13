@@ -11,9 +11,9 @@ class PesananEmptyState extends StatelessWidget {
     return Stack(
       children: [
         // Blob kanan atas
-        Positioned(top: -20, right: -40, child: _PeachBlob(size: 160)),
+        const Positioned(top: -20, right: -40, child: _PeachBlob(size: 160)),
         // Blob kiri bawah
-        Positioned(bottom: 80, left: -50, child: _PeachBlob(size: 130)),
+        const Positioned(bottom: 80, left: -50, child: _PeachBlob(size: 130)),
 
         Center(
           child: Column(

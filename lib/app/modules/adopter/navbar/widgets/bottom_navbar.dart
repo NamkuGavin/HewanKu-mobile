@@ -6,7 +6,11 @@ class AppBottomNavbar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
-  const AppBottomNavbar({super.key, required this.currentIndex, required this.onTap});
+  const AppBottomNavbar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

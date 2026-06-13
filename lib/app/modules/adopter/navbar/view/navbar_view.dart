@@ -55,8 +55,7 @@ class _NavbarViewState extends State<NavbarView> {
       body: SafeArea(
         child: Column(
           children: [
-            if (selectedIndex != 3)
-              BuildAppHeader(onFavoriteTap: () {}),
+            if (selectedIndex != 3) BuildAppHeader(onFavoriteTap: () {}),
             Expanded(
               child: IndexedStack(index: selectedIndex, children: pages),
             ),

@@ -8,38 +8,50 @@ class HomeNewsSection extends StatelessWidget {
   const HomeNewsSection({super.key});
 
   static const Map<String, String> _beritaUtama = {
-    'imageUrl': 'https://images.alodokter.com/dk0z4ums3/image/upload/v1778544180/attached_image/anjing-golden-retriever-ini-keunikan-risiko-kesehatan-dan-cara-merawatnya-0-alodokter.jpg',
+    'imageUrl':
+        'https://images.alodokter.com/dk0z4ums3/image/upload/v1778544180/attached_image/anjing-golden-retriever-ini-keunikan-risiko-kesehatan-dan-cara-merawatnya-0-alodokter.jpg',
     'kategori': 'Anjing',
-    'judul': 'Anjing Golden Retriever: Keunikan, Risiko Kesehatan, dan Cara Merawatnya',
-    'isi': 'Golden Retriever dikenal sebagai anjing yang cerdas, ramah, dan mudah dilatih. Ketahui lebih lanjut tentang keunikan, potensi risiko kesehatan, serta cara merawatnya dengan baik agar tetap sehat dan bahagia.',
+    'judul':
+        'Anjing Golden Retriever: Keunikan, Risiko Kesehatan, dan Cara Merawatnya',
+    'isi':
+        'Golden Retriever dikenal sebagai anjing yang cerdas, ramah, dan mudah dilatih. Ketahui lebih lanjut tentang keunikan, potensi risiko kesehatan, serta cara merawatnya dengan baik agar tetap sehat dan bahagia.',
     'tanggal': '12 Mei 2026',
-    'url': 'https://www.alodokter.com/anjing-golden-retriever-ini-keunikan-risiko-kesehatan-dan-cara-merawatnya',
+    'url':
+        'https://www.alodokter.com/anjing-golden-retriever-ini-keunikan-risiko-kesehatan-dan-cara-merawatnya',
   };
 
   static const List<Map<String, String>> _beritaList = [
     {
-      'imageUrl': 'https://www.whiskasindonesia.com/cdn-cgi/image/height=617,f=auto,quality=90/sites/g/files/fnmzdf8246/files/2026-01/Kucing%20Anggora_v2_0_0.jpg',
+      'imageUrl':
+          'https://www.whiskasindonesia.com/cdn-cgi/image/height=617,f=auto,quality=90/sites/g/files/fnmzdf8246/files/2026-01/Kucing%20Anggora_v2_0_0.jpg',
       'kategori': 'Kucing',
       'judul': 'Kucing Anggora: Ciri Khas, Sifat, dan Tips Perawatan Bulunya',
       'tanggal': '',
-      'url': 'https://www.whiskasindonesia.com/jenis-jenis-kucing/kucing-anggora',
+      'url':
+          'https://www.whiskasindonesia.com/jenis-jenis-kucing/kucing-anggora',
     },
     {
-      'imageUrl': 'https://tamansafari.com/taman-safari-bali/wp-content/uploads/2023/05/1625735970-makanan-kelinci-yang-sehat-banner.jpg',
+      'imageUrl':
+          'https://tamansafari.com/taman-safari-bali/wp-content/uploads/2023/05/1625735970-makanan-kelinci-yang-sehat-banner.jpg',
       'kategori': 'Kelinci',
       'judul': 'Keunikan Kelinci: Sahabat Setia Manusia yang Menggemaskan',
       'tanggal': '',
-      'url': 'https://tamansafari.com/taman-safari-bali/keunikan-kelinci-sahabat-setia-manusia/',
+      'url':
+          'https://tamansafari.com/taman-safari-bali/keunikan-kelinci-sahabat-setia-manusia/',
     },
     {
-      'imageUrl': 'https://cdn.mos.cms.futurecdn.net/BacHx6LRGKbm2b7CVKxV7f-970-80.jpg.webp',
+      'imageUrl':
+          'https://cdn.mos.cms.futurecdn.net/BacHx6LRGKbm2b7CVKxV7f-970-80.jpg.webp',
       'kategori': 'Hewan Kecil',
-      'judul': 'Fakta Menarik Guinea Pig yang Wajib Diketahui Sebelum Memelihara',
+      'judul':
+          'Fakta Menarik Guinea Pig yang Wajib Diketahui Sebelum Memelihara',
       'tanggal': '26 Agustus 2025',
-      'url': 'https://www.petsradar.com/small-pets/guinea-pigs/facts-about-guinea-pigs',
+      'url':
+          'https://www.petsradar.com/small-pets/guinea-pigs/facts-about-guinea-pigs',
     },
     {
-      'imageUrl': 'https://cdn.mos.cms.futurecdn.net/3EKYqca75TBZpGuiGi3dSn-970-80.png.webp',
+      'imageUrl':
+          'https://cdn.mos.cms.futurecdn.net/3EKYqca75TBZpGuiGi3dSn-970-80.png.webp',
       'kategori': 'Reptil',
       'judul': 'Rekomendasi Reptil Peliharaan Terbaik untuk Pemula',
       'tanggal': '21 Oktober 2024',
@@ -64,9 +76,13 @@ class HomeNewsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Berita Terkini',
-              style: textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w700, color: Colors.black)),
+          Text(
+            'Berita Terkini',
+            style: textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
           SizedBox(height: 14.h),
 
           // ── Berita UTAMA ──
@@ -104,30 +120,43 @@ class HomeNewsSection extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(_beritaUtama['kategori']!,
-                            style: textTheme.labelMedium?.copyWith(
-                                color: const Color(0xFF9E9E9E),
-                                fontWeight: FontWeight.w400)),
+                        Text(
+                          _beritaUtama['kategori']!,
+                          style: textTheme.labelMedium?.copyWith(
+                            color: const Color(0xFF9E9E9E),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                         SizedBox(height: 6.h),
-                        Text(_beritaUtama['judul']!,
-                            style: textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                                height: 1.4),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis),
+                        Text(
+                          _beritaUtama['judul']!,
+                          style: textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                            height: 1.4,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         SizedBox(height: 6.h),
-                        Text(_beritaUtama['tanggal']!,
-                            style: textTheme.labelMedium?.copyWith(
-                                color: const Color(0xFF9E9E9E))),
+                        Text(
+                          _beritaUtama['tanggal']!,
+                          style: textTheme.labelMedium?.copyWith(
+                            color: const Color(0xFF9E9E9E),
+                          ),
+                        ),
                         SizedBox(height: 10.h),
                         Divider(color: primaryColor, thickness: 1.5),
                         SizedBox(height: 8.h),
-                        Text(_beritaUtama['isi']!,
-                            style: textTheme.labelLarge?.copyWith(
-                                color: const Color(0xFF757575), height: 1.6),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis),
+                        Text(
+                          _beritaUtama['isi']!,
+                          style: textTheme.labelLarge?.copyWith(
+                            color: const Color(0xFF757575),
+                            height: 1.6,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ],
                     ),
                   ),

@@ -31,14 +31,16 @@ class _AdopsiFilterChipsState extends State<AdopsiFilterChips> {
         physics: const BouncingScrollPhysics(),
         children: [
           // Tombol filter icon
-          _FilterIconButton(onTap: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              backgroundColor: Colors.transparent,
-              builder: (_) => const AdopsiFilterHewan(),
-            );
-          }),
+          _FilterIconButton(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (_) => const AdopsiFilterHewan(),
+              );
+            },
+          ),
           SizedBox(width: 10.w),
           // Chip kategori
           ...List.generate(_categories.length, (i) {
@@ -49,7 +51,10 @@ class _AdopsiFilterChipsState extends State<AdopsiFilterChips> {
                 onTap: () => setState(() => _selectedIndex = i),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
-                  padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 18.w,
+                    vertical: 8.h,
+                  ),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? const Color(0xFFF87537)

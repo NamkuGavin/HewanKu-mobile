@@ -57,7 +57,11 @@ class FavoritItemCard extends StatelessWidget {
                   ),
                 ),
                 child: isSelected
-                    ? Icon(Icons.check_rounded, size: 13.sp, color: Colors.white)
+                    ? Icon(
+                        Icons.check_rounded,
+                        size: 13.sp,
+                        color: Colors.white,
+                      )
                     : null,
               ),
             ],

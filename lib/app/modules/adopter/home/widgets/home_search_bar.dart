@@ -9,6 +9,8 @@ class HomeSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: GestureDetector(
@@ -30,7 +32,7 @@ class HomeSearchBar extends StatelessWidget {
                   controller: controller,
                   decoration: InputDecoration(
                     hintText: 'Cari Hewan...',
-                    hintStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    hintStyle: textTheme.labelLarge?.copyWith(
                       color: const Color(0xFF9E9E9E),
                       fontWeight: FontWeight.w400,
                     ),
@@ -38,9 +40,7 @@ class HomeSearchBar extends StatelessWidget {
                     isDense: true,
                     contentPadding: EdgeInsets.zero,
                   ),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.labelLarge?.copyWith(color: Colors.black87),
+                  style: textTheme.labelLarge?.copyWith(color: Colors.black87),
                 ),
               ),
             ],

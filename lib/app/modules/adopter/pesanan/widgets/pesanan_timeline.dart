@@ -59,23 +59,13 @@ class _TimelineRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    final Color dotColor;
-    final Color lineColor;
-
-    switch (step.status) {
-      case TimelineStatus.selesai:
-        dotColor = const Color(0xFFF87537);
-        lineColor = const Color(0xFFF87537);
-        break;
-      case TimelineStatus.aktif:
-        dotColor = const Color(0xFFF87537);
-        lineColor = const Color(0xFFE0E0E0);
-        break;
-      case TimelineStatus.menunggu:
-        dotColor = const Color(0xFFDDDDDD);
-        lineColor = const Color(0xFFE0E0E0);
-        break;
-    }
+    final dotColor = switch (step.status) {
+      TimelineStatus.selesai || TimelineStatus.aktif => const Color(0xFFF87537),
+      TimelineStatus.menunggu => const Color(0xFFDDDDDD),
+    };
+    final lineColor = step.status == TimelineStatus.selesai
+        ? const Color(0xFFF87537)
+        : const Color(0xFFE0E0E0);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

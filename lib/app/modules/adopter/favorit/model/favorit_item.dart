@@ -13,6 +13,5 @@ class FavoritItem {
     required this.hewan,
   });
 
-  // Nama lengkap yang tampil: "Anjing Chiuhuahua, Shelter Abadi Hewan"
   String get judulLengkap => '$namaHewan, $namaShelter';
 }

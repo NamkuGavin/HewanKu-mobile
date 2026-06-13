@@ -4,7 +4,8 @@ import 'favorit_item.dart';
 /// Cara pakai:
 /// 1. Wrap MaterialApp atau root widget dengan FavoritProvider
 /// 2. Akses dari mana saja via: FavoritProvider.of(context)
-class FavoritProvider extends InheritedNotifier<ValueNotifier<List<FavoritItem>>> {
+class FavoritProvider
+    extends InheritedNotifier<ValueNotifier<List<FavoritItem>>> {
   const FavoritProvider({
     super.key,
     required super.notifier,
@@ -12,7 +13,8 @@ class FavoritProvider extends InheritedNotifier<ValueNotifier<List<FavoritItem>>
   });
 
   static ValueNotifier<List<FavoritItem>> of(BuildContext context) {
-    final provider = context.dependOnInheritedWidgetOfExactType<FavoritProvider>();
+    final provider = context
+        .dependOnInheritedWidgetOfExactType<FavoritProvider>();
     assert(provider != null, 'FavoritProvider tidak ditemukan di widget tree.');
     return provider!.notifier!;
   }

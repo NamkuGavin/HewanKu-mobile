@@ -14,7 +14,8 @@ class HewanListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => AppNavigator.push(context, AdopsiDetailHewanView(hewan: hewan)),
+      onTap: () =>
+          AppNavigator.push(context, AdopsiDetailHewanView(hewan: hewan)),
       child: Column(
         children: [
           Padding(
@@ -65,9 +66,11 @@ class HewanListCard extends StatelessWidget {
             ),
           ),
           Divider(
-            height: 1, thickness: 1,
+            height: 1,
+            thickness: 1,
             color: const Color(0xFFF0F0F0),
-            indent: 20.w, endIndent: 20.w,
+            indent: 20.w,
+            endIndent: 20.w,
           ),
         ],
       ),

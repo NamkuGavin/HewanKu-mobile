@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../adopsi/widgets/hewan_model.dart';
 
 enum PesananStatus { sedangDiproses, berhasil, dibatalkan }
+
 enum TimelineStatus { selesai, aktif, menunggu }
 
 class TimelineStep {
@@ -36,7 +37,8 @@ class PesananItem {
   final DetailHewan hewan;
   final List<TimelineStep> timeline;
   final String perkiraanKedatangan;
-  final HewanModel? hewanModel; // <-- nullable, karena tidak semua PesananItem pasti punya data lengkap HewanModel 
+  final HewanModel?
+  hewanModel; // <-- nullable, karena tidak semua PesananItem pasti punya data lengkap HewanModel
 
   const PesananItem({
     required this.namaShelter,

@@ -20,13 +20,16 @@ class NotifikasiItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final backgroundColor = isHighlighted
+        ? const Color(0xFFFFF3EC)
+        : Colors.white;
 
     return GestureDetector(
       // Long press → popup menu Mark as read & Delete
       onLongPress: () => _showPopupMenu(context),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-        color: isHighlighted ? const Color(0xFFFFF3EC) : Colors.white,
+        color: backgroundColor,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

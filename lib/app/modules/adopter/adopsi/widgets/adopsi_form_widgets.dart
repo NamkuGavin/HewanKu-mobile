@@ -75,8 +75,10 @@ class FormTextField extends StatelessWidget {
               fontSize: 13.sp,
               color: const Color(0xFFBBBBBB),
             ),
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 14.w,
+              vertical: 14.h,
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.r),
               borderSide: const BorderSide(color: _orange, width: 1.2),
@@ -135,13 +137,18 @@ class FormDropdown extends StatelessWidget {
                 ),
               ),
               isExpanded: true,
-              icon: const Icon(Icons.keyboard_arrow_down_rounded, color: _orange),
+              icon: const Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: _orange,
+              ),
               style: GoogleFonts.poppins(
                 fontSize: 13.sp,
                 color: const Color(0xFF1A1A1A),
               ),
               items: items
-                  .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+                  .map(
+                    (item) => DropdownMenuItem(value: item, child: Text(item)),
+                  )
                   .toList(),
               onChanged: onChanged,
             ),
@@ -199,7 +206,7 @@ class FormCheckboxGroup extends StatelessWidget {
   final String label;
   final bool required;
   final List<String> options;
-  final String? selected;           
+  final String? selected;
   final ValueChanged<String> onToggle;
 
   const FormCheckboxGroup({
@@ -224,11 +231,13 @@ class FormCheckboxGroup extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           childAspectRatio: 4.5,
           children: options
-              .map((opt) => FormCheckboxOption(
-                    label: opt,
-                    checked: selected == opt,   // ← single-select
-                    onChanged: (_) => onToggle(opt),
-                  ))
+              .map(
+                (opt) => FormCheckboxOption(
+                  label: opt,
+                  checked: selected == opt, // ← single-select
+                  onChanged: (_) => onToggle(opt),
+                ),
+              )
               .toList(),
         ),
       ],

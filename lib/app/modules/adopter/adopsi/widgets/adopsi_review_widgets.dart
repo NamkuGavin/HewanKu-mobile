@@ -58,15 +58,18 @@ class ReviewRatingSummary extends StatelessWidget {
               ),
               SizedBox(height: 6.h),
               Row(
-                children: List.generate(5, (i) => Icon(
-                  i < ratingRata.floor()
-                      ? Icons.star_rounded
-                      : i < ratingRata
-                          ? Icons.star_half_rounded
-                          : Icons.star_border_rounded,
-                  color: _orange,
-                  size: 18.sp,
-                )),
+                children: List.generate(
+                  5,
+                  (i) => Icon(
+                    i < ratingRata.floor()
+                        ? Icons.star_rounded
+                        : i < ratingRata
+                        ? Icons.star_half_rounded
+                        : Icons.star_border_rounded,
+                    color: _orange,
+                    size: 18.sp,
+                  ),
+                ),
               ),
               SizedBox(height: 4.h),
               Text(
@@ -104,7 +107,9 @@ class ReviewRatingSummary extends StatelessWidget {
                             value: persen,
                             minHeight: 7.h,
                             backgroundColor: const Color(0xFFE0E0E0),
-                            valueColor: const AlwaysStoppedAnimation<Color>(_orange),
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                              _orange,
+                            ),
                           ),
                         ),
                       ),
@@ -188,13 +193,16 @@ class ReviewCard extends StatelessWidget {
               // Bintang + angka rating
               Row(
                 children: [
-                  ...List.generate(5, (i) => Icon(
-                    i < item.rating.floor()
-                        ? Icons.star_rounded
-                        : Icons.star_border_rounded,
-                    color: _orange,
-                    size: 13.sp,
-                  )),
+                  ...List.generate(
+                    5,
+                    (i) => Icon(
+                      i < item.rating.floor()
+                          ? Icons.star_rounded
+                          : Icons.star_border_rounded,
+                      color: _orange,
+                      size: 13.sp,
+                    ),
+                  ),
                   SizedBox(width: 4.w),
                   Text(
                     '(${item.rating.toStringAsFixed(1)})',

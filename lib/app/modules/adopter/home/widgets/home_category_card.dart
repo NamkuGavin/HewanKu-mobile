@@ -18,6 +18,7 @@ class HomeCategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final borderRadius = BorderRadius.circular(12.r);
 
     return GestureDetector(
       onTap: onTap,
@@ -25,7 +26,7 @@ class HomeCategoryCard extends StatelessWidget {
         width: 105.w,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius: borderRadius,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.07),
@@ -37,7 +38,6 @@ class HomeCategoryCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Foto kategori
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
               child: Image.network(

@@ -13,6 +13,9 @@ class DetailAdopsiRow {
 }
 
 class PesananTerakhirItem {
+  static const defaultPesanTerimakasih =
+      'Terima kasih telah menyelesaikan proses adopsi dengan baik';
+
   final String namaShelter;
   final String nomorInvoice;
   final String tanggal;
@@ -28,7 +31,6 @@ class PesananTerakhirItem {
     required this.statusLabel,
     required this.detailAdopsi,
     required this.totalBiaya,
-    this.pesanTerimakasih =
-        'Terima kasih telah menyelesaikan proses adopsi dengan baik',
+    this.pesanTerimakasih = defaultPesanTerimakasih,
   });
 }

@@ -10,10 +10,7 @@ import '../../../../common/contant/assets.dart';
 class LihatSemuaView extends StatelessWidget {
   final String title;
 
-  const LihatSemuaView({
-    super.key,
-    this.title = 'Lihat Semua',
-  });
+  const LihatSemuaView({super.key, this.title = 'Lihat Semua'});
 
   static const List<HewanModel> _hewanList = [
     HewanModel(
@@ -101,9 +98,8 @@ class LihatSemuaView extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 padding: EdgeInsets.only(top: 8.h, bottom: 24.h),
                 itemCount: _hewanList.length,
-                itemBuilder: (context, index) => HewanListCard(
-                  hewan: _hewanList[index],
-                ),
+                itemBuilder: (context, index) =>
+                    HewanListCard(hewan: _hewanList[index]),
               ),
             ),
           ],
@@ -125,7 +121,11 @@ class _LihatSemuaAppBar extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => AppNavigator.pop(context),
-            icon: Icon(Icons.arrow_back_rounded, size: 24.w, color: const Color(0xFFF87537)),
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              size: 24.w,
+              color: const Color(0xFFF87537),
+            ),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),

@@ -127,8 +127,12 @@ class DetailHewanInfoGrid extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: _InfoLabel('Jenis Kelamin', jenisKelamin, bold: true)),
-            Expanded(child: _InfoLabel('Tersedia', statusAdopsi, valueColor: _orange)),
+            Expanded(
+              child: _InfoLabel('Jenis Kelamin', jenisKelamin, bold: true),
+            ),
+            Expanded(
+              child: _InfoLabel('Tersedia', statusAdopsi, valueColor: _orange),
+            ),
           ],
         ),
         SizedBox(height: 8.h),
@@ -149,13 +153,21 @@ class _InfoLabel extends StatelessWidget {
   final bool bold;
   final Color? valueColor;
 
-  const _InfoLabel(this.label, this.value, {this.bold = false, this.valueColor});
+  const _InfoLabel(
+    this.label,
+    this.value, {
+    this.bold = false,
+    this.valueColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: GoogleFonts.poppins(fontSize: 13.sp, color: const Color(0xFF555555)),
+        style: GoogleFonts.poppins(
+          fontSize: 13.sp,
+          color: const Color(0xFF555555),
+        ),
         children: [
           TextSpan(text: '$label: '),
           TextSpan(
@@ -177,11 +189,7 @@ class DetailHewanPriceRow extends StatelessWidget {
   final String harga;
   final VoidCallback? onAdopsiTap;
 
-  const DetailHewanPriceRow({
-    super.key,
-    required this.harga,
-    this.onAdopsiTap,
-  });
+  const DetailHewanPriceRow({super.key, required this.harga, this.onAdopsiTap});
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +256,7 @@ class DetailHewanFavoritRow extends StatelessWidget {
           imageUrl: hewan.imageUrl,
           namaHewan: hewan.name,
           namaShelter: hewan.shelter,
-          hewan: hewan, 
+          hewan: hewan,
         );
 
         return Row(
@@ -302,10 +310,7 @@ class DetailHewanFavoritRow extends StatelessWidget {
 class DetailHewanKontakRow extends StatelessWidget {
   final String kontakShelter;
 
-  const DetailHewanKontakRow({
-    super.key,
-    required this.kontakShelter,
-  });
+  const DetailHewanKontakRow({super.key, required this.kontakShelter});
 
   /// Format nomor ke format internasional untuk WhatsApp
   /// Contoh: +6281367889011 → 6281367889011 (hapus +)
@@ -375,7 +380,7 @@ class DetailHewanPaymentCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _PaymentLogo(assetPath: ImageAsset.gopay, height: 22.h),
-              _PaymentLogo(assetPath: ImageAsset.qris, height: 20.h),   
+              _PaymentLogo(assetPath: ImageAsset.qris, height: 20.h),
               _PaymentLogo(assetPath: ImageAsset.mandiriLogo, height: 22.h),
               _PaymentLogo(assetPath: ImageAsset.danaLogo, height: 22.h),
             ],
@@ -393,10 +398,6 @@ class _PaymentLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      assetPath,
-      height: height,
-      fit: BoxFit.contain,
-    );
+    return Image.asset(assetPath, height: height, fit: BoxFit.contain);
   }
 }

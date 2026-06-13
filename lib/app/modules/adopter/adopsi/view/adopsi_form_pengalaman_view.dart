@@ -72,7 +72,9 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 90.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.r),
+        ),
       ),
     );
   }
@@ -80,17 +82,36 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
   // ── Buat PesananItem dari data hewan ──────────────────────────────────────
   PesananItem _buatPesanan() {
     final now = DateTime.now();
-    const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const days = [
+      'Minggu',
+      'Senin',
+      'Selasa',
+      'Rabu',
+      'Kamis',
+      'Jumat',
+      'Sabtu',
+    ];
     const months = [
-      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
     ];
     final tanggal =
         '${days[now.weekday % 7]}, ${now.day.toString().padLeft(2, '0')} ${months[now.month - 1]} ${now.year}';
     final waktuMasuk =
         '${now.day} ${months[now.month - 1]}, ${now.year} pada ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')} WIB';
     final invoiceNum = now.millisecondsSinceEpoch % 100000;
-    final orderNum = (900000000 + now.millisecondsSinceEpoch % 99999999).toString();
+    final orderNum = (900000000 + now.millisecondsSinceEpoch % 99999999)
+        .toString();
 
     return PesananItem(
       namaShelter: widget.hewan.shelter,
@@ -194,7 +215,7 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
                           SizedBox(width: 12.w),
                           Expanded(
                             child: FormTextField(
-                              label: 'Tahun, bulan, hari',
+                              label: 'Tahun / bulan / hari',
                               controller: _berapaLamaCtrl,
                             ),
                           ),

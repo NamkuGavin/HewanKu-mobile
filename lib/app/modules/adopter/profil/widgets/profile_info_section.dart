@@ -18,11 +18,15 @@ class ProfileInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final fields = [
+      ('Nama Lengkap', namaLengkap),
+      ('Email', email),
+      ('No. Handphone', noHandphone),
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header: "Informasi Pribadi" + tombol "Edit Profil"
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,27 +62,41 @@ class ProfileInfoSection extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
 
-        // Field: Nama Lengkap
-        _buildFieldLabel(context, 'Nama Lengkap'),
-        SizedBox(height: 6.h),
-        _buildReadonlyField(context, namaLengkap),
-        SizedBox(height: 14.h),
-
-        // Field: Email
-        _buildFieldLabel(context, 'Email'),
-        SizedBox(height: 6.h),
-        _buildReadonlyField(context, email),
-        SizedBox(height: 14.h),
-
-        // Field: No. Handphone
-        _buildFieldLabel(context, 'No. Handphone'),
-        SizedBox(height: 6.h),
-        _buildReadonlyField(context, noHandphone),
+        for (final field in fields) ...[
+          _ProfileInfoField(label: field.$1, value: field.$2),
+          if (field != fields.last) SizedBox(height: 14.h),
+        ],
       ],
     );
   }
+}
 
-  Widget _buildFieldLabel(BuildContext context, String label) {
+class _ProfileInfoField extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _ProfileInfoField({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _FieldLabel(label),
+        SizedBox(height: 6.h),
+        _ReadonlyField(value),
+      ],
+    );
+  }
+}
+
+class _FieldLabel extends StatelessWidget {
+  final String label;
+
+  const _FieldLabel(this.label);
+
+  @override
+  Widget build(BuildContext context) {
     return Text(
       label,
       style: Theme.of(context).textTheme.labelLarge?.copyWith(
@@ -87,9 +105,17 @@ class ProfileInfoSection extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildReadonlyField(BuildContext context, String value) {
+class _ReadonlyField extends StatelessWidget {
+  final String value;
+
+  const _ReadonlyField(this.value);
+
+  @override
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),

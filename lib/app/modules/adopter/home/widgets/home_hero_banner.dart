@@ -26,11 +26,7 @@ class HomeHeroBanner extends StatelessWidget {
           child: Stack(
             children: [
               // Blob kanan atas — gradient F87537 → FBA81F
-              Positioned(
-                top: -30,
-                right: -30,
-                child: _GradientBlob(size: 130),
-              ),
+              Positioned(top: -30, right: -30, child: _GradientBlob(size: 130)),
               // Blob kiri bawah
               Positioned(
                 bottom: 60,
@@ -139,7 +135,9 @@ class HomeHeroBanner extends StatelessWidget {
                           foregroundColor: Colors.white,
                           elevation: 0,
                           padding: EdgeInsets.symmetric(
-                              horizontal: 36.w, vertical: 14.h),
+                            horizontal: 36.w,
+                            vertical: 14.h,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50.r),
                           ),

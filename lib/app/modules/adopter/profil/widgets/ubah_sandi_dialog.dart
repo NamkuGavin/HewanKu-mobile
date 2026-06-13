@@ -82,7 +82,8 @@ class _UbahSandiDialogState extends State<UbahSandiDialog> {
             _buildPasswordField(
               _konfirmasiCtrl,
               obscure: _obscureKonfirmasi,
-              onToggle: () => setState(() => _obscureKonfirmasi = !_obscureKonfirmasi),
+              onToggle: () =>
+                  setState(() => _obscureKonfirmasi = !_obscureKonfirmasi),
             ),
             SizedBox(height: 28.h),
             SizedBox(

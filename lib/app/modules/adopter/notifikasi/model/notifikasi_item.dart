@@ -5,7 +5,7 @@ class NotifikasiItem {
   final String deskripsi;
   final String waktu;
   final NotifikasiTipe tipe;
-  final String? imageUrl; // null = pakai icon default
+  final String? imageUrl;
   final bool isRead;
 
   const NotifikasiItem({
@@ -17,14 +17,12 @@ class NotifikasiItem {
     this.isRead = true,
   });
 
-  NotifikasiItem copyWith({bool? isRead}) {
-    return NotifikasiItem(
-      judul: judul,
-      deskripsi: deskripsi,
-      waktu: waktu,
-      tipe: tipe,
-      imageUrl: imageUrl,
-      isRead: isRead ?? this.isRead,
-    );
-  }
+  NotifikasiItem copyWith({bool? isRead}) => NotifikasiItem(
+    judul: judul,
+    deskripsi: deskripsi,
+    waktu: waktu,
+    tipe: tipe,
+    imageUrl: imageUrl,
+    isRead: isRead ?? this.isRead,
+  );
 }

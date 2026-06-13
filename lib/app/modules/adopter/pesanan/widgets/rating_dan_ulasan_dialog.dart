@@ -42,9 +42,7 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.r),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
       insetPadding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 40.h),
       child: SingleChildScrollView(
         child: Padding(
@@ -114,8 +112,11 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
                     ),
                   ),
                   SizedBox(width: 4.w),
-                  Icon(Icons.help_outline_rounded,
-                      size: 14.w, color: const Color(0xFFBBBBBB)),
+                  Icon(
+                    Icons.help_outline_rounded,
+                    size: 14.w,
+                    color: const Color(0xFFBBBBBB),
+                  ),
                 ],
               ),
               SizedBox(height: 12.h),
@@ -177,14 +178,17 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
                         ),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.fromLTRB(
-                            12.w, 12.h, 12.w, 0),
+                          12.w,
+                          12.h,
+                          12.w,
+                          0,
+                        ),
                         counterText: '', // sembunyikan counter bawaan
                       ),
                     ),
                     // Counter karakter custom di kanan bawah
                     Padding(
-                      padding:
-                          EdgeInsets.fromLTRB(12.w, 4.h, 12.w, 8.h),
+                      padding: EdgeInsets.fromLTRB(12.w, 4.h, 12.w, 8.h),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -196,8 +200,11 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
                             ),
                           ),
                           SizedBox(width: 4.w),
-                          Icon(Icons.edit_outlined,
-                              size: 12.w, color: const Color(0xFFBBBBBB)),
+                          Icon(
+                            Icons.edit_outlined,
+                            size: 12.w,
+                            color: const Color(0xFFBBBBBB),
+                          ),
                         ],
                       ),
                     ),
@@ -254,7 +261,9 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                              color: const Color(0xFFEEEEEE), width: 1),
+                            color: const Color(0xFFEEEEEE),
+                            width: 1,
+                          ),
                           borderRadius: BorderRadius.circular(50.r),
                         ),
                         child: Text(

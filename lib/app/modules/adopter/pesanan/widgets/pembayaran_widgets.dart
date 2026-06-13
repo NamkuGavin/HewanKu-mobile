@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../adopsi/widgets/hewan_model.dart';
 import '../../../../common/widgets/app_net_image.dart';
 import '../../../../common/contant/assets.dart';
@@ -30,16 +31,26 @@ class PaymentMethodTile extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 14.h),
         child: Row(
           children: [
-            Image.asset(logoAsset, height: 28.h, width: 52.w, fit: BoxFit.contain),
+            Image.asset(
+              logoAsset,
+              height: 28.h,
+              width: 52.w,
+              fit: BoxFit.contain,
+            ),
             Container(
-              width: 1, height: 32.h,
+              width: 1,
+              height: 32.h,
               color: const Color(0xFFE0E0E0),
               margin: EdgeInsets.symmetric(horizontal: 14.w),
             ),
             Expanded(
-              child: Text(name,
+              child: Text(
+                name,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w500, color: Colors.black87)),
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+              ),
             ),
             _RadioCircle(isSelected: isSelected),
           ],
@@ -55,7 +66,8 @@ class _RadioCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    width: 22.w, height: 22.w,
+    width: 22.w,
+    height: 22.w,
     decoration: BoxDecoration(
       shape: BoxShape.circle,
       border: Border.all(color: _orange, width: 1.5),
@@ -63,15 +75,19 @@ class _RadioCircle extends StatelessWidget {
     child: isSelected
         ? Center(
             child: Container(
-              width: 12.w, height: 12.w,
-              decoration: const BoxDecoration(shape: BoxShape.circle, color: _orange),
+              width: 12.w,
+              height: 12.w,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: _orange,
+              ),
             ),
           )
         : null,
   );
 }
 
-// ── Tabel Rincian Pesanan ────────────────────────────────────────────────────  
+// ── Tabel Rincian Pesanan ────────────────────────────────────────────────────
 class OrderProductTable extends StatelessWidget {
   final HewanModel hewan;
   const OrderProductTable({super.key, required this.hewan});
@@ -96,18 +112,26 @@ class OrderProductTable extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Text('Hewan',
+                  child: Text(
+                    'Nama',
                     style: textTheme.labelMedium?.copyWith(
-                      fontWeight: FontWeight.w600, color: const Color(0xFF555555))),
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF555555),
+                    ),
+                  ),
                 ),
-                Text('Harga',
+                Text(
+                  'Harga',
                   style: textTheme.labelMedium?.copyWith(
-                    fontWeight: FontWeight.w600, color: const Color(0xFF555555))),
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF555555),
+                  ),
+                ),
               ],
             ),
           ),
           const Divider(height: 1, thickness: 1, color: Color(0xFFE0E0E0)),
-          // Row hewan & harga
+          // Row nama & harga
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
             child: Row(
@@ -116,7 +140,8 @@ class OrderProductTable extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(6.r),
                   child: SizedBox(
-                    width: 40.w, height: 40.h,
+                    width: 40.w,
+                    height: 40.h,
                     child: AppNetImage(
                       url: hewan.imageUrl,
                       fallbackColor: Color(hewan.fallbackColorValue),
@@ -128,20 +153,32 @@ class OrderProductTable extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(hewan.name,
+                      Text(
+                        hewan.name,
                         style: textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.w600, color: Colors.black),
-                        overflow: TextOverflow.ellipsis),
-                      Text(hewan.shelter,
-                        style: textTheme.labelSmall?.copyWith(color: const Color(0xFF9E9E9E)),
-                        overflow: TextOverflow.ellipsis),
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        hewan.shelter,
+                        style: textTheme.labelSmall?.copyWith(
+                          color: const Color(0xFF9E9E9E),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ],
                   ),
                 ),
                 SizedBox(width: 8.w),
-                Text(hewan.price,
+                Text(
+                  hewan.price,
                   style: textTheme.labelMedium?.copyWith(
-                    fontWeight: FontWeight.w600, color: Colors.black)),
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
               ],
             ),
           ),
@@ -177,25 +214,36 @@ class HewanDetailCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: rows.map((r) => Padding(
-          padding: EdgeInsets.only(bottom: 7.h),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 80.w,
-                child: Text(r[0],
-                  style: textTheme.labelMedium?.copyWith(
-                    color: const Color(0xFF9E9E9E))),
+        children: rows
+            .map(
+              (r) => Padding(
+                padding: EdgeInsets.only(bottom: 7.h),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 80.w,
+                      child: Text(
+                        r[0],
+                        style: textTheme.labelMedium?.copyWith(
+                          color: const Color(0xFF9E9E9E),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        r[1],
+                        style: textTheme.labelMedium?.copyWith(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Expanded(
-                child: Text(r[1],
-                  style: textTheme.labelMedium?.copyWith(
-                    color: Colors.black87, fontWeight: FontWeight.w500)),
-              ),
-            ],
-          ),
-        )).toList(),
+            )
+            .toList(),
       ),
     );
   }
@@ -254,11 +302,7 @@ class KontakShelterCard extends StatelessWidget {
 
             SizedBox(height: 10.h),
 
-            Image.asset(
-              IconAsset.whatsappIcon,
-              width: 28.w,
-              height: 28.w,
-            ),
+            Image.asset(IconAsset.whatsappIcon, width: 28.w, height: 28.w),
 
             SizedBox(height: 8.h),
 
@@ -305,14 +349,22 @@ class QrisDialog extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: Icon(Icons.arrow_back_rounded, color: _orange, size: 22.sp),
+                    child: Icon(
+                      Icons.arrow_back_rounded,
+                      color: _orange,
+                      size: 22.sp,
+                    ),
                   ),
                   Row(
                     children: [
                       Icon(Icons.pets, color: Colors.black, size: 20.sp),
                       SizedBox(width: 6.w),
-                      Text('HewanKu',
-                        style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700)),
+                      Text(
+                        'HewanKu',
+                        style: textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -322,17 +374,30 @@ class QrisDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.r),
                 child: Image.network(
                   'https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=400',
-                  width: double.infinity, height: 280.h, fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 280.h,
+                  fit: BoxFit.cover,
                   errorBuilder: (_, _, _) => Container(
-                    width: double.infinity, height: 280.h,
+                    width: double.infinity,
+                    height: 280.h,
                     color: const Color(0xFFF5F5F5),
-                    child: Center(child: Icon(Icons.qr_code_2_rounded, size: 120.sp, color: const Color(0xFF333333))),
+                    child: Center(
+                      child: Icon(
+                        Icons.qr_code_2_rounded,
+                        size: 120.sp,
+                        color: const Color(0xFF333333),
+                      ),
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 16.h),
-              Text('Total Pembayaran',
-                style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700)),
+              Text(
+                'Total Pembayaran',
+                style: textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               SizedBox(height: 8.h),
               Container(
                 width: double.infinity,
@@ -343,20 +408,35 @@ class QrisDialog extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Expanded(child: Text(total,
-                      style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700))),
+                    Expanded(
+                      child: Text(
+                        total,
+                        style: textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: total));
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: const Text('Total disalin'),
-                          backgroundColor: _orange,
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
-                          duration: const Duration(seconds: 1),
-                        ));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(style: GoogleFonts.poppins(fontSize: 12.sp), 'Total disalin'),
+                            backgroundColor: _orange,
+                            behavior: SnackBarBehavior.floating,
+                            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.r),
+                            ),
+                            duration: const Duration(seconds: 1),
+                          ),
+                        );
                       },
-                      child: Icon(Icons.copy_outlined, size: 20.sp, color: const Color(0xFF555555)),
+                      child: Icon(
+                        Icons.copy_outlined,
+                        size: 20.sp,
+                        color: const Color(0xFF555555),
+                      ),
                     ),
                   ],
                 ),
@@ -402,29 +482,52 @@ class TransferDialog extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: Icon(Icons.arrow_back_rounded, color: _orange, size: 22.sp),
+                  child: Icon(
+                    Icons.arrow_back_rounded,
+                    color: _orange,
+                    size: 22.sp,
+                  ),
                 ),
                 Row(
                   children: [
                     Icon(Icons.pets, color: Colors.black, size: 20.sp),
                     SizedBox(width: 6.w),
-                    Text('HewanKu',
-                      style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700)),
+                    Text(
+                      'HewanKu',
+                      style: textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ],
                 ),
               ],
             ),
             SizedBox(height: 24.h),
-            Center(child: Text('Transfer via $method',
-              style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700))),
+            Center(
+              child: Text(
+                'Transfer via $method',
+                style: textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
             SizedBox(height: 20.h),
-            _InfoRow(label: 'Nomor Rekening', value: nomorRekening, copyable: true),
+            _InfoRow(
+              label: 'Nomor Rekening',
+              value: nomorRekening,
+              copyable: true,
+            ),
             SizedBox(height: 12.h),
             _InfoRow(label: 'Atas Nama', value: atasNama),
             SizedBox(height: 12.h),
             _InfoRow(
-              label: 'Total Transfer', value: total, copyable: true,
-              valueStyle: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w800, color: Colors.black),
+              label: 'Total Transfer',
+              value: total,
+              copyable: true,
+              valueStyle: textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w800,
+                color: Colors.black,
+              ),
             ),
             SizedBox(height: 20.h),
             Container(
@@ -437,7 +540,10 @@ class TransferDialog extends StatelessWidget {
               ),
               child: Text(
                 'Selesaikan pembayaran dalam 24 jam. Kirim bukti transfer ke kontak shelter setelah bayar.',
-                style: textTheme.labelMedium?.copyWith(color: const Color(0xFFF87537), height: 1.5),
+                style: textTheme.labelMedium?.copyWith(
+                  color: const Color(0xFFF87537),
+                  height: 1.5,
+                ),
               ),
             ),
             SizedBox(height: 20.h),
@@ -448,10 +554,17 @@ class TransferDialog extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFFBA81F),
                   padding: EdgeInsets.symmetric(vertical: 14.h),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.r),
+                  ),
                 ),
-                child: Text('Saya sudah Transfer',
-                  style: textTheme.labelLarge?.copyWith(color: Colors.white, fontWeight: FontWeight.w700)),
+                child: Text(
+                  'Saya sudah Transfer',
+                  style: textTheme.labelLarge?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ),
           ],
@@ -490,12 +603,22 @@ class _InfoRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label,
-                  style: textTheme.labelMedium?.copyWith(color: const Color(0xFF9E9E9E))),
+                Text(
+                  label,
+                  style: textTheme.labelMedium?.copyWith(
+                    color: const Color(0xFF9E9E9E),
+                  ),
+                ),
                 SizedBox(height: 2.h),
-                Text(value,
-                  style: valueStyle ?? textTheme.labelLarge?.copyWith(
-                    fontWeight: FontWeight.w700, color: Colors.black)),
+                Text(
+                  value,
+                  style:
+                      valueStyle ??
+                      textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                ),
               ],
             ),
           ),
@@ -503,15 +626,24 @@ class _InfoRow extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Clipboard.setData(ClipboardData(text: value));
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('$label disalin'),
-                  backgroundColor: _orange,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
-                  duration: const Duration(seconds: 1),
-                ));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(style: GoogleFonts.poppins(fontSize: 12.sp),'$label disalin'),
+                    backgroundColor: _orange,
+                    behavior: SnackBarBehavior.floating,
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.r),
+                    ),
+                    duration: const Duration(seconds: 1),
+                  ),
+                );
               },
-              child: Icon(Icons.copy_outlined, size: 18.sp, color: const Color(0xFF555555)),
+              child: Icon(
+                Icons.copy_outlined,
+                size: 18.sp,
+                color: const Color(0xFF555555),
+              ),
             ),
         ],
       ),

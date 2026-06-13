@@ -52,15 +52,17 @@ class AdopsiFeaturedSection extends StatelessWidget {
           SizedBox(height: 14.h),
           Row(
             children: _items
-                .map((item) => Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          right: item == _items.first ? 8.w : 0,
-                          left: item == _items.last ? 8.w : 0,
-                        ),
-                        child: _FeaturedCard(hewan: item),
+                .map(
+                  (item) => Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: item == _items.first ? 8.w : 0,
+                        left: item == _items.last ? 8.w : 0,
                       ),
-                    ))
+                      child: _FeaturedCard(hewan: item),
+                    ),
+                  ),
+                )
                 .toList(),
           ),
         ],
@@ -76,10 +78,8 @@ class _FeaturedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AppNavigator.push(
-        context,
-        AdopsiDetailHewanView(hewan: hewan),
-      ),
+      onTap: () =>
+          AppNavigator.push(context, AdopsiDetailHewanView(hewan: hewan)),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,

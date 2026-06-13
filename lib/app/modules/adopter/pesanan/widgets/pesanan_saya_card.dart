@@ -268,13 +268,20 @@ class _PesananSayaCardState extends State<PesananSayaCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Status Pembayaran',
-              style: textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.w700, color: Colors.black)),
+          Text(
+            'Status Pembayaran',
+            style: textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
           SizedBox(height: 8.h),
-          Text('Menunggu konfirmasi pembayaran...',
-              style: textTheme.labelMedium?.copyWith(
-                  color: const Color(0xFF9E9E9E))),
+          Text(
+            'Menunggu konfirmasi pembayaran...',
+            style: textTheme.labelMedium?.copyWith(
+              color: const Color(0xFF9E9E9E),
+            ),
+          ),
           SizedBox(height: 12.h),
           SizedBox(
             width: double.infinity,
@@ -283,26 +290,33 @@ class _PesananSayaCardState extends State<PesananSayaCard> {
                 context,
                 PesananPembayaranView(
                   pesanan: widget.item,
-                  hewan: widget.item.hewanModel ?? HewanModel(
-                    name: widget.item.hewan.namaHewan,
-                    shelter: widget.item.hewan.subNama,
-                    price: widget.item.hewan.totalBiaya,
-                    rating: 5.0,
-                    reviewCount: 0,
-                    tags: [],
-                    imageUrl: widget.item.hewan.imageUrl,
-                    fallbackColorValue: 0xFFFFD8C0,
-                  ),
+                  hewan:
+                      widget.item.hewanModel ??
+                      HewanModel(
+                        name: widget.item.hewan.namaHewan,
+                        shelter: widget.item.hewan.subNama,
+                        price: widget.item.hewan.totalBiaya,
+                        rating: 5.0,
+                        reviewCount: 0,
+                        tags: [],
+                        imageUrl: widget.item.hewan.imageUrl,
+                        fallbackColorValue: 0xFFFFD8C0,
+                      ),
                 ),
               ),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 10.h),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.r)),
+                  borderRadius: BorderRadius.circular(50.r),
+                ),
               ),
-              child: Text('Lanjutkan Pembayaran',
-                  style: textTheme.labelLarge?.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.w700)),
+              child: Text(
+                'Lanjutkan Pembayaran',
+                style: textTheme.labelLarge?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
           ),
         ],

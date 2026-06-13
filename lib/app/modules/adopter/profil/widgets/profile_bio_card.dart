@@ -4,10 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ProfileBioCard extends StatelessWidget {
   final String bio;
 
-  const ProfileBioCard({
-    super.key,
-    required this.bio,
-  });
+  const ProfileBioCard({super.key, required this.bio});
 
   @override
   Widget build(BuildContext context) {

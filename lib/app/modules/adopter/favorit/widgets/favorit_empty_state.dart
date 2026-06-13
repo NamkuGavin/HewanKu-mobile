@@ -14,13 +14,13 @@ class FavoritEmptyState extends StatelessWidget {
         Container(color: const Color(0xFFF5F5F5)),
 
         // Blob kanan atas
-        Positioned(top: -40, right: -40, child: _PeachBlob(size: 180)),
+        const Positioned(top: -40, right: -40, child: _PeachBlob(size: 180)),
 
         // Blob kiri tengah
-        Positioned(top: 280, left: -50, child: _PeachBlob(size: 140)),
+        const Positioned(top: 280, left: -50, child: _PeachBlob(size: 140)),
 
         // Blob kanan bawah
-        Positioned(bottom: -30, right: -20, child: _PeachBlob(size: 120)),
+        const Positioned(bottom: -30, right: -20, child: _PeachBlob(size: 120)),
 
         // Konten tengah — icon cakar + teks
         Center(

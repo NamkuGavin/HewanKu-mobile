@@ -18,7 +18,7 @@ class ProfilView extends StatefulWidget {
 }
 
 class _ProfilViewState extends State<ProfilView> {
-  String _bio ='';
+  String _bio = '';
   String _namaLengkap = 'Ali Luqmanul hakim';
   String _email = 'alihakimluqmasdaliaks@gmail.com';
   String _noHandphone = '+6291278312873';

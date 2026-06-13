@@ -55,17 +55,18 @@ class AdopsiListSection extends StatelessWidget {
               ),
               SizedBox(width: 8.w),
               OutlinedButton(
-                onPressed: () => AppNavigator.push(
-                  context,
-                  LihatSemuaView(title: title),
-                ),
+                onPressed: () =>
+                    AppNavigator.push(context, LihatSemuaView(title: title)),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: const Color(0xFFF87537),
                   side: const BorderSide(color: Color(0xFFF87537), width: 1.2),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.r),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 6.h,
+                  ),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
@@ -104,10 +105,8 @@ class _HewanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AppNavigator.push(
-        context,
-        AdopsiDetailHewanView(hewan: hewan),
-      ),
+      onTap: () =>
+          AppNavigator.push(context, AdopsiDetailHewanView(hewan: hewan)),
       child: Container(
         width: 148.w,
         decoration: BoxDecoration(

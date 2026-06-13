@@ -78,7 +78,11 @@ class AdopsiReviewView extends StatelessWidget {
                     totalUlasan: _totalUlasan,
                     distribusi: _distribusi,
                   ),
-                  const Divider(height: 1, thickness: 1, color: Color(0xFFF0F0F0)),
+                  const Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Color(0xFFF0F0F0),
+                  ),
                   // List review
                   ..._reviews.map((item) => ReviewCard(item: item)),
                   SizedBox(height: 24.h),

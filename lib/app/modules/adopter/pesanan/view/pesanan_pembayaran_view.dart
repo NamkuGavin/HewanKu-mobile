@@ -37,12 +37,17 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
     if (_selectedPayment < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Pilih metode pembayaran terlebih dahulu', style: GoogleFonts.poppins(fontSize: 14.sp)),
+          content: Text(
+            'Pilih metode pembayaran terlebih dahulu',
+            style: GoogleFonts.poppins(fontSize: 14.sp),
+          ),
           backgroundColor: const Color(0xFFF87537),
           behavior: SnackBarBehavior.floating,
           margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 180.h),
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50.r),
+          ),
         ),
       );
       return;
@@ -102,13 +107,19 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
                 children: [
                   IconButton(
                     onPressed: () => AppNavigator.pop(context),
-                    icon: Icon(Icons.arrow_back_rounded, color: primaryColor, size: 24.sp),
+                    icon: Icon(
+                      Icons.arrow_back_rounded,
+                      color: primaryColor,
+                      size: 24.sp,
+                    ),
                   ),
                   Expanded(
                     child: Text(
                       'Rincian Pembayaran',
                       textAlign: TextAlign.center,
-                      style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                      style: textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                   SizedBox(width: 40.w),
@@ -134,10 +145,15 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
                                 logoAsset: _methods[i].logo,
                                 name: _methods[i].name,
                                 isSelected: _selectedPayment == i,
-                                onTap: () => setState(() => _selectedPayment = i),
+                                onTap: () =>
+                                    setState(() => _selectedPayment = i),
                               ),
                               if (!isLast)
-                                Divider(height: 1, thickness: 1, color: const Color(0xFFF0F0F0)),
+                                Divider(
+                                  height: 1,
+                                  thickness: 1,
+                                  color: const Color(0xFFF0F0F0),
+                                ),
                             ],
                           );
                         }),
@@ -155,39 +171,52 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Rincian Pesanan',
-                                  style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700)),
+                              Text(
+                                'Rincian Pesanan',
+                                style: textTheme.bodySmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text('Batas Pembayaran',
-                                      style: textTheme.labelMedium?.copyWith(
-                                          color: const Color(0xFF9E9E9E))),
-                                  Text('23:50:00',
-                                      style: textTheme.labelLarge?.copyWith(
-                                          color: primaryColor, fontWeight: FontWeight.w700)),
+                                  Text(
+                                    'Batas Pembayaran',
+                                    style: textTheme.labelMedium?.copyWith(
+                                      color: const Color(0xFF9E9E9E),
+                                    ),
+                                  ),
+                                  Text(
+                                    '23:50:00',
+                                    style: textTheme.labelLarge?.copyWith(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
                           ),
                           SizedBox(height: 12.h),
 
-                          // Tabel hewan & harga
+                          // Tabel nama & harga
                           OrderProductTable(hewan: h),
                           SizedBox(height: 16.h),
 
                           // Detail hewan
-                          Text('Detail Hewan',
-                              style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700)),
+                          Text(
+                            'Detail Hewan',
+                            style: textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           SizedBox(height: 10.h),
 
                           IntrinsicHeight(
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Expanded(
-                                  child: HewanDetailCard(hewan: h),
-                                ),
+                                Expanded(child: HewanDetailCard(hewan: h)),
                                 SizedBox(width: 10.w),
                                 KontakShelterCard(
                                   namaShelter: widget.pesanan.namaShelter,
@@ -210,13 +239,16 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
                           backgroundColor: Color(0xFFFBA81F),
                           padding: EdgeInsets.symmetric(vertical: 16.h),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.r)),
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
                         ),
-                        child: Text('LANJUTKAN BAYAR',
+                        child: Text(
+                          'LANJUTKAN BAYAR',
                           style: GoogleFonts.poppins(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -237,14 +269,14 @@ class _SectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: child,
-      );
+    width: double.infinity,
+    padding: EdgeInsets.all(16.w),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16.r),
+    ),
+    child: child,
+  );
 }
 
 class _PaymentMethod {

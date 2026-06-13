@@ -19,51 +19,60 @@ class _NotifikasiViewState extends State<NotifikasiView> {
   final List<NotifikasiItem> _notifList = [
     const NotifikasiItem(
       judul: 'App Update',
-      deskripsi: 'New update out now! Discover improved productivity tools and more.',
+      deskripsi:
+          'New update out now! Discover improved productivity tools and more.',
       waktu: '2 days ago',
       tipe: NotifikasiTipe.appUpdate,
       isRead: true,
     ),
     const NotifikasiItem(
       judul: 'Hasil Form',
-      deskripsi: 'Get subcription premium now at 40% off for more productivity tools and more.',
+      deskripsi:
+          'Get subcription premium now at 40% off for more productivity tools and more.',
       waktu: '2 days ago',
       tipe: NotifikasiTipe.hasilForm,
       isRead: false, // ← unread = highlighted oranye muda
     ),
     const NotifikasiItem(
       judul: 'New Customer allert',
-      deskripsi: 'lucky for you, you have a new customer waiting for your service...',
+      deskripsi:
+          'lucky for you, you have a new customer waiting for your service...',
       waktu: 'now',
       tipe: NotifikasiTipe.customerAlert,
       isRead: true,
     ),
     const NotifikasiItem(
       judul: 'New Customer allert',
-      deskripsi: 'lucky for you, you have a new customer waiting for your service...',
+      deskripsi:
+          'lucky for you, you have a new customer waiting for your service...',
       waktu: 'now',
       tipe: NotifikasiTipe.customerAlert,
-      imageUrl: 'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?w=100',
+      imageUrl:
+          'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?w=100',
       isRead: true,
     ),
     const NotifikasiItem(
       judul: 'New Customer allert',
-      deskripsi: 'lucky for you, you have a new customer waiting for your service...',
+      deskripsi:
+          'lucky for you, you have a new customer waiting for your service...',
       waktu: 'now',
       tipe: NotifikasiTipe.customerAlert,
       isRead: true,
     ),
     const NotifikasiItem(
       judul: 'New Customer allert',
-      deskripsi: 'lucky for you, you have a new customer waiting for your service...',
+      deskripsi:
+          'lucky for you, you have a new customer waiting for your service...',
       waktu: 'now',
       tipe: NotifikasiTipe.customerAlert,
-      imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=100',
+      imageUrl:
+          'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=100',
       isRead: true,
     ),
     const NotifikasiItem(
       judul: 'New Customer allert',
-      deskripsi: 'lucky for you, you have a new customer waiting for your service...',
+      deskripsi:
+          'lucky for you, you have a new customer waiting for your service...',
       waktu: 'now',
       tipe: NotifikasiTipe.customerAlert,
       isRead: true,

@@ -70,14 +70,16 @@ class AdopsiDetailHewanView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16.h),
-                    const Divider(color: Color(0xFFEEEEEE), thickness: 1, height: 1),
+                    const Divider(
+                      color: Color(0xFFEEEEEE),
+                      thickness: 1,
+                      height: 1,
+                    ),
                     SizedBox(height: 14.h),
                     DetailHewanFavoritRow(
                       hewan: hewan,
-                      onLihatReviewTap: () => AppNavigator.push(
-                        context,
-                        const AdopsiReviewView(),
-                      ),
+                      onLihatReviewTap: () =>
+                          AppNavigator.push(context, const AdopsiReviewView()),
                     ),
                     SizedBox(height: 10.h),
                     DetailHewanKontakRow(
@@ -107,7 +109,11 @@ class _DetailHewanHeader extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => AppNavigator.pop(context),
-            icon: Icon(Icons.arrow_back_rounded, color: primaryColor, size: 24.sp),
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: primaryColor,
+              size: 24.sp,
+            ),
           ),
           const Spacer(),
           _IconBtn(
@@ -131,7 +137,11 @@ class _IconBtn extends StatelessWidget {
   final IconData icon;
   final Color color;
   final VoidCallback onTap;
-  const _IconBtn({required this.icon, required this.color, required this.onTap});
+  const _IconBtn({
+    required this.icon,
+    required this.color,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +152,8 @@ class _IconBtn extends StatelessWidget {
         customBorder: const CircleBorder(),
         onTap: onTap,
         child: SizedBox(
-          width: 36.w, height: 36.h,
+          width: 36.w,
+          height: 36.h,
           child: Icon(icon, size: 20.w, color: color),
         ),
       ),

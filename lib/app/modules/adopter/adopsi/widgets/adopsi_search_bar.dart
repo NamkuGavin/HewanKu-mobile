@@ -29,8 +29,7 @@ class AdopsiSearchBar extends StatelessWidget {
             ),
             filled: true,
             fillColor: const Color(0xFFF5F5F5),
-            contentPadding:
-                EdgeInsets.symmetric(vertical: 0, horizontal: 18.w),
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 18.w),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.r),
               borderSide: BorderSide.none,

@@ -96,8 +96,8 @@ class _FavoritViewState extends State<FavoritView> {
             title: Text(
               _isDeleteMode
                   ? (_selectedNames.isEmpty
-                      ? 'Pilih item'
-                      : '${_selectedNames.length} dipilih')
+                        ? 'Pilih item'
+                        : '${_selectedNames.length} dipilih')
                   : 'Favorit',
               style: textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.w700,

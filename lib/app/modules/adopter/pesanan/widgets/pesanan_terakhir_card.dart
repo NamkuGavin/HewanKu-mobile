@@ -12,6 +12,7 @@ class PesananTerakhirCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final shadowColor = Colors.black.withValues(alpha: 0.07);
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.w),
@@ -20,7 +21,7 @@ class PesananTerakhirCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.07),
+            color: shadowColor,
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),

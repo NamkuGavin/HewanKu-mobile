@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PesananTabSwitcher extends StatelessWidget {
-  final int selectedIndex; // 0 = Pesanan Saya, 1 = Pesanan Terakhir
+  static const _labels = ['Pesanan\nSaya', 'Pesanan\nTerakhir'];
+
+  final int selectedIndex;
   final ValueChanged<int> onTabChanged;
 
   const PesananTabSwitcher({
@@ -21,18 +23,13 @@ class PesananTabSwitcher extends StatelessWidget {
         borderRadius: BorderRadius.circular(14.r),
       ),
       child: Row(
-        children: [
-          _TabItem(
-            label: 'Pesanan\nSaya',
-            isActive: selectedIndex == 0,
-            onTap: () => onTabChanged(0),
-          ),
-          _TabItem(
-            label: 'Pesanan\nTerakhir',
-            isActive: selectedIndex == 1,
-            onTap: () => onTabChanged(1),
-          ),
-        ],
+        children: List.generate(_labels.length, (index) {
+          return _TabItem(
+            label: _labels[index],
+            isActive: selectedIndex == index,
+            onTap: () => onTabChanged(index),
+          );
+        }),
       ),
     );
   }

@@ -40,13 +40,26 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
   // ── Dropdown options ──────────────────────────────────────────────────────
   static const _opsiJenisKelamin = ['Pria', 'Wanita'];
   static const _opsiDaerah = [
-    'Bandung', 'Jakarta', 'Surabaya', 'Yogyakarta', 'Medan', 'Makassar',
+    'Bandung',
+    'Jakarta',
+    'Surabaya',
+    'Yogyakarta',
+    'Medan',
+    'Makassar',
   ];
   static const _opsiJalan = [
-    'Telekomunikasi', 'Jl. Sudirman', 'Jl. Thamrin',
-    'Jl. Gatot Subroto', 'Jl. Asia Afrika',
+    'Telekomunikasi',
+    'Jl. Sudirman',
+    'Jl. Thamrin',
+    'Jl. Gatot Subroto',
+    'Jl. Asia Afrika',
   ];
-  static const _opsiPekerjaan = ['Karyawan', 'Pelajar', 'Pengangguran', 'Lainnya'];
+  static const _opsiPekerjaan = [
+    'Karyawan',
+    'Pelajar / Mahasiswa',
+    'Pengangguran',
+    'Lainnya',
+  ];
   static const _opsiTempatTinggal = ['Kos', 'Rumah', 'Kontrakan', 'Lainnya'];
 
   @override
@@ -115,9 +128,11 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
         content: Text(msg, style: GoogleFonts.poppins(fontSize: 12.sp)),
         backgroundColor: const Color(0xFFF87537),
         behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 90.h), 
+        margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 90.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.r),
+        ),
       ),
     );
   }
@@ -172,7 +187,7 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
                     ),
                     SizedBox(height: 16.h),
                     FormTextField(
-                      label: 'Nomor Telephone',
+                      label: 'Nomor Telepon',
                       required: true,
                       controller: _teleponCtrl,
                       keyboardType: TextInputType.phone,
