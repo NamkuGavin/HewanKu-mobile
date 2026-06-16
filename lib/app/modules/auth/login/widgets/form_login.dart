@@ -4,27 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../common/utils/form_validator.dart';
 import '../../../../widgets/build_custom_text_field_auth.dart';
 
-class FormLogin extends StatefulWidget {
-  const FormLogin({super.key});
+class FormLogin extends StatelessWidget {
+  final GlobalKey<FormState> formKey;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
 
-  @override
-  State<FormLogin> createState() => _FormLoginState();
-}
-
-class _FormLoginState extends State<FormLogin> {
-  final formKey = GlobalKey<FormState>();
-
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  bool isPasswordVisible = false;
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+  const FormLogin({super.key, required this.formKey, required this.emailController, required this.passwordController});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +27,7 @@ class _FormLoginState extends State<FormLogin> {
           CustomAuthTextField(
             hintText: 'Sandi',
             controller: passwordController,
-            obscureText: !isPasswordVisible,
+            obscureText: true,
             validator: FormValidator.password,
           ),
         ],

@@ -4,36 +4,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../common/utils/form_validator.dart';
 import '../../../../widgets/build_custom_text_field_auth.dart';
 
-class FormRegister extends StatefulWidget {
-  const FormRegister({super.key});
+class FormRegister extends StatelessWidget {
+  final GlobalKey<FormState> formKey;
+  final TextEditingController firstNameController;
+  final TextEditingController lastNameController;
+  final TextEditingController phoneController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
 
-  @override
-  State<FormRegister> createState() => _FormRegisterState();
-}
-
-class _FormRegisterState extends State<FormRegister> {
-  final formKey = GlobalKey<FormState>();
-
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final phoneController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-
-  bool isPasswordVisible = false;
-  bool isConfirmPasswordVisible = false;
-
-  @override
-  void dispose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    phoneController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
-    super.dispose();
-  }
+  const FormRegister({
+    super.key,
+    required this.formKey,
+    required this.firstNameController,
+    required this.lastNameController,
+    required this.phoneController,
+    required this.emailController,
+    required this.passwordController,
+    required this.confirmPasswordController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +69,13 @@ class _FormRegisterState extends State<FormRegister> {
           CustomAuthTextField(
             hintText: 'Sandi',
             controller: passwordController,
-            obscureText: !isPasswordVisible,
+            obscureText: true,
             validator: FormValidator.password,
           ),
           CustomAuthTextField(
             hintText: 'Konfirmasi Sandi',
             controller: confirmPasswordController,
-            obscureText: !isConfirmPasswordVisible,
+            obscureText: true,
             validator: (value) {
               return FormValidator.confirmPassword(value, password: passwordController.text);
             },

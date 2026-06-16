@@ -3,25 +3,42 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../common/utils/app_navigator.dart';
-import '../../../../common/widgets/app_net_image.dart';
-import '../widgets/hewan_model.dart';
-import '../view/adopsi_lihat_semua.dart';
+import '../../home/widgets/home_section_placeholder.dart';
 import '../view/adopsi_detail_hewan.dart';
+import '../view/adopsi_lihat_semua.dart';
+import 'hewan_model.dart';
+import 'hewan_showcase_card.dart';
 
 class AdopsiListSection extends StatelessWidget {
   final String title;
   final String subtitle;
   final List<HewanModel> items;
+  final bool hasError;
+  final VoidCallback onRetry;
 
   const AdopsiListSection({
     super.key,
     required this.title,
     required this.subtitle,
     required this.items,
+    required this.hasError,
+    required this.onRetry,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (hasError) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: HomeSectionPlaceholder(
+          icon: Icons.pets_outlined,
+          title: '$title belum bisa dimuat.',
+          description: 'Coba muat ulang untuk mengambil data terbaru.',
+          onRetry: onRetry,
+        ),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -45,37 +62,27 @@ class AdopsiListSection extends StatelessWidget {
                     SizedBox(height: 2.h),
                     Text(
                       subtitle,
-                      style: GoogleFonts.poppins(
-                        fontSize: 11.sp,
-                        color: const Color(0xFF999999),
-                      ),
+                      style: GoogleFonts.poppins(fontSize: 11.sp, color: const Color(0xFF999999)),
                     ),
                   ],
                 ),
               ),
               SizedBox(width: 8.w),
               OutlinedButton(
-                onPressed: () =>
-                    AppNavigator.push(context, LihatSemuaView(title: title)),
+                onPressed: items.isEmpty
+                    ? null
+                    : () => AppNavigator.push(context, LihatSemuaView(title: title, items: items)),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: const Color(0xFFF87537),
                   side: const BorderSide(color: Color(0xFFF87537), width: 1.2),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.r),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 14.w,
-                    vertical: 6.h,
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
+                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 child: Text(
                   'Lihat Semua',
-                  style: GoogleFonts.poppins(
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: GoogleFonts.poppins(fontSize: 11.sp, fontWeight: FontWeight.w500),
                 ),
               ),
             ],
@@ -83,7 +90,7 @@ class AdopsiListSection extends StatelessWidget {
         ),
         SizedBox(height: 14.h),
         SizedBox(
-          height: 210.h,
+          height: 278.h,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -100,69 +107,16 @@ class AdopsiListSection extends StatelessWidget {
 
 class _HewanCard extends StatelessWidget {
   final HewanModel hewan;
+
   const _HewanCard({required this.hewan});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () =>
-          AppNavigator.push(context, AdopsiDetailHewanView(hewan: hewan)),
-      child: Container(
-        width: 148.w,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.07),
-              blurRadius: 10,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r),
-                topRight: Radius.circular(16.r),
-              ),
-              child: SizedBox(
-                height: 130.h,
-                width: double.infinity,
-                child: AppNetImage(
-                  url: hewan.imageUrl,
-                  fallbackColor: Color(hewan.fallbackColorValue),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10.w, 8.h, 10.w, 3.h),
-              child: Text(
-                hewan.name,
-                style: GoogleFonts.poppins(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF1A1A1A),
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 12.h),
-              child: Text(
-                hewan.price,
-                style: GoogleFonts.poppins(
-                  fontSize: 11.sp,
-                  color: const Color(0xFFAAAAAA),
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          ],
-        ),
+    return SizedBox(
+      width: 170.w,
+      child: HewanShowcaseCard(
+        hewan: hewan,
+        onTap: () => AppNavigator.push(context, AdopsiDetailHewanView(hewan: hewan)),
       ),
     );
   }

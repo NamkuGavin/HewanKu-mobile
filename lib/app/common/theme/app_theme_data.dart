@@ -32,7 +32,6 @@ class AppThemeData {
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
           backgroundColor: Color(0xFFFBA81F),
-          disabledBackgroundColor: Color(0xFFFEFEFE),
           minimumSize: Size(0.w, 45.h),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         ),

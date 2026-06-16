@@ -1,5 +1,6 @@
 /// Model data untuk satu item hewan di halaman Lihat Semua
 class HewanModel {
+  final int id;
   final String name;
   final String shelter;
   final String price;
@@ -14,8 +15,10 @@ class HewanModel {
   final String? jenisKelamin;
   final String? kontakShelter;
   final String? kategori;
+  final String? statusAdopsi;
 
   const HewanModel({
+    this.id = 0,
     required this.name,
     required this.shelter,
     required this.price,
@@ -28,5 +31,6 @@ class HewanModel {
     this.jenisKelamin,
     this.kontakShelter,
     this.kategori,
+    this.statusAdopsi,
   });
 }

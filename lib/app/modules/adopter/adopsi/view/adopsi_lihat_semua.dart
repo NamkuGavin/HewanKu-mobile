@@ -9,8 +9,9 @@ import '../../../../common/contant/assets.dart';
 
 class LihatSemuaView extends StatelessWidget {
   final String title;
+  final List<HewanModel>? items;
 
-  const LihatSemuaView({super.key, this.title = 'Lihat Semua'});
+  const LihatSemuaView({super.key, this.title = 'Lihat Semua', this.items});
 
   static const List<HewanModel> _hewanList = [
     HewanModel(
@@ -87,6 +88,8 @@ class LihatSemuaView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final displayedItems = items == null || items!.isEmpty ? _hewanList : items!;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -97,9 +100,8 @@ class LihatSemuaView extends StatelessWidget {
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 padding: EdgeInsets.only(top: 8.h, bottom: 24.h),
-                itemCount: _hewanList.length,
-                itemBuilder: (context, index) =>
-                    HewanListCard(hewan: _hewanList[index]),
+                itemCount: displayedItems.length,
+                itemBuilder: (context, index) => HewanListCard(hewan: displayedItems[index]),
               ),
             ),
           ],
@@ -121,11 +123,7 @@ class _LihatSemuaAppBar extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => AppNavigator.pop(context),
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              size: 24.w,
-              color: const Color(0xFFF87537),
-            ),
+            icon: Icon(Icons.arrow_back_rounded, size: 24.w, color: const Color(0xFFF87537)),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -133,11 +131,7 @@ class _LihatSemuaAppBar extends StatelessWidget {
             child: Center(
               child: Text(
                 title,
-                style: GoogleFonts.poppins(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF1A1A1A),
-                ),
+                style: GoogleFonts.poppins(fontSize: 18.sp, fontWeight: FontWeight.w700, color: const Color(0xFF1A1A1A)),
               ),
             ),
           ),

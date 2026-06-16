@@ -2,8 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../common/theme/app_theme_data.dart';
+import '../../../../common/widgets/app_snackbar.dart';
 import '../../../../common/utils/app_navigator.dart';
+import '../../../../models/auth/auth_register_request_model.dart';
+import '../../../../services/auth/auth_service.dart';
+import '../../../../services/api/api_exception.dart';
 import '../../../../widgets/build_background_auth.dart';
 import '../../login/view/login_view.dart';
 import '../../role/view/role_view.dart';
@@ -18,7 +21,108 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  bool rememberMe = false;
+  final _formKey = GlobalKey<FormState>();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  bool _isSubmitting = false;
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  String _extractErrorMessage(Object error) {
+    if (error is ApiException) {
+      return error.message;
+    }
+    if (error is FormatException) {
+      return error.message;
+    }
+    if (error is Exception) {
+      return error.toString().replaceFirst('Exception: ', '');
+    }
+    return 'Terjadi kesalahan saat register.';
+  }
+
+  AppSnackbarType _extractErrorType(Object error) {
+    if (error is ApiException) {
+      if (error.isUnauthorized || error.statusCode == 400 || error.statusCode == 401 || error.statusCode == 403) {
+        return AppSnackbarType.warning;
+      }
+      if (error.apiCode == 400 || error.apiCode == 401 || error.apiCode == 403) {
+        return AppSnackbarType.warning;
+      }
+    }
+    if (error is FormatException) {
+      return AppSnackbarType.warning;
+    }
+    return AppSnackbarType.error;
+  }
+
+  Future<void> _handleRegister() async {
+    if (widget.role == UserRole.shelter) {
+      AppSnackbar.show(
+        context,
+        message: 'Register shelter belum diintegrasikan di aplikasi.',
+        type: AppSnackbarType.warning,
+      );
+      return;
+    }
+
+    final formState = _formKey.currentState;
+    if (formState == null || !formState.validate()) {
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
+    try {
+      final response = await AuthService.instance.registerAdopter(
+        AuthRegisterRequestModel(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          namaDepan: _firstNameController.text.trim(),
+          namaBelakang: _lastNameController.text.trim(),
+          noTelepon: _phoneController.text.trim(),
+          confirmPassword: _confirmPasswordController.text,
+          keyRole: 'adopter',
+        ),
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      AppNavigator.replace(
+        context,
+        LoginView(
+          role: UserRole.adopter,
+          initialMessage: response.message ?? 'Akun telah terbuat. Silakan login.',
+          initialEmail: _emailController.text.trim(),
+          initialSnackbarType: AppSnackbarType.success,
+        ),
+      );
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      AppSnackbar.show(context, message: _extractErrorMessage(error), type: _extractErrorType(error));
+    } finally {
+      if (mounted) {
+        setState(() => _isSubmitting = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,50 +142,33 @@ class _RegisterViewState extends State<RegisterView> {
                     icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
                     onPressed: () => AppNavigator.pop(context),
                   ),
-                  Text("Daftar", style: textTheme.bodySmall),
+                  Text('Daftar', style: textTheme.bodySmall),
                 ],
               ),
               SizedBox(height: 50.h),
               Text(
-                widget.role == UserRole.shelter
-                    ? "Daftar Sebagai Shelter"
-                    : "Buat Akun Anda",
+                widget.role == UserRole.shelter ? 'Daftar Sebagai Shelter' : 'Buat Akun Anda',
                 textAlign: TextAlign.center,
-                style: textTheme.titleSmall!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: textTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 30.h),
-              FormRegister(),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  splashFactory: NoSplash.splashFactory,
-                  highlightColor: Colors.transparent,
-                ),
-                child: CheckboxListTile(
-                  title: Text(
-                    "Lorem ipsum dolor sit amet, adipiscing",
-                    style: textTheme.labelLarge,
-                  ),
-                  value: rememberMe,
-                  onChanged: (v) => setState(() => rememberMe = !rememberMe),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: EdgeInsets.zero,
-                  activeColor: AppThemeData.getTheme().primaryColor,
-                  overlayColor: WidgetStateProperty.all(Colors.transparent),
-                ),
+              FormRegister(
+                formKey: _formKey,
+                firstNameController: _firstNameController,
+                lastNameController: _lastNameController,
+                phoneController: _phoneController,
+                emailController: _emailController,
+                passwordController: _passwordController,
+                confirmPasswordController: _confirmPasswordController,
               ),
               SizedBox(height: 30.h),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _isSubmitting ? null : _handleRegister,
                   child: Text(
-                    "Daftar",
-                    style: textTheme.labelLarge!.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    _isSubmitting ? 'Memproses...' : 'Daftar',
+                    style: textTheme.labelLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -94,15 +181,9 @@ class _RegisterViewState extends State<RegisterView> {
                   children: [
                     TextSpan(
                       text: 'Masuk',
-                      style: textTheme.bodySmall?.copyWith(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: textTheme.bodySmall?.copyWith(color: Colors.blue, fontWeight: FontWeight.w500),
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () => AppNavigator.replace(
-                          context,
-                          LoginView(role: widget.role),
-                        ),
+                        ..onTap = () => AppNavigator.replace(context, LoginView(role: widget.role)),
                     ),
                   ],
                 ),

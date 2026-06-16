@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../widgets/build_header_app.dart';
+import '../../adopsi/view/adopsi_navigation_controller.dart';
 import '../../adopsi/view/adopsi_view.dart';
 import '../../home/view/home_view.dart';
 import '../../pesanan/view/pesanan_view.dart';
@@ -39,13 +40,18 @@ class _NavbarViewState extends State<NavbarView> {
   }
 
   void goToAdopsi() {
-    setState(() => selectedIndex = 1);
+    NavbarController.goTo(1);
+  }
+
+  void goToAdopsiWithCategory(String category) {
+    AdopsiNavigationController.filterByCategory(category);
+    NavbarController.goTo(1);
   }
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      HomeView(onGoToAdopsi: goToAdopsi),
+      HomeView(onGoToAdopsi: goToAdopsi, onGoToAdopsiCategory: goToAdopsiWithCategory),
       const AdopsiView(),
       const PesananView(),
       const ProfilView(),
@@ -62,10 +68,7 @@ class _NavbarViewState extends State<NavbarView> {
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavbar(
-        currentIndex: selectedIndex,
-        onTap: onItemTapped,
-      ),
+      bottomNavigationBar: AppBottomNavbar(currentIndex: selectedIndex, onTap: onItemTapped),
     );
   }
 }
