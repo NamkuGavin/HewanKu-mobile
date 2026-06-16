@@ -198,6 +198,8 @@ class ReviewCard extends StatelessWidget {
                     (i) => Icon(
                       i < item.rating.floor()
                           ? Icons.star_rounded
+                          : i < item.rating
+                          ? Icons.star_half_rounded
                           : Icons.star_border_rounded,
                       color: _orange,
                       size: 13.sp,
@@ -218,7 +220,9 @@ class ReviewCard extends StatelessWidget {
           SizedBox(height: 10.h),
           // Teks ulasan
           Text(
-            item.ulasan,
+            item.ulasan.trim().isEmpty
+                ? 'Pengguna belum menulis komentar.'
+                : item.ulasan,
             style: GoogleFonts.poppins(
               fontSize: 12.sp,
               color: const Color(0xFF444444),

@@ -43,7 +43,10 @@ class DetailHewanHeroImage extends StatelessWidget {
         child: SizedBox(
           height: 248.h,
           width: double.infinity,
-          child: AppNetImage(url: hewan.imageUrl, fallbackColor: Color(hewan.fallbackColorValue)),
+          child: AppNetImage(
+            url: hewan.imageUrl,
+            fallbackColor: Color(hewan.fallbackColorValue),
+          ),
         ),
       ),
     );
@@ -53,14 +56,23 @@ class DetailHewanHeroImage extends StatelessWidget {
 class DetailHewanMetaChips extends StatelessWidget {
   final String category;
   final String statusAdopsi;
+  final bool isAvailable;
 
-  const DetailHewanMetaChips({super.key, required this.category, required this.statusAdopsi});
+  const DetailHewanMetaChips({
+    super.key,
+    required this.category,
+    required this.statusAdopsi,
+    required this.isAvailable,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final status = statusAdopsi.trim().toLowerCase();
-    final statusColor = status.contains('tersedia') ? const Color(0xFF1F8A4D) : const Color(0xFFB96A00);
-    final statusBackground = status.contains('tersedia') ? const Color(0xFFEAF8F0) : const Color(0xFFFFF6E8);
+    final statusColor = isAvailable
+        ? const Color(0xFF1F8A4D)
+        : const Color(0xFFB96A00);
+    final statusBackground = isAvailable
+        ? const Color(0xFFEAF8F0)
+        : const Color(0xFFFFF6E8);
 
     return Wrap(
       spacing: 8.w,
@@ -89,13 +101,21 @@ class _MetaChip extends StatelessWidget {
   final Color backgroundColor;
   final Color foregroundColor;
 
-  const _MetaChip({required this.icon, required this.label, required this.backgroundColor, required this.foregroundColor});
+  const _MetaChip({
+    required this.icon,
+    required this.label,
+    required this.backgroundColor,
+    required this.foregroundColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
-      decoration: BoxDecoration(color: backgroundColor, borderRadius: BorderRadius.circular(50.r)),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(50.r),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -103,7 +123,11 @@ class _MetaChip extends StatelessWidget {
           SizedBox(width: 6.w),
           Text(
             label,
-            style: GoogleFonts.poppins(fontSize: 11.sp, fontWeight: FontWeight.w700, color: foregroundColor),
+            style: GoogleFonts.poppins(
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w700,
+              color: foregroundColor,
+            ),
           ),
         ],
       ),
@@ -115,7 +139,11 @@ class DetailHewanRating extends StatelessWidget {
   final double rating;
   final int reviewCount;
 
-  const DetailHewanRating({super.key, required this.rating, required this.reviewCount});
+  const DetailHewanRating({
+    super.key,
+    required this.rating,
+    required this.reviewCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +162,10 @@ class DetailHewanRating extends StatelessWidget {
           Container(
             width: 36.w,
             height: 36.w,
-            decoration: const BoxDecoration(color: Color(0xFFFFF1E8), shape: BoxShape.circle),
+            decoration: const BoxDecoration(
+              color: Color(0xFFFFF1E8),
+              shape: BoxShape.circle,
+            ),
             child: Icon(Icons.star_rounded, color: _orange, size: 18.sp),
           ),
           SizedBox(width: 10.w),
@@ -144,12 +175,22 @@ class DetailHewanRating extends StatelessWidget {
               children: [
                 Text(
                   hasReview ? '$rating / 5.0' : 'Belum ada review',
-                  style: GoogleFonts.poppins(fontSize: 13.sp, fontWeight: FontWeight.w700, color: const Color(0xFF1A1A1A)),
+                  style: GoogleFonts.poppins(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF1A1A1A),
+                  ),
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  hasReview ? '${_formatReview(reviewCount)} ulasan adopter' : 'Rating akan muncul setelah ada penilaian.',
-                  style: GoogleFonts.poppins(fontSize: 11.sp, color: const Color(0xFF7E7E7E), height: 1.45),
+                  hasReview
+                      ? '${_formatReview(reviewCount)} ulasan adopter'
+                      : 'Rating akan muncul setelah ada penilaian.',
+                  style: GoogleFonts.poppins(
+                    fontSize: 11.sp,
+                    color: const Color(0xFF7E7E7E),
+                    height: 1.45,
+                  ),
                 ),
               ],
             ),
@@ -184,10 +225,22 @@ class DetailHewanInfoGrid extends StatelessWidget {
       crossAxisSpacing: 10.w,
       childAspectRatio: 1.75,
       children: [
-        _InfoTile(icon: Icons.category_rounded, label: 'Kategori', value: kategori),
-        _InfoTile(icon: Icons.transgender_rounded, label: 'Jenis Kelamin', value: jenisKelamin),
+        _InfoTile(
+          icon: Icons.category_rounded,
+          label: 'Kategori',
+          value: kategori,
+        ),
+        _InfoTile(
+          icon: Icons.transgender_rounded,
+          label: 'Jenis Kelamin',
+          value: jenisKelamin,
+        ),
         _InfoTile(icon: Icons.cake_rounded, label: 'Umur', value: umur),
-        _InfoTile(icon: Icons.inventory_2_rounded, label: 'Status', value: statusAdopsi),
+        _InfoTile(
+          icon: Icons.inventory_2_rounded,
+          label: 'Status',
+          value: statusAdopsi,
+        ),
       ],
     );
   }
@@ -198,7 +251,11 @@ class _InfoTile extends StatelessWidget {
   final String label;
   final String value;
 
-  const _InfoTile({required this.icon, required this.label, required this.value});
+  const _InfoTile({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +274,11 @@ class _InfoTile extends StatelessWidget {
           SizedBox(height: 8.h),
           Text(
             label,
-            style: GoogleFonts.poppins(fontSize: 10.sp, color: const Color(0xFF8F8F8F), fontWeight: FontWeight.w500),
+            style: GoogleFonts.poppins(
+              fontSize: 10.sp,
+              color: const Color(0xFF8F8F8F),
+              fontWeight: FontWeight.w500,
+            ),
           ),
           SizedBox(height: 3.h),
           Text(
@@ -239,9 +300,15 @@ class _InfoTile extends StatelessWidget {
 
 class DetailHewanPriceCard extends StatelessWidget {
   final String harga;
+  final bool isAvailable;
   final VoidCallback? onAdopsiTap;
 
-  const DetailHewanPriceCard({super.key, required this.harga, this.onAdopsiTap});
+  const DetailHewanPriceCard({
+    super.key,
+    required this.harga,
+    required this.isAvailable,
+    this.onAdopsiTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -258,31 +325,57 @@ class DetailHewanPriceCard extends StatelessWidget {
         children: [
           Text(
             'Biaya adopsi',
-            style: GoogleFonts.poppins(fontSize: 11.sp, color: const Color(0xFF8A8A8A), fontWeight: FontWeight.w500),
+            style: GoogleFonts.poppins(
+              fontSize: 11.sp,
+              color: const Color(0xFF8A8A8A),
+              fontWeight: FontWeight.w500,
+            ),
           ),
           SizedBox(height: 4.h),
           Text(
             harga,
-            style: GoogleFonts.poppins(fontSize: 21.sp, fontWeight: FontWeight.w800, color: const Color(0xFF1A1A1A)),
+            style: GoogleFonts.poppins(
+              fontSize: 21.sp,
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF1A1A1A),
+            ),
           ),
           SizedBox(height: 12.h),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: onAdopsiTap,
+              onPressed: isAvailable ? onAdopsiTap : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: _orange,
                 foregroundColor: Colors.white,
+                disabledBackgroundColor: const Color(0xFFE3E3E3),
+                disabledForegroundColor: const Color(0xFF8C8C8C),
                 elevation: 0,
                 padding: EdgeInsets.symmetric(vertical: 13.h),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14.r),
+                ),
               ),
               child: Text(
-                'Adopsi Sekarang',
-                style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w700),
+                isAvailable ? 'Adopsi Sekarang' : 'Adopsi Tidak Tersedia',
+                style: GoogleFonts.poppins(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),
+          if (!isAvailable) ...[
+            SizedBox(height: 10.h),
+            Text(
+              'Hewan ini sudah tidak tersedia untuk proses adopsi.',
+              style: GoogleFonts.poppins(
+                fontSize: 11.sp,
+                color: const Color(0xFF8A8A8A),
+                height: 1.45,
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -293,9 +386,16 @@ class DetailHewanFavoritRow extends StatelessWidget {
   final HewanModel hewan;
   final VoidCallback? onLihatReviewTap;
 
-  const DetailHewanFavoritRow({super.key, required this.hewan, this.onLihatReviewTap});
+  const DetailHewanFavoritRow({
+    super.key,
+    required this.hewan,
+    this.onLihatReviewTap,
+  });
 
-  Future<void> _toggleFavorite(BuildContext context, {required bool isFavorit}) async {
+  Future<void> _toggleFavorite(
+    BuildContext context, {
+    required bool isFavorit,
+  }) async {
     try {
       if (isFavorit) {
         await FavoritProvider.hapus(context, hewan);
@@ -309,7 +409,9 @@ class DetailHewanFavoritRow extends StatelessWidget {
 
       AppSnackbar.show(
         context,
-        message: isFavorit ? 'Hewan berhasil dihapus dari favorit.' : 'Hewan berhasil disimpan ke favorit.',
+        message: isFavorit
+            ? 'Hewan berhasil dihapus dari favorit.'
+            : 'Hewan berhasil disimpan ke favorit.',
         type: AppSnackbarType.success,
       );
     } catch (error) {
@@ -317,7 +419,11 @@ class DetailHewanFavoritRow extends StatelessWidget {
         return;
       }
 
-      AppSnackbar.show(context, message: _resolveErrorMessage(error), type: _resolveErrorType(error));
+      AppSnackbar.show(
+        context,
+        message: _resolveErrorMessage(error),
+        type: _resolveErrorType(error),
+      );
     }
   }
 
@@ -363,7 +469,9 @@ class DetailHewanFavoritRow extends StatelessWidget {
           spacing: 10.w,
           children: [
             GestureDetector(
-              onTap: isBusy ? null : () => _toggleFavorite(context, isFavorit: isFavorit),
+              onTap: isBusy
+                  ? null
+                  : () => _toggleFavorite(context, isFavorit: isFavorit),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -371,11 +479,16 @@ class DetailHewanFavoritRow extends StatelessWidget {
                     SizedBox(
                       width: 18.w,
                       height: 18.w,
-                      child: const CircularProgressIndicator(strokeWidth: 2.2, color: _orange),
+                      child: const CircularProgressIndicator(
+                        strokeWidth: 2.2,
+                        color: _orange,
+                      ),
                     )
                   else
                     Icon(
-                      isFavorit ? Icons.favorite_rounded : Icons.favorite_border,
+                      isFavorit
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border,
                       color: isFavorit ? _orange : const Color(0xFF676767),
                       size: 19.sp,
                     ),
@@ -386,7 +499,11 @@ class DetailHewanFavoritRow extends StatelessWidget {
                         : isFavorit
                         ? 'Sudah di Favorit'
                         : 'Tambahkan ke Favorit',
-                    style: GoogleFonts.poppins(fontSize: 12.sp, color: const Color(0xFF444444), fontWeight: FontWeight.w500),
+                    style: GoogleFonts.poppins(
+                      fontSize: 12.sp,
+                      color: const Color(0xFF444444),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -395,7 +512,11 @@ class DetailHewanFavoritRow extends StatelessWidget {
               onTap: onLihatReviewTap,
               child: Text(
                 'Lihat Review Hewan',
-                style: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w700, color: _orange),
+                style: GoogleFonts.poppins(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w700,
+                  color: _orange,
+                ),
               ),
             ),
           ],
@@ -409,7 +530,11 @@ class DetailHewanKontakCard extends StatelessWidget {
   final String shelterName;
   final String kontakShelter;
 
-  const DetailHewanKontakCard({super.key, required this.shelterName, required this.kontakShelter});
+  const DetailHewanKontakCard({
+    super.key,
+    required this.shelterName,
+    required this.kontakShelter,
+  });
 
   String get _displayPhone => kontakShelter.trim();
 
@@ -423,14 +548,22 @@ class DetailHewanKontakCard extends StatelessWidget {
 
   Future<void> _openWhatsApp(BuildContext context) async {
     if (_waNumber.isEmpty) {
-      AppSnackbar.show(context, message: 'Nomor WhatsApp shelter belum tersedia.', type: AppSnackbarType.warning);
+      AppSnackbar.show(
+        context,
+        message: 'Nomor WhatsApp shelter belum tersedia.',
+        type: AppSnackbarType.warning,
+      );
       return;
     }
 
     final uri = Uri.parse('https://wa.me/$_waNumber');
     final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
     if (!launched && context.mounted) {
-      AppSnackbar.show(context, message: 'WhatsApp tidak dapat dibuka saat ini.', type: AppSnackbarType.warning);
+      AppSnackbar.show(
+        context,
+        message: 'WhatsApp tidak dapat dibuka saat ini.',
+        type: AppSnackbarType.warning,
+      );
     }
   }
 
@@ -454,8 +587,15 @@ class DetailHewanKontakCard extends StatelessWidget {
               Container(
                 width: 38.w,
                 height: 38.w,
-                decoration: const BoxDecoration(color: Color(0xFFE9F8EF), shape: BoxShape.circle),
-                child: Icon(Icons.chat_bubble_rounded, color: Color(0xFF1F8A4D), size: 18.sp),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFE9F8EF),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.chat_bubble_rounded,
+                  color: Color(0xFF1F8A4D),
+                  size: 18.sp,
+                ),
               ),
               SizedBox(width: 10.w),
               Expanded(
@@ -489,7 +629,9 @@ class DetailHewanKontakCard extends StatelessWidget {
             hasPhone ? _displayPhone : 'Nomor WhatsApp belum tersedia',
             style: GoogleFonts.poppins(
               fontSize: 13.sp,
-              color: hasPhone ? const Color(0xFF444444) : const Color(0xFF8F8F8F),
+              color: hasPhone
+                  ? const Color(0xFF444444)
+                  : const Color(0xFF8F8F8F),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -502,12 +644,17 @@ class DetailHewanKontakCard extends StatelessWidget {
                 foregroundColor: const Color(0xFF1F8A4D),
                 side: const BorderSide(color: Color(0xFF1F8A4D), width: 1.2),
                 padding: EdgeInsets.symmetric(vertical: 12.h),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14.r),
+                ),
               ),
               icon: Icon(Icons.chat_rounded, size: 18.sp),
               label: Text(
                 'Chat WhatsApp',
-                style: GoogleFonts.poppins(fontSize: 13.sp, fontWeight: FontWeight.w700),
+                style: GoogleFonts.poppins(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),
@@ -535,12 +682,20 @@ class DetailHewanPaymentCard extends StatelessWidget {
         children: [
           Text(
             'Checkout Aman 100% Terjamin',
-            style: GoogleFonts.poppins(fontSize: 13.sp, fontWeight: FontWeight.w700, color: const Color(0xFF333333)),
+            style: GoogleFonts.poppins(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF333333),
+            ),
           ),
           SizedBox(height: 6.h),
           Text(
             'Metode pembayaran populer siap digunakan saat proses adopsi.',
-            style: GoogleFonts.poppins(fontSize: 11.sp, color: const Color(0xFF8A8A8A), height: 1.45),
+            style: GoogleFonts.poppins(
+              fontSize: 11.sp,
+              color: const Color(0xFF8A8A8A),
+              height: 1.45,
+            ),
           ),
           SizedBox(height: 16.h),
           Row(

@@ -259,12 +259,6 @@ class _CodeVerifViewState extends State<CodeVerifView> {
                 style: textTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 50.h),
-              Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscingelit, sed doeiusmod tempor incididunt ut labore et doloremagna aliqua.",
-                textAlign: TextAlign.center,
-                style: textTheme.bodySmall,
-              ),
-              SizedBox(height: 30.h),
               Form(
                 key: _formKey,
                 child: Column(

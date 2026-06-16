@@ -17,8 +17,14 @@ import '../widgets/home_news_section.dart';
 class HomeView extends StatefulWidget {
   final VoidCallback? onGoToAdopsi;
   final ValueChanged<String>? onGoToAdopsiCategory;
+  final VoidCallback? onGoToAdopsiSearch;
 
-  const HomeView({super.key, this.onGoToAdopsi, this.onGoToAdopsiCategory});
+  const HomeView({
+    super.key,
+    this.onGoToAdopsi,
+    this.onGoToAdopsiCategory,
+    this.onGoToAdopsiSearch,
+  });
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -86,7 +92,10 @@ class _HomeViewState extends State<HomeView> {
       return _HomeSectionResult(
         data: const <HewanModel>[],
         hasError: true,
-        message: _resolveErrorMessage(error, fallback: 'Gagal memuat data hewan unggulan.'),
+        message: _resolveErrorMessage(
+          error,
+          fallback: 'Gagal memuat data hewan unggulan.',
+        ),
         type: _resolveErrorType(error),
       );
     }
@@ -109,7 +118,10 @@ class _HomeViewState extends State<HomeView> {
       return _HomeSectionResult(
         data: const <AdopterNewsArticleModel>[],
         hasError: true,
-        message: _resolveErrorMessage(error, fallback: 'Gagal memuat berita terkini.'),
+        message: _resolveErrorMessage(
+          error,
+          fallback: 'Gagal memuat berita terkini.',
+        ),
         type: _resolveErrorType(error),
       );
     }
@@ -157,7 +169,11 @@ class _HomeViewState extends State<HomeView> {
     final type = issueResults.any((item) => item.type == AppSnackbarType.error)
         ? AppSnackbarType.error
         : AppSnackbarType.warning;
-    AppSnackbar.show(context, message: 'Sebagian data beranda gagal dimuat. Coba muat ulang lagi.', type: type);
+    AppSnackbar.show(
+      context,
+      message: 'Sebagian data beranda gagal dimuat. Coba muat ulang lagi.',
+      type: type,
+    );
   }
 
   String _resolveErrorMessage(Object error, {required String fallback}) {
@@ -187,15 +203,23 @@ class _HomeViewState extends State<HomeView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HomeSearchBar(),
+          HomeSearchBar(onTap: widget.onGoToAdopsiSearch),
           SizedBox(height: 12.h),
           HomeHeroBanner(onAdopsiTap: widget.onGoToAdopsi),
           SizedBox(height: 28.h),
           HomeCategorySection(onCategoryTap: widget.onGoToAdopsiCategory),
           SizedBox(height: 28.h),
-          HomeFeaturedSection(items: _featuredItems, hasError: _featuredHasError, onRetry: _loadHomeContent),
+          HomeFeaturedSection(
+            items: _featuredItems,
+            hasError: _featuredHasError,
+            onRetry: _loadHomeContent,
+          ),
           SizedBox(height: 28.h),
-          HomeNewsSection(items: _newsItems, hasError: _newsHasError, onRetry: _loadHomeContent),
+          HomeNewsSection(
+            items: _newsItems,
+            hasError: _newsHasError,
+            onRetry: _loadHomeContent,
+          ),
           SizedBox(height: 32.h),
         ],
       ),
@@ -209,5 +233,10 @@ class _HomeSectionResult<T> {
   final String? message;
   final AppSnackbarType? type;
 
-  const _HomeSectionResult({required this.data, required this.hasError, this.message, this.type});
+  const _HomeSectionResult({
+    required this.data,
+    required this.hasError,
+    this.message,
+    this.type,
+  });
 }

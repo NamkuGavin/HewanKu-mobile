@@ -1,49 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeSearchBar extends StatelessWidget {
-  final TextEditingController? controller;
   final VoidCallback? onTap;
 
-  const HomeSearchBar({super.key, this.controller, this.onTap});
+  const HomeSearchBar({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          height: 44.h,
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF5F5F5),
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+      padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
+      child: SizedBox(
+        height: 46.h,
+        child: TextField(
+          readOnly: true,
+          onTap: onTap,
+          style: GoogleFonts.poppins(
+            fontSize: 13.sp,
+            color: const Color(0xFF333333),
           ),
-          child: Row(
-            children: [
-              Icon(Icons.search, color: const Color(0xFF9E9E9E), size: 20.sp),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: TextField(
-                  controller: controller,
-                  decoration: InputDecoration(
-                    hintText: 'Cari Hewan...',
-                    hintStyle: textTheme.labelLarge?.copyWith(
-                      color: const Color(0xFF9E9E9E),
-                      fontWeight: FontWeight.w400,
-                    ),
-                    border: InputBorder.none,
-                    isDense: true,
-                    contentPadding: EdgeInsets.zero,
-                  ),
-                  style: textTheme.labelLarge?.copyWith(color: Colors.black87),
-                ),
+          decoration: InputDecoration(
+            hintText: 'Cari Hewan...',
+            hintStyle: GoogleFonts.poppins(
+              fontSize: 13.sp,
+              color: const Color(0xFFAAAAAA),
+            ),
+            suffixIcon: Icon(
+              Icons.search,
+              color: const Color(0xFFAAAAAA),
+              size: 22.w,
+            ),
+            filled: true,
+            fillColor: const Color(0xFFF5F5F5),
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 18.w),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50.r),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50.r),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50.r),
+              borderSide: const BorderSide(
+                color: Color(0xFFF87537),
+                width: 1.5,
               ),
-            ],
+            ),
           ),
         ),
       ),

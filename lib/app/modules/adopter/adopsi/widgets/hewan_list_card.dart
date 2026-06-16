@@ -14,6 +14,9 @@ class HewanListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final status = hewan.resolvedStatusAdopsi;
+    final isAvailable = hewan.isAvailableForAdoption;
+
     return InkWell(
       onTap: () => AppNavigator.push(context, AdopsiDetailHewanView(hewan: hewan)),
       child: Column(
@@ -25,10 +28,13 @@ class HewanListCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(14.r),
-                  child: SizedBox(
-                    width: 110.w,
-                    height: 110.h,
-                    child: AppNetImage(url: hewan.imageUrl, fallbackColor: Color(hewan.fallbackColorValue)),
+                  child: Opacity(
+                    opacity: isAvailable ? 1 : 0.72,
+                    child: SizedBox(
+                      width: 110.w,
+                      height: 110.h,
+                      child: AppNetImage(url: hewan.imageUrl, fallbackColor: Color(hewan.fallbackColorValue)),
+                    ),
                   ),
                 ),
                 SizedBox(width: 14.w),
@@ -61,21 +67,6 @@ class HewanListCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: 6.h),
-                      Row(
-                        children: [
-                          Icon(Icons.storefront_rounded, size: 14.sp, color: const Color(0xFF9C9C9C)),
-                          SizedBox(width: 5.w),
-                          Expanded(
-                            child: Text(
-                              hewan.shelter,
-                              style: GoogleFonts.poppins(fontSize: 11.sp, color: const Color(0xFF808080), height: 1.35),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8.h),
                       Text(
                         'Biaya adopsi',
                         style: GoogleFonts.poppins(
@@ -85,13 +76,35 @@ class HewanListCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 2.h),
-                      Text(
-                        hewan.price,
-                        style: GoogleFonts.poppins(
-                          fontSize: 13.sp,
-                          color: const Color(0xFFF87537),
-                          fontWeight: FontWeight.w700,
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              hewan.price,
+                              style: GoogleFonts.poppins(
+                                fontSize: 13.sp,
+                                color: isAvailable ? const Color(0xFFF87537) : const Color(0xFF9A9A9A),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8.w),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                            decoration: BoxDecoration(
+                              color: isAvailable ? const Color(0xFFEAF8F0) : const Color(0xFFFFF4E8),
+                              borderRadius: BorderRadius.circular(50.r),
+                            ),
+                            child: Text(
+                              status,
+                              style: GoogleFonts.poppins(
+                                fontSize: 9.sp,
+                                fontWeight: FontWeight.w700,
+                                color: isAvailable ? const Color(0xFF1F8A4D) : const Color(0xFFB96A00),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

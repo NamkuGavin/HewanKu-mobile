@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../../common/utils/app_navigator.dart';
+import '../../../../common/widgets/app_loading_dialog.dart';
+import '../../../../common/widgets/app_snackbar.dart';
+import '../../../../models/order/adopter_order_form_data_model.dart';
+import '../../../../models/order/adopter_order_personal_info_model.dart';
+import '../../../../services/api/api_exception.dart';
+import '../../../../services/order/adopter_order_service.dart';
 import '../../../../widgets/build_header_app.dart';
 import '../../navbar/view/navbar_controller.dart';
-import '../../pesanan/model/pesanan_item.dart';
-import '../../pesanan/model/pesanan_provider.dart';
-import '../widgets/hewan_model.dart';
+import '../../pesanan/view/pesanan_tab_controller.dart';
 import '../widgets/adopsi_form_widgets.dart';
+import '../widgets/hewan_model.dart';
 
-/// Form B — Pengalaman & Kondisi Lingkungan
 class AdopsiFormPengalamanView extends StatefulWidget {
   final HewanModel hewan;
-
-  /// Dipanggil saat X ditekan — Form A akan pop dirinya sendiri
-  /// sehingga kembali langsung ke Detail Hewan
+  final AdopterOrderPersonalInfoModel personalInfo;
   final VoidCallback? onCloseToDetail;
 
   const AdopsiFormPengalamanView({
     super.key,
     required this.hewan,
+    required this.personalInfo,
     this.onCloseToDetail,
   });
 
@@ -35,6 +39,7 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
   bool? _punyaHewanLain;
   bool? _adaAlergi;
   bool? _lingkunganAman;
+  bool _isSubmitting = false;
 
   @override
   void dispose() {
@@ -43,128 +48,161 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
     super.dispose();
   }
 
-  // ── Validasi ──────────────────────────────────────────────────────────────
-  bool _validate() {
+  void _showWarning(String message) {
+    AppSnackbar.show(context, message: message, type: AppSnackbarType.warning);
+  }
+
+  AdopterOrderFormDataModel? _buildFormData() {
     if (_pernahPelihara == null) {
-      _showError('Pertanyaan 1 wajib dijawab');
-      return false;
+      _showWarning(
+        'Pertanyaan tentang pengalaman memelihara hewan wajib dijawab',
+      );
+      return null;
     }
+
+    if (_pernahPelihara == true) {
+      if (_hewanApaCtrl.text.trim().isEmpty) {
+        _showWarning('Jenis hewan yang pernah dipelihara wajib diisi');
+        return null;
+      }
+      if (_berapaLamaCtrl.text.trim().isEmpty) {
+        _showWarning('Lama memelihara hewan wajib diisi');
+        return null;
+      }
+    }
+
     if (_punyaHewanLain == null) {
-      _showError('Pertanyaan 2 wajib dijawab');
-      return false;
+      _showWarning('Pertanyaan tentang hewan peliharaan lain wajib dijawab');
+      return null;
     }
+
     if (_adaAlergi == null) {
-      _showError('Pertanyaan 3 wajib dijawab');
-      return false;
+      _showWarning('Pertanyaan tentang alergi wajib dijawab');
+      return null;
     }
+
     if (_lingkunganAman == null) {
-      _showError('Pertanyaan 4 wajib dijawab');
-      return false;
+      _showWarning('Pertanyaan tentang keamanan lingkungan wajib dijawab');
+      return null;
     }
-    return true;
-  }
 
-  void _showError(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(msg, style: GoogleFonts.poppins(fontSize: 12.sp)),
-        backgroundColor: const Color(0xFFF87537),
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 90.h),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.r),
-        ),
-      ),
+    return AdopterOrderFormDataModel.fromPersonalInfo(
+      personalInfo: widget.personalInfo,
+      hewanSebelumnya: _pernahPelihara!,
+      hewanSebelumnyaDetail:
+          _pernahPelihara == true && _hewanApaCtrl.text.trim().isNotEmpty
+          ? _hewanApaCtrl.text.trim()
+          : null,
+      durasiMemelihara:
+          _pernahPelihara == true && _berapaLamaCtrl.text.trim().isNotEmpty
+          ? _berapaLamaCtrl.text.trim()
+          : null,
+      memilikiHewan: _punyaHewanLain!,
+      keluargaAlergi: _adaAlergi!,
+      lingkunganAman: _lingkunganAman!,
     );
   }
 
-  // ── Buat PesananItem dari data hewan ──────────────────────────────────────
-  PesananItem _buatPesanan() {
-    final now = DateTime.now();
-    const days = [
-      'Minggu',
-      'Senin',
-      'Selasa',
-      'Rabu',
-      'Kamis',
-      'Jumat',
-      'Sabtu',
-    ];
-    const months = [
-      'Januari',
-      'Februari',
-      'Maret',
-      'April',
-      'Mei',
-      'Juni',
-      'Juli',
-      'Agustus',
-      'September',
-      'Oktober',
-      'November',
-      'Desember',
-    ];
-    final tanggal =
-        '${days[now.weekday % 7]}, ${now.day.toString().padLeft(2, '0')} ${months[now.month - 1]} ${now.year}';
-    final waktuMasuk =
-        '${now.day} ${months[now.month - 1]}, ${now.year} pada ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')} WIB';
-    final invoiceNum = now.millisecondsSinceEpoch % 100000;
-    final orderNum = (900000000 + now.millisecondsSinceEpoch % 99999999)
-        .toString();
-
-    return PesananItem(
-      namaShelter: widget.hewan.shelter,
-      nomorInvoice: 'INV-${now.year}-$invoiceNum',
-      tanggal: tanggal,
-      nomorOrder: '#$orderNum',
-      infoOrder: '1 Hewan  •  Form pengajuan kemungkinan dibaca 1-3 hari',
-      status: PesananStatus.sedangDiproses,
-      hewan: DetailHewan(
-        imageUrl: widget.hewan.imageUrl,
-        namaHewan: widget.hewan.name,
-        subNama: widget.hewan.shelter,
-        totalBiaya: widget.hewan.price != '-'
-            ? widget.hewan.price
-            : 'Lihat Detail',
-      ),
-      timeline: [
-        TimelineStep(
-          judul: 'Form Masuk',
-          waktu: waktuMasuk,
-          status: TimelineStatus.selesai,
-        ),
-        const TimelineStep(
-          judul: 'Form Disetujui',
-          status: TimelineStatus.menunggu,
-        ),
-        const TimelineStep(
-          judul: 'Lanjutkan Pembayaran',
-          status: TimelineStatus.menunggu,
-        ),
-      ],
-      perkiraanKedatangan: '1-3 Hari Kerja',
-      hewanModel: widget.hewan, // <-- simpan data lengkap HewanModel
-    );
+  String _resolveSuccessMessage(String? message) {
+    final normalized = message?.trim();
+    if (normalized == null || normalized.isEmpty) {
+      return 'Form adopsi berhasil dikirim.';
+    }
+    return normalized;
   }
 
-  void _onKirimForm() {
-    if (!_validate()) return;
+  String _resolveErrorMessage(Object error) {
+    if (error is ApiException) {
+      return error.message;
+    }
+    if (error is FormatException) {
+      return error.message;
+    }
+    return 'Gagal mengirim form adopsi.';
+  }
 
-    // Tambah ke PesananProvider
-    PesananProvider.tambah(context, _buatPesanan());
+  AppSnackbarType _resolveErrorType(Object error) {
+    if (error is ApiException) {
+      final statusCode = error.statusCode;
+      if (error.isUnauthorized ||
+          statusCode == 400 ||
+          statusCode == 401 ||
+          statusCode == 403) {
+        return AppSnackbarType.warning;
+      }
+      if (statusCode == null || statusCode >= 500) {
+        return AppSnackbarType.error;
+      }
+      return AppSnackbarType.warning;
+    }
+    if (error is FormatException) {
+      return AppSnackbarType.warning;
+    }
+    return AppSnackbarType.error;
+  }
 
-    // Switch ke tab Pesanan (index 2) via NavbarController
-    NavbarController.goTo(2);
+  bool _isUnauthorized(Object error) {
+    return error is ApiException && error.isUnauthorized;
+  }
 
-    // Pop semua halaman kembali ke NavbarView
-    AppNavigator.popUntilFirst(context);
+  Future<void> _onKirimForm() async {
+    if (_isSubmitting) {
+      return;
+    }
+
+    if (widget.hewan.id <= 0) {
+      _showWarning('ID hewan tidak valid. Coba buka detail hewan lagi.');
+      return;
+    }
+
+    final formData = _buildFormData();
+    if (formData == null) {
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
+    AppLoadingDialog.show(context, message: 'Mengirim form adopsi...');
+
+    try {
+      final response = await AdopterOrderService.instance.createOrder(
+        hewan: widget.hewan,
+        formData: formData,
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      PesananTabController.openPesananSaya(refresh: true);
+      NavbarController.goTo(2);
+      AppSnackbar.show(
+        context,
+        message: _resolveSuccessMessage(response.message),
+        type: AppSnackbarType.success,
+      );
+      AppNavigator.popUntilFirst(context);
+    } catch (error) {
+      if (!mounted || _isUnauthorized(error)) {
+        return;
+      }
+
+      AppSnackbar.show(
+        context,
+        message: _resolveErrorMessage(error),
+        type: _resolveErrorType(error),
+      );
+    } finally {
+      AppLoadingDialog.hide();
+      if (mounted) {
+        setState(() => _isSubmitting = false);
+      } else {
+        _isSubmitting = false;
+      }
+    }
   }
 
   void _onCloseX() {
-    // Pop Form B dulu
     AppNavigator.pop(context);
-    // Lalu Form A pop dirinya sendiri ke Detail Hewan
     widget.onCloseToDetail?.call();
   }
 
@@ -178,7 +216,7 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
             const BuildAppHeader(),
             FormSectionHeader(
               title: 'B. Pengalaman & Kondisi Lingkungan',
-              onClose: _onCloseX,
+              onClose: _isSubmitting ? () {} : _onCloseX,
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -187,7 +225,6 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Pertanyaan 1
                     FormYesNo(
                       question:
                           'Apakah Anda pernah memelihara hewan sebelumnya?',
@@ -196,10 +233,8 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
                       onChanged: (v) => setState(() => _pernahPelihara = v),
                     ),
                     SizedBox(height: 20.h),
-
-                    // Pertanyaan 1b — hanya tampil jika Iya
                     if (_pernahPelihara == true) ...[
-                      _SubQuestion(
+                      const _SubQuestion(
                         label:
                             'Jika ya, hewan apa yang pernah Anda pelihara dan berapa lama?',
                       ),
@@ -209,6 +244,7 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
                           Expanded(
                             child: FormTextField(
                               label: 'Hewan dan ras',
+                              required: true,
                               controller: _hewanApaCtrl,
                             ),
                           ),
@@ -216,6 +252,7 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
                           Expanded(
                             child: FormTextField(
                               label: 'Tahun / bulan / hari',
+                              required: true,
                               controller: _berapaLamaCtrl,
                             ),
                           ),
@@ -223,8 +260,6 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
                       ),
                       SizedBox(height: 20.h),
                     ],
-
-                    // Pertanyaan 2
                     FormYesNo(
                       question:
                           'Saat ini apakah Anda memiliki hewan peliharaan lain?',
@@ -233,8 +268,6 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
                       onChanged: (v) => setState(() => _punyaHewanLain = v),
                     ),
                     SizedBox(height: 20.h),
-
-                    // Pertanyaan 3
                     FormYesNo(
                       question:
                           'Apakah ada anggota keluarga atau teman serumah yang alergi terhadap hewan?',
@@ -243,8 +276,6 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
                       onChanged: (v) => setState(() => _adaAlergi = v),
                     ),
                     SizedBox(height: 20.h),
-
-                    // Pertanyaan 4
                     FormYesNo(
                       question:
                           'Apakah lingkungan tempat tinggal Anda aman untuk hewan?',
@@ -258,8 +289,13 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
               ),
             ),
             FormBottomButtons(
-              actionLabel: 'Kirim Form',
-              onKembali: () => AppNavigator.pop(context),
+              actionLabel: _isSubmitting ? 'Mengirim...' : 'Kirim Form',
+              onKembali: () {
+                if (_isSubmitting) {
+                  return;
+                }
+                AppNavigator.pop(context);
+              },
               onAction: _onKirimForm,
             ),
           ],
@@ -271,15 +307,15 @@ class _AdopsiFormPengalamanViewState extends State<AdopsiFormPengalamanView> {
 
 class _SubQuestion extends StatelessWidget {
   final String label;
+
   const _SubQuestion({required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: TextStyle(
-        fontFamily: 'Poppins',
-        fontSize: 13,
+      style: GoogleFonts.poppins(
+        fontSize: 13.sp,
         fontWeight: FontWeight.w600,
         color: const Color(0xFF1A1A1A),
       ),

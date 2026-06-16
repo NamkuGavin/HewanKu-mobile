@@ -24,6 +24,7 @@ class AdopsiView extends StatefulWidget {
 
 class _AdopsiViewState extends State<AdopsiView> {
   final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
 
   List<HewanModel> _recommendedItems = const [];
   List<HewanModel> _popularItems = const [];
@@ -41,27 +42,40 @@ class _AdopsiViewState extends State<AdopsiView> {
   String _searchQuery = '';
   String? _selectedFilterJenis;
   String? _queuedHomeCategory;
+  String? _queuedHomeSearchQuery;
   int _filterHargaMin = -1;
   int _filterHargaMax = -1;
 
   bool get _hasActiveFilter =>
-      _normalizedValue(_selectedFilterJenis) != null || _filterHargaMin >= 0 || _filterHargaMax >= 0;
+      _normalizedValue(_selectedFilterJenis) != null ||
+      _filterHargaMin >= 0 ||
+      _filterHargaMax >= 0;
 
-  bool get _hasActiveAdvancedFilter => _filterHargaMin >= 0 || _filterHargaMax >= 0;
+  bool get _hasActiveAdvancedFilter =>
+      _filterHargaMin >= 0 || _filterHargaMax >= 0;
 
   bool get _isSearchMode => _searchQuery.trim().isNotEmpty;
 
   @override
   void initState() {
     super.initState();
-    AdopsiNavigationController.categoryRequest.addListener(_onHomeCategoryRequest);
+    AdopsiNavigationController.categoryRequest.addListener(
+      _onHomeCategoryRequest,
+    );
+    AdopsiNavigationController.searchRequest.addListener(_onHomeSearchRequest);
     WidgetsBinding.instance.addPostFrameCallback((_) => _loadAnimalSections());
   }
 
   @override
   void dispose() {
-    AdopsiNavigationController.categoryRequest.removeListener(_onHomeCategoryRequest);
+    AdopsiNavigationController.categoryRequest.removeListener(
+      _onHomeCategoryRequest,
+    );
+    AdopsiNavigationController.searchRequest.removeListener(
+      _onHomeSearchRequest,
+    );
     _searchController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -88,7 +102,11 @@ class _AdopsiViewState extends State<AdopsiView> {
         _popularItems = popularItems;
         _topRatedItems = topRatedItems;
         _searchSourceItems = recommendedItems;
-        _availableCategories = _collectCategories(recommendedItems, popularItems, topRatedItems);
+        _availableCategories = _collectCategories(
+          recommendedItems,
+          popularItems,
+          topRatedItems,
+        );
         _recommendedHasError = recommendedItems.isEmpty;
         _popularHasError = popularItems.isEmpty;
         _topRatedHasError = topRatedItems.isEmpty;
@@ -103,7 +121,9 @@ class _AdopsiViewState extends State<AdopsiView> {
       if (emptySections.isNotEmpty) {
         AppSnackbar.show(
           context,
-          message: emptySections.length == 3 ? 'Data adopsi belum tersedia.' : 'Sebagian data adopsi belum tersedia.',
+          message: emptySections.length == 3
+              ? 'Data adopsi belum tersedia.'
+              : 'Sebagian data adopsi belum tersedia.',
           type: AppSnackbarType.warning,
         );
       }
@@ -123,7 +143,11 @@ class _AdopsiViewState extends State<AdopsiView> {
         _topRatedHasError = true;
       });
 
-      AppSnackbar.show(context, message: _resolveErrorMessage(error), type: _resolveErrorType(error));
+      AppSnackbar.show(
+        context,
+        message: _resolveErrorMessage(error),
+        type: _resolveErrorType(error),
+      );
     } finally {
       AppLoadingDialog.hide();
       _isLoading = false;
@@ -134,6 +158,16 @@ class _AdopsiViewState extends State<AdopsiView> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             _applyHomeCategoryFilter(queuedHomeCategory);
+          }
+        });
+      }
+
+      final queuedHomeSearchQuery = _queuedHomeSearchQuery;
+      if (mounted && queuedHomeSearchQuery != null) {
+        _queuedHomeSearchQuery = null;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _applyHomeSearchQuery(queuedHomeSearchQuery);
           }
         });
       }
@@ -155,8 +189,24 @@ class _AdopsiViewState extends State<AdopsiView> {
     _applyHomeCategoryFilter(category);
   }
 
+  void _onHomeSearchRequest() {
+    final request = AdopsiNavigationController.searchRequest.value;
+    if (request == null || !mounted) {
+      return;
+    }
+
+    if (_isLoading) {
+      _queuedHomeSearchQuery = request.query;
+      return;
+    }
+
+    _applyHomeSearchQuery(request.query);
+  }
+
   Future<void> _applyHomeCategoryFilter(String category) async {
-    if (!_availableCategories.any((item) => item.trim().toLowerCase() == category.toLowerCase())) {
+    if (!_availableCategories.any(
+      (item) => item.trim().toLowerCase() == category.toLowerCase(),
+    )) {
       setState(() {
         _availableCategories = [category, ..._availableCategories];
       });
@@ -165,7 +215,40 @@ class _AdopsiViewState extends State<AdopsiView> {
     await _applyFilter(jenis: category, hargaMin: -1, hargaMax: -1);
   }
 
-  List<String> _collectCategories(List<HewanModel> a, List<HewanModel> b, List<HewanModel> c) {
+  void _applyHomeSearchQuery(String query) {
+    final normalizedQuery = query.trim();
+
+    if (normalizedQuery.isEmpty) {
+      _restoreDefaultView();
+      _requestSearchFocus();
+      return;
+    }
+
+    _isResettingSearchInput = true;
+    _searchController.value = TextEditingValue(
+      text: normalizedQuery,
+      selection: TextSelection.collapsed(offset: normalizedQuery.length),
+    );
+    _isResettingSearchInput = false;
+
+    _onSearchChanged(normalizedQuery);
+    _requestSearchFocus();
+  }
+
+  void _requestSearchFocus() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _searchFocusNode.requestFocus();
+    });
+  }
+
+  List<String> _collectCategories(
+    List<HewanModel> a,
+    List<HewanModel> b,
+    List<HewanModel> c,
+  ) {
     final categories = <String>[];
     final seen = <String>{};
 
@@ -200,7 +283,9 @@ class _AdopsiViewState extends State<AdopsiView> {
     final name = _normalizeKeyword(item.name);
     final tags = item.tags.map(_normalizeKeyword).join(' ');
 
-    return name.contains(normalizedQuery) || category.contains(normalizedQuery) || tags.contains(normalizedQuery);
+    return name.contains(normalizedQuery) ||
+        category.contains(normalizedQuery) ||
+        tags.contains(normalizedQuery);
   }
 
   void _resetFilterState() {
@@ -249,7 +334,9 @@ class _AdopsiViewState extends State<AdopsiView> {
       return;
     }
 
-    final results = _searchSourceItems.where((item) => _matchesSearch(item, query)).toList(growable: false);
+    final results = _searchSourceItems
+        .where((item) => _matchesSearch(item, query))
+        .toList(growable: false);
 
     setState(() {
       _searchQuery = query;
@@ -291,11 +378,23 @@ class _AdopsiViewState extends State<AdopsiView> {
       return;
     }
 
-    await _applyFilter(jenis: result.jenis, hargaMin: result.hargaMin, hargaMax: result.hargaMax);
+    await _applyFilter(
+      jenis: result.jenis,
+      hargaMin: result.hargaMin,
+      hargaMax: result.hargaMax,
+    );
   }
 
-  Future<void> _applyFilter({required String? jenis, required int hargaMin, required int hargaMax}) async {
-    final request = AdopterAnimalFilterRequestModel(jenis: _normalizedValue(jenis), hargaMin: hargaMin, hargaMax: hargaMax);
+  Future<void> _applyFilter({
+    required String? jenis,
+    required int hargaMin,
+    required int hargaMax,
+  }) async {
+    final request = AdopterAnimalFilterRequestModel(
+      jenis: _normalizedValue(jenis),
+      hargaMin: hargaMin,
+      hargaMax: hargaMax,
+    );
 
     FocusScope.of(context).unfocus();
     AppLoadingDialog.show(context, message: 'Mencari hewan yang sesuai...');
@@ -318,7 +417,11 @@ class _AdopsiViewState extends State<AdopsiView> {
       });
 
       if (items.isEmpty) {
-        AppSnackbar.show(context, message: 'Belum ada hewan yang sesuai dengan filter.', type: AppSnackbarType.warning);
+        AppSnackbar.show(
+          context,
+          message: 'Belum ada hewan yang sesuai dengan filter.',
+          type: AppSnackbarType.warning,
+        );
       }
     } catch (error) {
       if (!mounted) {
@@ -335,14 +438,22 @@ class _AdopsiViewState extends State<AdopsiView> {
         _filterHasError = true;
       });
 
-      AppSnackbar.show(context, message: _resolveErrorMessage(error), type: _resolveErrorType(error));
+      AppSnackbar.show(
+        context,
+        message: _resolveErrorMessage(error),
+        type: _resolveErrorType(error),
+      );
     } finally {
       AppLoadingDialog.hide();
     }
   }
 
   Future<void> _retryCurrentFilter() async {
-    await _applyFilter(jenis: _selectedFilterJenis, hargaMin: _filterHargaMin, hargaMax: _filterHargaMax);
+    await _applyFilter(
+      jenis: _selectedFilterJenis,
+      hargaMin: _filterHargaMin,
+      hargaMax: _filterHargaMax,
+    );
   }
 
   Widget _buildContent() {
@@ -352,7 +463,8 @@ class _AdopsiViewState extends State<AdopsiView> {
         subtitle: 'Menampilkan hasil untuk "$_searchQuery"',
         items: _searchResults,
         emptyTitle: 'Hewan tidak ditemukan.',
-        emptyDescription: 'Coba gunakan kata kunci nama hewan atau kategori lain.',
+        emptyDescription:
+            'Coba gunakan kata kunci nama hewan atau kategori lain.',
         actionLabel: 'Reset',
         onActionTap: _restoreDefaultView,
       );
@@ -376,7 +488,8 @@ class _AdopsiViewState extends State<AdopsiView> {
         subtitle: 'Menampilkan semua hewan yang sesuai filter pilihanmu',
         items: _filteredItems,
         emptyTitle: 'Belum ada hasil filter.',
-        emptyDescription: 'Ubah jenis atau rentang harga untuk melihat hasil lain.',
+        emptyDescription:
+            'Ubah jenis atau rentang harga untuk melihat hasil lain.',
         actionLabel: 'Reset',
         onActionTap: _restoreDefaultView,
       );
@@ -385,7 +498,11 @@ class _AdopsiViewState extends State<AdopsiView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AdopsiFeaturedSection(items: _recommendedItems, hasError: _recommendedHasError, onRetry: _loadAnimalSections),
+        AdopsiFeaturedSection(
+          items: _recommendedItems,
+          hasError: _recommendedHasError,
+          onRetry: _loadAnimalSections,
+        ),
         const SizedBox(height: 24),
         AdopsiListSection(
           title: 'Hewan Popular',
@@ -431,7 +548,12 @@ class _AdopsiViewState extends State<AdopsiView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AdopsiSearchBar(controller: _searchController, onChanged: _onSearchChanged, onClear: _restoreDefaultView),
+          AdopsiSearchBar(
+            controller: _searchController,
+            focusNode: _searchFocusNode,
+            onChanged: _onSearchChanged,
+            onClear: _restoreDefaultView,
+          ),
           AdopsiFilterChips(
             categories: _availableCategories,
             selectedCategory: _selectedFilterJenis,

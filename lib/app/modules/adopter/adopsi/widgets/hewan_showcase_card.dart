@@ -22,11 +22,11 @@ class HewanShowcaseCard extends StatelessWidget {
   }
 
   String get _statusLabel {
-    final status = hewan.statusAdopsi?.trim() ?? '';
-    return status.isEmpty ? '' : status;
+    return hewan.resolvedStatusAdopsi;
   }
 
   bool get _showRating => hewan.rating > 0;
+  bool get _isAvailable => hewan.isAvailableForAdoption;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,13 @@ class HewanShowcaseCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(18.r),
-          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.07), blurRadius: 12, offset: const Offset(0, 4))],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: _isAvailable ? 0.07 : 0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,10 +53,13 @@ class HewanShowcaseCard extends StatelessWidget {
               borderRadius: BorderRadius.vertical(top: Radius.circular(18.r)),
               child: Stack(
                 children: [
-                  SizedBox(
-                    height: imageHeight.h,
-                    width: double.infinity,
-                    child: AppNetImage(url: hewan.imageUrl, fallbackColor: Color(hewan.fallbackColorValue)),
+                  Opacity(
+                    opacity: _isAvailable ? 1 : 0.74,
+                    child: SizedBox(
+                      height: imageHeight.h,
+                      width: double.infinity,
+                      child: AppNetImage(url: hewan.imageUrl, fallbackColor: Color(hewan.fallbackColorValue)),
+                    ),
                   ),
                   Positioned(
                     left: 10.w,
@@ -67,12 +76,8 @@ class HewanShowcaseCard extends StatelessWidget {
                       top: 10.h,
                       child: _InfoChip(
                         label: _statusLabel,
-                        backgroundColor: _statusLabel.toLowerCase().contains('tersedia')
-                            ? const Color(0xFFE8F7EE)
-                            : const Color(0xFFF2F2F2),
-                        textColor: _statusLabel.toLowerCase().contains('tersedia')
-                            ? const Color(0xFF2E8B57)
-                            : const Color(0xFF777777),
+                        backgroundColor: _isAvailable ? const Color(0xFFE8F7EE) : const Color(0xFFFFF0E5),
+                        textColor: _isAvailable ? const Color(0xFF2E8B57) : const Color(0xFFB96A00),
                       ),
                     ),
                 ],
@@ -96,26 +101,6 @@ class HewanShowcaseCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 8.h),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(Icons.storefront_rounded, size: 14.sp, color: const Color(0xFF9C9C9C)),
-                        SizedBox(width: 5.w),
-                        Expanded(
-                          child: Text(
-                            hewan.shelter,
-                            style: textTheme.labelLarge?.copyWith(
-                              fontSize: 11.sp,
-                              color: const Color(0xFF808080),
-                              height: 1.4,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
                     if (_showRating) ...[_RatingBadge(rating: hewan.rating), SizedBox(height: 8.h)],
                     Text(
                       'Biaya adopsi',
@@ -131,7 +116,7 @@ class HewanShowcaseCard extends StatelessWidget {
                       style: textTheme.labelLarge?.copyWith(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w800,
-                        color: const Color(0xFFF87537),
+                        color: _isAvailable ? const Color(0xFFF87537) : const Color(0xFF9D9D9D),
                         height: 1.25,
                       ),
                       maxLines: 1,

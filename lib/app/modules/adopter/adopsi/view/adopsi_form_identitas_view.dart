@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../common/utils/app_navigator.dart';
+import '../../../../common/utils/form_validator.dart';
+import '../../../../common/widgets/app_snackbar.dart';
+import '../../../../models/order/adopter_order_personal_info_model.dart';
 import '../../../../widgets/build_header_app.dart';
-import '../widgets/hewan_model.dart';
 import '../widgets/adopsi_form_widgets.dart';
+import '../widgets/hewan_model.dart';
 import 'adopsi_form_pengalaman_view.dart';
 
-/// Form A — Informasi Pribadi
 class AdopsiFormIdentitasView extends StatefulWidget {
   final HewanModel hewan;
 
@@ -20,7 +21,6 @@ class AdopsiFormIdentitasView extends StatefulWidget {
 }
 
 class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
-  // ── Text field controllers ────────────────────────────────────────────────
   final _namaDepanCtrl = TextEditingController();
   final _namaBelakangCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
@@ -28,17 +28,13 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
   final _tanggalLahirCtrl = TextEditingController();
   final _zipCodeCtrl = TextEditingController();
 
-  // ── Dropdown selections ───────────────────────────────────────────────────
   String? _jenisKelamin;
   String? _daerah;
   String? _jalan;
-
-  // ── Single-select checkboxes ───────────────────────────────────────────────
   String? _pekerjaan;
   String? _tempatTinggal;
 
-  // ── Dropdown options ──────────────────────────────────────────────────────
-  static const _opsiJenisKelamin = ['Pria', 'Wanita'];
+  static const _opsiJenisKelamin = ['Laki-laki', 'Perempuan'];
   static const _opsiDaerah = [
     'Bandung',
     'Jakarta',
@@ -48,19 +44,24 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
     'Makassar',
   ];
   static const _opsiJalan = [
-    'Telekomunikasi',
-    'Jl. Sudirman',
-    'Jl. Thamrin',
+    'Jl. Telekomunikasi No. 1',
+    'Jl. Jenderal Sudirman',
+    'Jl. M.H. Thamrin',
     'Jl. Gatot Subroto',
     'Jl. Asia Afrika',
   ];
   static const _opsiPekerjaan = [
     'Karyawan',
-    'Pelajar / Mahasiswa',
+    'Mahasiswa',
     'Pengangguran',
     'Lainnya',
   ];
-  static const _opsiTempatTinggal = ['Kos', 'Rumah', 'Kontrakan', 'Lainnya'];
+  static const _opsiTempatTinggal = [
+    'Kos',
+    'Rumah Pribadi',
+    'Kontrakan',
+    'Lainnya',
+  ];
 
   @override
   void dispose() {
@@ -73,76 +74,149 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
     super.dispose();
   }
 
-  // ── Validasi ──────────────────────────────────────────────────────────────
-  bool _validate() {
-    if (_namaDepanCtrl.text.trim().isEmpty) {
-      _showError('Nama Depan wajib diisi');
-      return false;
-    }
-    if (_namaBelakangCtrl.text.trim().isEmpty) {
-      _showError('Nama Belakang wajib diisi');
-      return false;
-    }
-    if (_emailCtrl.text.trim().isEmpty) {
-      _showError('Email wajib diisi');
-      return false;
-    }
-    if (_teleponCtrl.text.trim().isEmpty) {
-      _showError('Nomor Telepon wajib diisi');
-      return false;
-    }
-    if (_tanggalLahirCtrl.text.trim().isEmpty) {
-      _showError('Tanggal Lahir wajib diisi');
-      return false;
-    }
-    if (_jenisKelamin == null) {
-      _showError('Jenis Kelamin wajib dipilih');
-      return false;
-    }
-    if (_daerah == null) {
-      _showError('Daerah wajib dipilih');
-      return false;
-    }
-    if (_jalan == null) {
-      _showError('Jalan wajib dipilih');
-      return false;
-    }
-    if (_zipCodeCtrl.text.trim().isEmpty) {
-      _showError('Zip Code wajib diisi');
-      return false;
-    }
-    if (_pekerjaan == null) {
-      _showError('Pekerjaan/Status wajib dipilih');
-      return false;
-    }
-    if (_tempatTinggal == null) {
-      _showError('Tempat Tinggal wajib dipilih');
-      return false;
-    }
-    return true;
+  void _showWarning(String message) {
+    AppSnackbar.show(context, message: message, type: AppSnackbarType.warning);
   }
 
-  void _showError(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(msg, style: GoogleFonts.poppins(fontSize: 12.sp)),
-        backgroundColor: const Color(0xFFF87537),
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 90.h),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.r),
-        ),
-      ),
+  DateTime? _parseDate(String raw) {
+    final value = raw.trim();
+    if (value.isEmpty) {
+      return null;
+    }
+
+    final isoParsed = DateTime.tryParse(value);
+    if (isoParsed != null) {
+      return DateTime(isoParsed.year, isoParsed.month, isoParsed.day);
+    }
+
+    final slashMatch = RegExp(r'^(\d{2})\/(\d{2})\/(\d{4})$').firstMatch(value);
+    if (slashMatch == null) {
+      return null;
+    }
+
+    final day = int.tryParse(slashMatch.group(1)!);
+    final month = int.tryParse(slashMatch.group(2)!);
+    final year = int.tryParse(slashMatch.group(3)!);
+    if (day == null || month == null || year == null) {
+      return null;
+    }
+
+    final parsed = DateTime(year, month, day);
+    if (parsed.year != year || parsed.month != month || parsed.day != day) {
+      return null;
+    }
+
+    return parsed;
+  }
+
+  AdopterOrderPersonalInfoModel? _buildPersonalInfo() {
+    final firstName = _namaDepanCtrl.text.trim();
+    final lastName = _namaBelakangCtrl.text.trim();
+    final email = _emailCtrl.text.trim();
+    final phone = _teleponCtrl.text.trim();
+    final birthDateRaw = _tanggalLahirCtrl.text.trim();
+    final zipCode = _zipCodeCtrl.text.trim();
+
+    final nameError = FormValidator.name(firstName, fieldName: 'Nama depan');
+    if (nameError != null) {
+      _showWarning(nameError);
+      return null;
+    }
+
+    final lastNameError = FormValidator.name(
+      lastName,
+      fieldName: 'Nama belakang',
+    );
+    if (lastNameError != null) {
+      _showWarning(lastNameError);
+      return null;
+    }
+
+    final emailError = FormValidator.email(email);
+    if (emailError != null) {
+      _showWarning(emailError);
+      return null;
+    }
+
+    final phoneError = FormValidator.phone(phone);
+    if (phoneError != null) {
+      _showWarning(phoneError);
+      return null;
+    }
+
+    final birthDate = _parseDate(birthDateRaw);
+    if (birthDate == null) {
+      _showWarning(
+        'Tanggal lahir harus menggunakan format YYYY-MM-DD atau DD/MM/YYYY',
+      );
+      return null;
+    }
+
+    if (birthDate.isAfter(DateTime.now())) {
+      _showWarning('Tanggal lahir tidak boleh di masa depan');
+      return null;
+    }
+
+    if (_jenisKelamin == null) {
+      _showWarning('Jenis kelamin wajib dipilih');
+      return null;
+    }
+
+    if (_daerah == null) {
+      _showWarning('Daerah wajib dipilih');
+      return null;
+    }
+
+    if (_jalan == null) {
+      _showWarning('Jalan wajib dipilih');
+      return null;
+    }
+
+    if (zipCode.isEmpty) {
+      _showWarning('Zip Code wajib diisi');
+      return null;
+    }
+
+    if (!RegExp(r'^\d{4,10}$').hasMatch(zipCode)) {
+      _showWarning('Format Zip Code tidak valid');
+      return null;
+    }
+
+    if (_pekerjaan == null) {
+      _showWarning('Pekerjaan/Status wajib dipilih');
+      return null;
+    }
+
+    if (_tempatTinggal == null) {
+      _showWarning('Tempat tinggal wajib dipilih');
+      return null;
+    }
+
+    return AdopterOrderPersonalInfoModel(
+      namaLengkap: '$firstName $lastName'.trim(),
+      email: email,
+      noTelepon: phone,
+      tanggalLahir: birthDate,
+      jenisKelamin: _jenisKelamin!,
+      daerah: _daerah!,
+      jalan: _jalan!,
+      zipCode: zipCode,
+      pekerjaanStatus: _pekerjaan!,
+      tempatTinggal: _tempatTinggal!,
     );
   }
 
   void _onLanjutkan() {
-    if (!_validate()) return;
+    final personalInfo = _buildPersonalInfo();
+    if (personalInfo == null) {
+      return;
+    }
+
     AppNavigator.push(
       context,
       AdopsiFormPengalamanView(
         hewan: widget.hewan,
+        personalInfo: personalInfo,
         onCloseToDetail: () => AppNavigator.pop(context),
       ),
     );
@@ -197,7 +271,7 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
                       label: 'Tanggal Lahir',
                       required: true,
                       controller: _tanggalLahirCtrl,
-                      hint: 'DD/MM/YYYY',
+                      hint: 'YYYY-MM-DD atau DD/MM/YYYY',
                       keyboardType: TextInputType.datetime,
                     ),
                     SizedBox(height: 16.h),
@@ -240,9 +314,7 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
                       required: true,
                       options: _opsiPekerjaan,
                       selected: _pekerjaan,
-                      onToggle: (opt) => setState(() {
-                        _pekerjaan = opt;
-                      }),
+                      onToggle: (opt) => setState(() => _pekerjaan = opt),
                     ),
                     SizedBox(height: 20.h),
                     FormCheckboxGroup(
@@ -250,9 +322,7 @@ class _AdopsiFormIdentitasViewState extends State<AdopsiFormIdentitasView> {
                       required: true,
                       options: _opsiTempatTinggal,
                       selected: _tempatTinggal,
-                      onToggle: (opt) => setState(() {
-                        _tempatTinggal = opt;
-                      }),
+                      onToggle: (opt) => setState(() => _tempatTinggal = opt),
                     ),
                     SizedBox(height: 8.h),
                   ],

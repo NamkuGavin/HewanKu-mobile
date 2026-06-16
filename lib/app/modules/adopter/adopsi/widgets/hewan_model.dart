@@ -33,4 +33,42 @@ class HewanModel {
     this.kategori,
     this.statusAdopsi,
   });
+
+  String get resolvedStatusAdopsi {
+    final status = statusAdopsi?.trim() ?? '';
+    return status.isEmpty ? 'Belum diadopsi' : status;
+  }
+
+  String get normalizedStatusAdopsi => resolvedStatusAdopsi.toLowerCase();
+
+  bool get isAvailableForAdoption {
+    final status = normalizedStatusAdopsi;
+
+    const availableKeywords = <String>[
+      'tersedia',
+      'available',
+      'belum diadopsi',
+    ];
+    const unavailableKeywords = <String>[
+      'tidak tersedia',
+      'terjual',
+      'habis',
+      'sold',
+      'adopted',
+      'teradopsi',
+      'sudah diadopsi',
+      'telah diadopsi',
+      'unavailable',
+    ];
+
+    if (availableKeywords.any(status.contains)) {
+      return true;
+    }
+
+    if (unavailableKeywords.any(status.contains)) {
+      return false;
+    }
+
+    return true;
+  }
 }

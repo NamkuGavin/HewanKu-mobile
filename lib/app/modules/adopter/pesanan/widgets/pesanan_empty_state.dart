@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PesananEmptyState extends StatelessWidget {
-  const PesananEmptyState({super.key});
+  final String title;
+  final String? description;
+
+  const PesananEmptyState({
+    super.key,
+    this.title = 'Tidak ada\nPesanan',
+    this.description,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +23,35 @@ class PesananEmptyState extends StatelessWidget {
         const Positioned(bottom: 80, left: -50, child: _PeachBlob(size: 130)),
 
         Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.pets, size: 80.sp, color: const Color(0xFFCCCCCC)),
-              SizedBox(height: 16.h),
-              Text(
-                'Tidak ada\nPesanan',
-                textAlign: TextAlign.center,
-                style: textTheme.bodyMedium?.copyWith(
-                  color: const Color(0xFFBBBBBB),
-                  fontWeight: FontWeight.w500,
-                  height: 1.4,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 28.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.pets, size: 80.sp, color: const Color(0xFFCCCCCC)),
+                SizedBox(height: 16.h),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: const Color(0xFFBBBBBB),
+                    fontWeight: FontWeight.w500,
+                    height: 1.4,
+                  ),
                 ),
-              ),
-            ],
+                if (description != null) ...[
+                  SizedBox(height: 10.h),
+                  Text(
+                    description!,
+                    textAlign: TextAlign.center,
+                    style: textTheme.labelLarge?.copyWith(
+                      color: const Color(0xFFA5A5A5),
+                      height: 1.55,
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
         ),
       ],

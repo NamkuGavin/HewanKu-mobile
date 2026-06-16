@@ -48,10 +48,19 @@ class _NavbarViewState extends State<NavbarView> {
     NavbarController.goTo(1);
   }
 
+  void goToAdopsiSearch() {
+    AdopsiNavigationController.openSearch();
+    NavbarController.goTo(1);
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      HomeView(onGoToAdopsi: goToAdopsi, onGoToAdopsiCategory: goToAdopsiWithCategory),
+      HomeView(
+        onGoToAdopsi: goToAdopsi,
+        onGoToAdopsiCategory: goToAdopsiWithCategory,
+        onGoToAdopsiSearch: goToAdopsiSearch,
+      ),
       const AdopsiView(),
       const PesananView(),
       const ProfilView(),
@@ -68,7 +77,10 @@ class _NavbarViewState extends State<NavbarView> {
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavbar(currentIndex: selectedIndex, onTap: onItemTapped),
+      bottomNavigationBar: AppBottomNavbar(
+        currentIndex: selectedIndex,
+        onTap: onItemTapped,
+      ),
     );
   }
 }

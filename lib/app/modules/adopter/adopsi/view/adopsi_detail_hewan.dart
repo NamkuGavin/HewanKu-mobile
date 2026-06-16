@@ -41,7 +41,9 @@ class _AdopsiDetailHewanViewState extends State<AdopsiDetailHewanView> {
     setState(() => _isRefreshing = true);
 
     try {
-      final detail = await AdopterHomeService.instance.getAnimalDetail(widget.hewan.id);
+      final detail = await AdopterHomeService.instance.getAnimalDetail(
+        widget.hewan.id,
+      );
 
       if (!mounted) {
         return;
@@ -53,7 +55,11 @@ class _AdopsiDetailHewanViewState extends State<AdopsiDetailHewanView> {
         return;
       }
 
-      AppSnackbar.show(context, message: _resolveErrorMessage(error), type: _resolveErrorType(error));
+      AppSnackbar.show(
+        context,
+        message: _resolveErrorMessage(error),
+        type: _resolveErrorType(error),
+      );
     } finally {
       if (mounted) {
         setState(() => _isRefreshing = false);
@@ -92,7 +98,7 @@ class _AdopsiDetailHewanViewState extends State<AdopsiDetailHewanView> {
     final category = hewan.kategori?.trim().isNotEmpty == true
         ? hewan.kategori!.trim()
         : (hewan.tags.isNotEmpty ? hewan.tags.first : 'Hewan');
-    final statusAdopsi = hewan.statusAdopsi?.trim().isNotEmpty == true ? hewan.statusAdopsi!.trim() : 'Belum diadopsi';
+    final statusAdopsi = hewan.resolvedStatusAdopsi;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFFBF8),
@@ -104,7 +110,10 @@ class _AdopsiDetailHewanViewState extends State<AdopsiDetailHewanView> {
               duration: const Duration(milliseconds: 180),
               height: _isRefreshing ? 2.h : 0,
               width: double.infinity,
-              child: const LinearProgressIndicator(color: Color(0xFFF87537), backgroundColor: Color(0xFFFCE1D2)),
+              child: const LinearProgressIndicator(
+                color: Color(0xFFF87537),
+                backgroundColor: Color(0xFFFCE1D2),
+              ),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -120,7 +129,11 @@ class _AdopsiDetailHewanViewState extends State<AdopsiDetailHewanView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          DetailHewanMetaChips(category: category, statusAdopsi: statusAdopsi),
+                          DetailHewanMetaChips(
+                            category: category,
+                            statusAdopsi: statusAdopsi,
+                            isAvailable: hewan.isAvailableForAdoption,
+                          ),
                           SizedBox(height: 14.h),
                           Text(
                             hewan.name,
@@ -134,18 +147,29 @@ class _AdopsiDetailHewanViewState extends State<AdopsiDetailHewanView> {
                           SizedBox(height: 8.h),
                           Row(
                             children: [
-                              Icon(Icons.storefront_rounded, size: 15.sp, color: const Color(0xFF929292)),
+                              Icon(
+                                Icons.storefront_rounded,
+                                size: 15.sp,
+                                color: const Color(0xFF929292),
+                              ),
                               SizedBox(width: 6.w),
                               Expanded(
                                 child: Text(
                                   hewan.shelter,
-                                  style: GoogleFonts.poppins(fontSize: 12.sp, color: const Color(0xFF7D7D7D), height: 1.45),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12.sp,
+                                    color: const Color(0xFF7D7D7D),
+                                    height: 1.45,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           SizedBox(height: 14.h),
-                          DetailHewanRating(rating: hewan.rating, reviewCount: hewan.reviewCount),
+                          DetailHewanRating(
+                            rating: hewan.rating,
+                            reviewCount: hewan.reviewCount,
+                          ),
                           SizedBox(height: 18.h),
                           DetailHewanInfoGrid(
                             jenisKelamin: hewan.jenisKelamin ?? '-',
@@ -156,17 +180,36 @@ class _AdopsiDetailHewanViewState extends State<AdopsiDetailHewanView> {
                           SizedBox(height: 18.h),
                           DetailHewanPriceCard(
                             harga: hewan.price,
-                            onAdopsiTap: () => AppNavigator.push(context, AdopsiFormIdentitasView(hewan: hewan)),
+                            isAvailable: hewan.isAvailableForAdoption,
+                            onAdopsiTap: hewan.isAvailableForAdoption
+                                ? () => AppNavigator.push(
+                                    context,
+                                    AdopsiFormIdentitasView(hewan: hewan),
+                                  )
+                                : null,
                           ),
                           SizedBox(height: 18.h),
-                          const Divider(color: Color(0xFFF0ECE8), thickness: 1, height: 1),
+                          const Divider(
+                            color: Color(0xFFF0ECE8),
+                            thickness: 1,
+                            height: 1,
+                          ),
                           SizedBox(height: 16.h),
                           DetailHewanFavoritRow(
                             hewan: hewan,
-                            onLihatReviewTap: () => AppNavigator.push(context, const AdopsiReviewView()),
+                            onLihatReviewTap: () => AppNavigator.push(
+                              context,
+                              AdopsiReviewView(
+                                animalId: hewan.id,
+                                animalName: hewan.name,
+                              ),
+                            ),
                           ),
                           SizedBox(height: 16.h),
-                          DetailHewanKontakCard(shelterName: hewan.shelter, kontakShelter: hewan.kontakShelter ?? ''),
+                          DetailHewanKontakCard(
+                            shelterName: hewan.shelter,
+                            kontakShelter: hewan.kontakShelter ?? '',
+                          ),
                           SizedBox(height: 16.h),
                           const DetailHewanPaymentCard(),
                         ],
@@ -194,11 +237,19 @@ class _DetailHewanHeader extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => AppNavigator.pop(context),
-            icon: Icon(Icons.arrow_back_rounded, color: primaryColor, size: 24.sp),
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: primaryColor,
+              size: 24.sp,
+            ),
           ),
           Text(
             'Detail Hewan',
-            style: GoogleFonts.poppins(fontSize: 16.sp, fontWeight: FontWeight.w700, color: const Color(0xFF1A1A1A)),
+            style: GoogleFonts.poppins(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF1A1A1A),
+            ),
           ),
           const Spacer(),
           _IconBtn(
@@ -223,7 +274,11 @@ class _IconBtn extends StatelessWidget {
   final Color color;
   final VoidCallback onTap;
 
-  const _IconBtn({required this.icon, required this.color, required this.onTap});
+  const _IconBtn({
+    required this.icon,
+    required this.color,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

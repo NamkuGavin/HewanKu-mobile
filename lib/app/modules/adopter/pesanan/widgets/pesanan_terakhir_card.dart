@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../common/widgets/app_net_image.dart';
 import '../model/pesanan_terakhir_item.dart';
 
 class PesananTerakhirCard extends StatelessWidget {
@@ -90,7 +91,7 @@ class PesananTerakhirCard extends StatelessWidget {
                         Text(
                           item.statusLabel,
                           style: textTheme.labelMedium?.copyWith(
-                            color: const Color(0xFF4CAF50),
+                            color: item.statusColor,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -193,26 +194,45 @@ class PesananTerakhirCard extends StatelessWidget {
                       ),
                     ),
                     // Tombol Rating & Ulasan — hitam pill
-                    GestureDetector(
-                      onTap: onRatingTap,
-                      child: Container(
+                    if (item.canReview)
+                      GestureDetector(
+                        onTap: onRatingTap,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 18.w,
+                            vertical: 12.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                          child: Text(
+                            'Rating & Ulasan',
+                            style: textTheme.labelLarge?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      )
+                    else
+                      Container(
                         padding: EdgeInsets.symmetric(
-                          horizontal: 18.w,
-                          vertical: 12.h,
+                          horizontal: 16.w,
+                          vertical: 10.h,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.black,
+                          color: item.statusColor.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(50.r),
                         ),
                         child: Text(
-                          'Rating & Ulasan',
+                          item.actionLabel,
                           style: textTheme.labelLarge?.copyWith(
-                            color: Colors.white,
+                            color: item.statusColor,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
-                    ),
                   ],
                 ),
                 SizedBox(height: 12.h),
@@ -298,20 +318,12 @@ class _TableRow extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(6.r),
-                  child: Image.network(
-                    row.imageUrl,
+                  child: SizedBox(
                     width: 32.w,
                     height: 32.h,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => Container(
-                      width: 32.w,
-                      height: 32.h,
-                      color: const Color(0xFFE0E0E0),
-                      child: const Icon(
-                        Icons.pets,
-                        size: 16,
-                        color: Colors.white54,
-                      ),
+                    child: AppNetImage(
+                      url: row.imageUrl,
+                      fallbackColor: const Color(0xFFE0E0E0),
                     ),
                   ),
                 ),

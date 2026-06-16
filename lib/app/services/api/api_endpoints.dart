@@ -14,6 +14,10 @@ class ApiEndpoints {
   static const String adopterHomeAnimals = '/animalshelter/pengguna';
   static const String adopterFilterAnimals = '/animalshelter/filter';
   static const String adopterRandomNews = '/pengguna/berita-random';
+  static String adopterCreateOrder(int animalId) => '/pesanan/$animalId/create';
+  static const String adopterOrderHistory = '/pesanan/pengguna/view';
+  static String adopterCreateReview(int animalId) => '/ulasan/$animalId/create';
+  static String adopterAnimalReviews(int animalId) => '/ulasan/$animalId';
 
   static String adopterAnimalDetail(int id) => '/animalshelter/$id';
 }

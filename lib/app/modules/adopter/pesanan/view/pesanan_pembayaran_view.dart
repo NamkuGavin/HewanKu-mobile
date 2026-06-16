@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../common/contant/assets.dart';
 import '../../../../common/utils/app_navigator.dart';
+import '../../../../common/widgets/app_snackbar.dart';
 import '../../adopsi/widgets/hewan_model.dart';
 import '../model/pesanan_item.dart';
 import '../widgets/pembayaran_widgets.dart';
@@ -84,8 +85,32 @@ class _PesananPembayaranViewState extends State<PesananPembayaranView> {
         .replaceAll('+', '')
         .replaceAll(' ', '');
     final uri = Uri.parse('https://wa.me/$nomor');
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+
+    try {
+      final launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
+      if (launched) {
+        return;
+      }
+
+      final launchedExternal = await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+      if (launchedExternal) {
+        return;
+      }
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+    }
+
+    if (mounted) {
+      AppSnackbar.show(
+        context,
+        message: 'WhatsApp tidak bisa dibuka saat ini.',
+        type: AppSnackbarType.warning,
+      );
     }
   }
 

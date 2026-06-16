@@ -10,7 +10,12 @@ class FavoritItemCard extends StatelessWidget {
   final bool isHighlighted;
   final VoidCallback? onTap;
 
-  const FavoritItemCard({super.key, required this.item, this.isHighlighted = false, this.onTap});
+  const FavoritItemCard({
+    super.key,
+    required this.item,
+    this.isHighlighted = false,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +23,8 @@ class FavoritItemCard extends StatelessWidget {
     final category = hewan.kategori?.trim().isNotEmpty == true
         ? hewan.kategori!.trim()
         : (hewan.tags.isNotEmpty ? hewan.tags.first : 'Hewan');
-    final status = hewan.statusAdopsi?.trim().isNotEmpty == true ? hewan.statusAdopsi!.trim() : 'Tersedia';
-    final statusIsAvailable = status.toLowerCase().contains('tersedia');
+    final status = hewan.resolvedStatusAdopsi;
+    final statusIsAvailable = hewan.isAvailableForAdoption;
 
     return Material(
       color: Colors.transparent,
@@ -31,8 +36,18 @@ class FavoritItemCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: isHighlighted ? const Color(0xFFFFF7F1) : Colors.white,
             borderRadius: BorderRadius.circular(22.r),
-            border: Border.all(color: isHighlighted ? const Color(0xFFF5D7C6) : const Color(0xFFF1E8E1)),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 14, offset: const Offset(0, 8))],
+            border: Border.all(
+              color: isHighlighted
+                  ? const Color(0xFFF5D7C6)
+                  : const Color(0xFFF1E8E1),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 14,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +57,10 @@ class FavoritItemCard extends StatelessWidget {
                 child: SizedBox(
                   width: 88.w,
                   height: 96.h,
-                  child: AppNetImage(url: item.imageUrl, fallbackColor: Color(hewan.fallbackColorValue)),
+                  child: AppNetImage(
+                    url: item.imageUrl,
+                    fallbackColor: Color(hewan.fallbackColorValue),
+                  ),
                 ),
               ),
               SizedBox(width: 14.w),
@@ -57,8 +75,15 @@ class FavoritItemCard extends StatelessWidget {
                         Container(
                           width: 30.w,
                           height: 30.w,
-                          decoration: const BoxDecoration(color: Color(0xFFFFE7DD), shape: BoxShape.circle),
-                          child: Icon(Icons.favorite_rounded, color: const Color(0xFFF87537), size: 16.sp),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFFFE7DD),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.favorite_rounded,
+                            color: const Color(0xFFF87537),
+                            size: 16.sp,
+                          ),
                         ),
                       ],
                     ),
@@ -78,14 +103,22 @@ class FavoritItemCard extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.storefront_rounded, size: 14.sp, color: const Color(0xFF949494)),
+                        Icon(
+                          Icons.storefront_rounded,
+                          size: 14.sp,
+                          color: const Color(0xFF949494),
+                        ),
                         SizedBox(width: 5.w),
                         Expanded(
                           child: Text(
                             item.namaShelter,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(fontSize: 11.sp, color: const Color(0xFF7F7F7F), height: 1.4),
+                            style: GoogleFonts.poppins(
+                              fontSize: 11.sp,
+                              color: const Color(0xFF7F7F7F),
+                              height: 1.4,
+                            ),
                           ),
                         ),
                       ],
@@ -121,9 +154,14 @@ class FavoritItemCard extends StatelessWidget {
                         ),
                         SizedBox(width: 10.w),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 6.h,
+                          ),
                           decoration: BoxDecoration(
-                            color: statusIsAvailable ? const Color(0xFFEAF8F0) : const Color(0xFFFFF6E8),
+                            color: statusIsAvailable
+                                ? const Color(0xFFEAF8F0)
+                                : const Color(0xFFFFF6E8),
                             borderRadius: BorderRadius.circular(50.r),
                           ),
                           child: Text(
@@ -131,7 +169,9 @@ class FavoritItemCard extends StatelessWidget {
                             style: GoogleFonts.poppins(
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w700,
-                              color: statusIsAvailable ? const Color(0xFF1F8A4D) : const Color(0xFFB96A00),
+                              color: statusIsAvailable
+                                  ? const Color(0xFF1F8A4D)
+                                  : const Color(0xFFB96A00),
                             ),
                           ),
                         ),
@@ -149,7 +189,11 @@ class FavoritItemCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 6.w),
-                        Icon(Icons.arrow_forward_rounded, size: 15.sp, color: const Color(0xFFF87537)),
+                        Icon(
+                          Icons.arrow_forward_rounded,
+                          size: 15.sp,
+                          color: const Color(0xFFF87537),
+                        ),
                       ],
                     ),
                   ],
@@ -172,10 +216,17 @@ class _CategoryChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-      decoration: BoxDecoration(color: const Color(0xFFFCE8DE), borderRadius: BorderRadius.circular(50.r)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFCE8DE),
+        borderRadius: BorderRadius.circular(50.r),
+      ),
       child: Text(
         label,
-        style: GoogleFonts.poppins(fontSize: 10.sp, fontWeight: FontWeight.w700, color: const Color(0xFFBC622F)),
+        style: GoogleFonts.poppins(
+          fontSize: 10.sp,
+          fontWeight: FontWeight.w700,
+          color: const Color(0xFFBC622F),
+        ),
       ),
     );
   }

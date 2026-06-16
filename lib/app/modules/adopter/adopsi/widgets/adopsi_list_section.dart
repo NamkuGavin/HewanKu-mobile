@@ -90,7 +90,7 @@ class AdopsiListSection extends StatelessWidget {
         ),
         SizedBox(height: 14.h),
         SizedBox(
-          height: 278.h,
+          height: 275.h,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: 20.w),

@@ -2,18 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../common/widgets/app_loading_dialog.dart';
+import '../../../../common/widgets/app_snackbar.dart';
+import '../../../../services/api/api_exception.dart';
+import '../../../../services/order/adopter_review_service.dart';
+import '../../../../services/order/adopter_review_state_service.dart';
+
 class RatingUlasanDialog extends StatefulWidget {
+  final int orderId;
+  final int animalId;
+  final String animalName;
   final String namaShelter;
 
-  const RatingUlasanDialog({super.key, required this.namaShelter});
+  const RatingUlasanDialog({
+    super.key,
+    required this.orderId,
+    required this.animalId,
+    required this.animalName,
+    required this.namaShelter,
+  });
 
-  /// Tampilkan dialog dari mana saja:
-  /// RatingUlasanDialog.show(context, namaShelter: 'Shelter Hewan Abadi');
-  static void show(BuildContext context, {required String namaShelter}) {
-    showDialog(
+  static Future<bool?> show(
+    BuildContext context, {
+    required int orderId,
+    required int animalId,
+    required String animalName,
+    required String namaShelter,
+  }) {
+    return showDialog<bool>(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.5),
-      builder: (_) => RatingUlasanDialog(namaShelter: namaShelter),
+      builder: (_) => RatingUlasanDialog(
+        orderId: orderId,
+        animalId: animalId,
+        animalName: animalName,
+        namaShelter: namaShelter,
+      ),
     );
   }
 
@@ -22,9 +46,9 @@ class RatingUlasanDialog extends StatefulWidget {
 }
 
 class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
-  int _selectedStar = 4; // bintang yang dipilih (1-5), default 4
   final TextEditingController _ulasanController = TextEditingController();
-  bool _remainAnonymous = false;
+  bool _isSubmitting = false;
+  double _rating = 4.5;
   static const int _maxChar = 200;
 
   @override
@@ -33,9 +57,87 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
     super.dispose();
   }
 
-  void _onSubmit() {
-    // TODO: kirim rating & ulasan ke API
-    Navigator.pop(context);
+  String get _ratingLabel => _rating.toStringAsFixed(_rating % 1 == 0 ? 0 : 1);
+
+  Future<void> _onSubmit() async {
+    if (_isSubmitting) {
+      return;
+    }
+
+    if (widget.animalId <= 0 || widget.orderId <= 0) {
+      AppSnackbar.show(
+        context,
+        message: 'Data hewan untuk ulasan tidak valid.',
+        type: AppSnackbarType.warning,
+      );
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
+    AppLoadingDialog.show(context, message: 'Mengirim ulasan...');
+
+    try {
+      final response = await AdopterReviewService.instance.createReview(
+        animalId: widget.animalId,
+        rating: _rating,
+        comment: _ulasanController.text.trim(),
+      );
+      await AdopterReviewStateService.instance.markReviewed(widget.orderId);
+
+      if (!mounted) {
+        return;
+      }
+
+      Navigator.of(context).pop(true);
+      AppSnackbar.show(
+        context,
+        message: _resolveSuccessMessage(response.message),
+        type: AppSnackbarType.success,
+      );
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      AppSnackbar.show(
+        context,
+        message: _resolveErrorMessage(error),
+        type: _resolveErrorType(error),
+      );
+    } finally {
+      AppLoadingDialog.hide();
+      if (mounted) {
+        setState(() => _isSubmitting = false);
+      } else {
+        _isSubmitting = false;
+      }
+    }
+  }
+
+  String _resolveSuccessMessage(String? message) {
+    final normalized = message?.trim() ?? '';
+    if (normalized.isEmpty) {
+      return 'Ulasan berhasil dikirim.';
+    }
+    return normalized;
+  }
+
+  String _resolveErrorMessage(Object error) {
+    if (error is ApiException) {
+      return error.message;
+    }
+    return 'Gagal mengirim ulasan.';
+  }
+
+  AppSnackbarType _resolveErrorType(Object error) {
+    if (error is ApiException) {
+      final statusCode = error.statusCode;
+      if (statusCode == null || statusCode >= 500) {
+        return AppSnackbarType.error;
+      }
+      return AppSnackbarType.warning;
+    }
+    return AppSnackbarType.error;
   }
 
   @override
@@ -50,43 +152,39 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: [
-              // ── Header: icon + judul + subtitle ───────────────────
+            children: <Widget>[
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Container(
                     width: 40.w,
                     height: 40.w,
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0xFFDDDDDD),
-                        width: 1.5,
-                      ),
+                      color: const Color(0xFFFFF3EC),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Icon(
-                      Icons.star_outline_rounded,
+                      Icons.star_rounded,
                       size: 22.w,
-                      color: const Color(0xFF888888),
+                      color: const Color(0xFFF87537),
                     ),
                   ),
                   SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Text(
-                          'Beri Nilai Shelter Kami',
+                          'Beri Ulasan untuk ${widget.animalName}',
                           style: GoogleFonts.poppins(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1A1A1A),
                           ),
                         ),
-                        SizedBox(height: 2.h),
+                        SizedBox(height: 3.h),
                         Text(
-                          'Provide us with feedback for the product.',
+                          'Adopsi dari ${widget.namaShelter}',
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
                             color: const Color(0xFF999999),
@@ -97,59 +195,85 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
                   ),
                 ],
               ),
-
               Divider(height: 28.h, color: const Color(0xFFF0F0F0)),
-
-              // ── Rating bintang ─────────────────────────────────────
               Row(
-                children: [
+                children: <Widget>[
                   Text(
                     'Rating kamu',
                     style: GoogleFonts.poppins(
                       fontSize: 12.sp,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: const Color(0xFF444444),
                     ),
                   ),
-                  SizedBox(width: 4.w),
-                  Icon(
-                    Icons.help_outline_rounded,
-                    size: 14.w,
-                    color: const Color(0xFFBBBBBB),
+                  const Spacer(),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 6.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFF3EC),
+                      borderRadius: BorderRadius.circular(999.r),
+                    ),
+                    child: Text(
+                      '$_ratingLabel / 5.0',
+                      style: GoogleFonts.poppins(
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFFF87537),
+                      ),
+                    ),
                   ),
                 ],
               ),
               SizedBox(height: 12.h),
-
-              // 5 bintang interaktif
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: List.generate(5, (i) {
-                  final starIndex = i + 1;
-                  final isActive = starIndex <= _selectedStar;
-                  return GestureDetector(
-                    onTap: () => setState(() => _selectedStar = starIndex),
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 8.w),
-                      child: Icon(
-                        Icons.star_rounded,
-                        size: 36.w,
-                        color: isActive
-                            ? const Color(0xFFF87537)
-                            : const Color(0xFFDDDDDD),
-                      ),
+                children: List<Widget>.generate(5, (int index) {
+                  final threshold = index + 1;
+                  final icon = _rating >= threshold
+                      ? Icons.star_rounded
+                      : (_rating >= threshold - 0.5
+                            ? Icons.star_half_rounded
+                            : Icons.star_outline_rounded);
+                  return Padding(
+                    padding: EdgeInsets.only(right: 4.w),
+                    child: Icon(
+                      icon,
+                      size: 28.w,
+                      color: const Color(0xFFF87537),
                     ),
                   );
                 }),
               ),
-              SizedBox(height: 20.h),
-
-              // ── Text area ulasan ───────────────────────────────────
+              SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  activeTrackColor: const Color(0xFFF87537),
+                  inactiveTrackColor: const Color(0xFFFFD8C0),
+                  thumbColor: const Color(0xFFF87537),
+                  overlayColor: const Color(0x33F87537),
+                  valueIndicatorColor: const Color(0xFFF87537),
+                  trackHeight: 4.h,
+                ),
+                child: Slider(
+                  min: 0.5,
+                  max: 5.0,
+                  divisions: 9,
+                  value: _rating,
+                  label: _ratingLabel,
+                  onChanged: _isSubmitting
+                      ? null
+                      : (double value) {
+                          setState(() => _rating = value);
+                        },
+                ),
+              ),
+              SizedBox(height: 10.h),
               Text(
-                'Ulasan Shelter  (Opsional)',
+                'Ulasan Hewan (Opsional)',
                 style: GoogleFonts.poppins(
                   fontSize: 12.sp,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: const Color(0xFF444444),
                 ),
               ),
@@ -160,18 +284,19 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     TextField(
                       controller: _ulasanController,
                       maxLines: 5,
                       maxLength: _maxChar,
+                      enabled: !_isSubmitting,
                       onChanged: (_) => setState(() {}),
                       style: GoogleFonts.poppins(
                         fontSize: 12.sp,
                         color: const Color(0xFF333333),
                       ),
                       decoration: InputDecoration(
-                        hintText: 'Silahkan isi ulasan shelter...',
+                        hintText: 'Ceritakan pengalaman adopsimu...',
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 12.sp,
                           color: const Color(0xFFBBBBBB),
@@ -183,15 +308,14 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
                           12.w,
                           0,
                         ),
-                        counterText: '', // sembunyikan counter bawaan
+                        counterText: '',
                       ),
                     ),
-                    // Counter karakter custom di kanan bawah
                     Padding(
                       padding: EdgeInsets.fromLTRB(12.w, 4.h, 12.w, 8.h),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
+                        children: <Widget>[
                           Text(
                             '${_ulasanController.text.length}/$_maxChar',
                             style: GoogleFonts.poppins(
@@ -199,62 +323,22 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
                               color: const Color(0xFFBBBBBB),
                             ),
                           ),
-                          SizedBox(width: 4.w),
-                          Icon(
-                            Icons.edit_outlined,
-                            size: 12.w,
-                            color: const Color(0xFFBBBBBB),
-                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 14.h),
-
-              // ── Remain anonymous checkbox ──────────────────────────
-              GestureDetector(
-                onTap: () =>
-                    setState(() => _remainAnonymous = !_remainAnonymous),
-                child: Row(
-                  children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 180),
-                      width: 20.w,
-                      height: 20.w,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: _remainAnonymous
-                              ? const Color(0xFFF87537)
-                              : const Color(0xFFCCCCCC),
-                          width: _remainAnonymous ? 6 : 1.5,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10.w),
-                    Text(
-                      'Remain anonymous',
-                      style: GoogleFonts.poppins(
-                        fontSize: 12.sp,
-                        color: const Color(0xFF555555),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               SizedBox(height: 24.h),
-
-              // ── Tombol Cancel & Submit ─────────────────────────────
               Divider(height: 1, color: const Color(0xFFF0F0F0)),
               SizedBox(height: 16.h),
               Row(
-                children: [
-                  // Cancel
+                children: <Widget>[
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: _isSubmitting
+                          ? null
+                          : () => Navigator.pop(context, false),
                       child: Container(
                         height: 46.h,
                         alignment: Alignment.center,
@@ -267,7 +351,7 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
                           borderRadius: BorderRadius.circular(50.r),
                         ),
                         child: Text(
-                          'Cancel',
+                          'Batal',
                           style: GoogleFonts.poppins(
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w500,
@@ -278,19 +362,20 @@ class _RatingUlasanDialogState extends State<RatingUlasanDialog> {
                     ),
                   ),
                   SizedBox(width: 12.w),
-                  // Submit
                   Expanded(
                     child: GestureDetector(
-                      onTap: _onSubmit,
+                      onTap: _isSubmitting ? null : _onSubmit,
                       child: Container(
                         height: 46.h,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF87537),
+                          color: _isSubmitting
+                              ? const Color(0xFFFFD8C0)
+                              : const Color(0xFFF87537),
                           borderRadius: BorderRadius.circular(50.r),
                         ),
                         child: Text(
-                          'Submit',
+                          _isSubmitting ? 'Mengirim...' : 'Kirim Ulasan',
                           style: GoogleFonts.poppins(
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w700,
